@@ -2,4 +2,4 @@
 
 ###### *Because you've always wished to be a school shooter, right?*
 
-![logo](Media\logo.png)
+![logo](/Media/logo.png)

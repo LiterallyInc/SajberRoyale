@@ -17,7 +17,7 @@ internal class Program
             {
                 wc.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
                 wc.UploadString(URI, myParameters);
-                Console.WriteLine(i++);
+                Console.WriteLine("Ping " + i++);
             }
         }
     }

@@ -1,4 +1,4 @@
-# Sajber Royale
+# SajberRoyale
 
 ###### *Because you've always wished to be a school shooter, right?*
 

@@ -13,11 +13,13 @@ internal class Program
         using (WebClient wc = new WebClient())
         {
             int i = 0;
-            while (true)
+	    bool run = true;
+            while (run)
             {
                 wc.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
                 wc.UploadString(URI, myParameters);
                 Console.WriteLine(i++);
+		if(i == 30) run = false;
             }
         }
     }

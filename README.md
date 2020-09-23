@@ -1,5 +1,5 @@
 # SajberRoyale
 
-###### *Because you've always wished to be a school shooter, right?*
+###### *Battle royale located at CyberGymnasiet, Stockholm.*
 
 ![logo](/Media/logo.png)

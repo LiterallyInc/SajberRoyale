@@ -37,10 +37,10 @@ namespace SajberRoyale.UI
 
         #region Called by UI
 
-        public bool CreateRoom(string name)
+        public void CreateRoom(string name)
         {
             Webhook.Send($"**{PhotonNetwork.NickName}** created a room called \"**{name}**\".");
-            return PhotonNetwork.CreateRoom(name);
+            PhotonNetwork.CreateRoom(name);
         }
 
         #endregion Called by UI

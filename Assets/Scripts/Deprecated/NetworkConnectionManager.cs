@@ -1,5 +1,6 @@
 ﻿using Photon.Pun;
 using Photon.Realtime;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,7 @@ using UnityEngine.UI;
 
 public class NetworkConnectionManager : MonoBehaviourPunCallbacks
 {
+    public string[] mainscenes = { "main", "main_lts" };
     public Button ConnectToServer;
     public Button JoinGame;
 
@@ -19,14 +21,14 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-        if (SceneManager.GetActiveScene().name == "main") Nickname.text = PlayerPrefs.GetString("username", "");
+        if (Array.IndexOf(mainscenes, SceneManager.GetActiveScene().name) >= 0) Nickname.text = PlayerPrefs.GetString("username", "");
         DontDestroyOnLoad(gameObject);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(SceneManager.GetActiveScene().name == "main")
+        if (Array.IndexOf(mainscenes, SceneManager.GetActiveScene().name) >= 0)
         {
             ConnectToServer.gameObject.SetActive(!PhotonNetwork.IsConnected);
             JoinGame.gameObject.SetActive(PhotonNetwork.IsConnected && !TriesToConnect);
@@ -70,7 +72,7 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
     {
         base.OnJoinedRoom();
         Debug.Log($"Master: {PhotonNetwork.MasterClient}, playing with {PhotonNetwork.CurrentRoom.PlayerCount} players.");
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(2);
     }
     public override void OnJoinRoomFailed(short returnCode, string message)
     {

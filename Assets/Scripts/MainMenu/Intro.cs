@@ -10,6 +10,7 @@ namespace SajberRoyale.MainMenu
 
         private void Start()
         {
+            Cursor.visible = false;
             StartCoroutine(Wait());
         }
 
@@ -21,6 +22,7 @@ namespace SajberRoyale.MainMenu
         private IEnumerator Wait()
         {
             yield return new WaitForSeconds(introLenght);
+            Cursor.visible = true;
             SceneManager.LoadScene(1);
         }
     }

@@ -1,16 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class Item
+public class Item : ScriptableObject
 {
     #region Local variables
 
+    [Header("Basics")]
     /// <summary>
     /// Localized & stylized name of the item showing up in-game.
     /// Example: Diamond Sword
     /// </summary>
-    public string name;
+    public new string name;
 
     /// <summary>
     /// Description of the item showing up when hovered in-game.
@@ -23,6 +22,7 @@ public class Item
     /// </summary>
     public string ID;
 
+    [Header("In-game")]
     /// <summary>
     /// Icon for item loaded into the hotbar.
     /// </summary>
@@ -38,12 +38,18 @@ public class Item
     /// </summary>
     public int maxStack;
 
+    [Header("Backend")]
+    /// <summary>
+    /// Odds of item spawning in its category.
+    /// </summary>
+    public int spawnWeight;
+
     /// <summary>
     /// Category of item.
     /// </summary>
     public Type type;
 
-    #endregion
+    #endregion Local variables
 
     public enum Type
     {

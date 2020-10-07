@@ -2,8 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+[CreateAssetMenu(fileName = "Weapon", menuName = "SajberRoyale/Weapon", order = 1)]
+[System.Serializable]
 public class Weapon : Item
 {
+    [Header("Weapon stats")]
     /// <summary>
     /// Damage output from weapon is randomized between these two values
     /// </summary>
@@ -33,6 +37,20 @@ public class Weapon : Item
     /// Played every time the weapon is shot
     /// </summary>
     public AudioClip shootSFX;
+
+    /// <summary>
+    /// Ammo this weapon needs
+    /// </summary>
+    public Ammo ammoType;
+
+    public enum Ammo
+    {
+        None,
+        LightBullets,
+        MediumBullets,
+        HeavyBullets,
+        Shells
+    }
 
 
 }

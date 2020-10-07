@@ -11,7 +11,8 @@ public class Weapon : Item
     /// <summary>
     /// Damage output from weapon is randomized between these two values
     /// </summary>
-    public float minDamage, maxDamage;
+    public float minDamage;
+    public float maxDamage;
 
     /// <summary>
     /// Delay between shots

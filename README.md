@@ -1,8 +1,8 @@
-# SajberRoyale
+# ![logo](/Media/banner.png)
 
 ###### *Battle royale game made for a school project. Unless you're going to CyberGymnasiet you should probably ignore this project. If you're going to CyberGymnasiet on the other hand and wanna help with something, [shoot us a message](mailto:fabian.lindgren@elev.cybergymnasiet.se?subject=SajberRoyale)!*
 
-![logo](/Media/logo.png)
+
 
 
 

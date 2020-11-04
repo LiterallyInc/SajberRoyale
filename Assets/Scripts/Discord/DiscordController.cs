@@ -23,8 +23,16 @@ public class DiscordController : MonoBehaviour
     public DiscordJoinEvent onSpectate;
     public DiscordJoinRequestEvent onJoinRequest;
 
-    private DiscordRpc.EventHandlers handlers;
+    public static string state = "Unknown state";
+    public static string details = "Unknown details";
+    public static string joinSecret = "MTI4NzM0OjFpMmhuZToxMjMxMjM=";
+    public static string matchSecret = "MmhuZToxMjMxMjM6cWl3amR3MWlqZA==";
+    public static string partyId = "ae488379-351d-4a4f-ad32-2b9b01c91657";
+    public const int partyMax = 20;
+    public static int partySize = 1;
 
+    private DiscordRpc.EventHandlers handlers;
+    
     public void RequestRespondYes()
     {
         Debug.Log("RPC: responding yes to Ask to Join request");
@@ -81,30 +89,36 @@ public class DiscordController : MonoBehaviour
         presence.largeImageKey = "logo";
         presence.details = "Unknown mode";
         presence.state = "Unknown state";
+        presence.partyMax = 20;
         DiscordRpc.UpdatePresence(presence);
         DiscordRpc.RunCallbacks();
     }
 
     private void Update()
     {
-        string details = "Unknown mode";
-        string state = "Unknown state";
         switch (SceneManager.GetActiveScene().name)
         {
             case "main":
                 details = "In the main menu";
-                state = " ";
+                state = "";
                 break;
-
+            case "game":
+                details = "In-game";
+                state = "5 players left";
+                break;
             default:
                 details = "Unknown mode";
                 state = "Unknown state";
                 break;
         }
-        if (presence.details != details || presence.state != state)
+        if (presence.details != details || presence.state != state || presence.joinSecret != joinSecret || presence.partySize != partySize)
         {
             presence.details = details;
             presence.state = state;
+            presence.joinSecret = joinSecret;
+            presence.matchSecret = matchSecret;
+            presence.partyId = partyId;
+            presence.partySize = partySize;
             DiscordRpc.UpdatePresence(presence);
             DiscordRpc.RunCallbacks();
             Debug.Log("Updated RPC");

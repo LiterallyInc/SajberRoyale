@@ -7,7 +7,7 @@ public class ItemDatabase : MonoBehaviour
 {
     Dictionary<string, Item> ItemList = new Dictionary<string, Item>();
     [SerializeField]
-    public Item[] Items;
+    public List<Item> Items;
 
     private void Start()
     {

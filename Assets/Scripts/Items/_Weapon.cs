@@ -5,7 +5,7 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName = "Weapon", menuName = "SajberRoyale/Weapon", order = 1)]
 [System.Serializable]
-public class Weapon : Item
+public class _Weapon : Item
 {
     [Header("Weapon stats")]
     /// <summary>
@@ -45,6 +45,7 @@ public class Weapon : Item
     public Ammo ammoType;
 
     public enum Ammo
+
     {
         None,
         LightBullets,

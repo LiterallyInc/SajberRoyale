@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 [System.Serializable]
 public class DiscordJoinEvent : UnityEngine.Events.UnityEvent<string> { }
@@ -25,14 +26,16 @@ public class DiscordController : MonoBehaviour
 
     public static string state = "Unknown state";
     public static string details = "Unknown details";
-    public static string joinSecret = "MTI4NzM0OjFpMmhuZToxMjMxMjM=";
+    public static string joinSecret = "";
     public static string matchSecret = "MmhuZToxMjMxMjM6cWl3amR3MWlqZA==";
     public static string partyId = "ae488379-351d-4a4f-ad32-2b9b01c91657";
     public const int partyMax = 20;
     public static int partySize = 1;
 
     private DiscordRpc.EventHandlers handlers;
-    
+
+    public static DiscordController Instance;
+
     public void RequestRespondYes()
     {
         Debug.Log("RPC: responding yes to Ask to Join request");
@@ -50,23 +53,27 @@ public class DiscordController : MonoBehaviour
     public void ReadyCallback(ref DiscordRpc.DiscordUser connectedUser)
     {
         Debug.Log(string.Format("RPC: connected to {0}", connectedUser.userId));
+        GameObject.Find("Canvas/discord status").GetComponent<Text>().text += connectedUser.userId + "\n";
         onConnect.Invoke();
     }
 
     public void DisconnectedCallback(int errorCode, string message)
     {
         Debug.Log(string.Format("RPC: disconnect {0}: {1}", errorCode, message));
+        GameObject.Find("Canvas/discord status").GetComponent<Text>().text += errorCode + message + "\n";
         onDisconnect.Invoke();
     }
 
     public void ErrorCallback(int errorCode, string message)
     {
+        GameObject.Find("Canvas/discord status").GetComponent<Text>().text += errorCode + message + "\n";
         Debug.Log(string.Format("RPC: error {0}: {1}", errorCode, message));
     }
 
     public void JoinCallback(string secret)
     {
         Debug.Log(string.Format("RPC: join ({0})", secret));
+        GameObject.Find("Canvas/discord status").GetComponent<Text>().text += string.Format("RPC: join ({0})", secret) + "\n";
         onJoin.Invoke(secret);
     }
 
@@ -79,12 +86,15 @@ public class DiscordController : MonoBehaviour
     public void RequestCallback(ref DiscordRpc.DiscordUser request)
     {
         Debug.Log(string.Format("RPC: join request {0}#{1}: {2}", request.username, request.discriminator, request.userId));
+        GameObject.Find("Canvas/discord status").GetComponent<Text>().text += string.Format("RPC: join request {0}#{1}: {2}", request.username, request.discriminator, request.userId) + "\n";
         joinRequest = request;
         onJoinRequest.Invoke(request);
     }
 
     private void Start()
     {
+        matchSecret = Random.Range(0, 1000000).ToString();
+        Instance = this;
         DontDestroyOnLoad(this.gameObject);
         presence.largeImageKey = "logo";
         presence.details = "Unknown mode";
@@ -120,9 +130,9 @@ public class DiscordController : MonoBehaviour
             presence.partyId = partyId;
             presence.partySize = partySize;
             DiscordRpc.UpdatePresence(presence);
-            DiscordRpc.RunCallbacks();
             Debug.Log("Updated RPC");
         }
+        DiscordRpc.RunCallbacks();
     }
 
     private void OnEnable()

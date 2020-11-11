@@ -11,7 +11,7 @@ public class ItemDatabase : MonoBehaviour
 
     private void Start()
     {
-        Item test = new Weapon()
+        Item test = new _Weapon()
         {
             description = "hey",
             type = Item.Type.Ammo
@@ -21,6 +21,5 @@ public class ItemDatabase : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
     }
 }

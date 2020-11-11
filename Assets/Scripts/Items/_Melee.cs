@@ -5,7 +5,7 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName = "Melee", menuName = "SajberRoyale/Melee", order = 1)]
 [System.Serializable]
-public class Melee : Item
+public class _Melee : Item
 {
     /// <summary>
     /// Damage output from weapon is randomized between these two values

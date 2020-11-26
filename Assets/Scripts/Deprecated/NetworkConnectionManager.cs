@@ -72,7 +72,7 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
     {
         base.OnJoinedRoom();
         Debug.Log($"Master: {PhotonNetwork.MasterClient}, playing with {PhotonNetwork.CurrentRoom.PlayerCount} players.");
-        SceneManager.LoadScene(2);
+        SceneManager.LoadScene(5);
     }
     public override void OnJoinRoomFailed(short returnCode, string message)
     {

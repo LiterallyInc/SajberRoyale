@@ -37,17 +37,7 @@ public class ItemNode : MonoBehaviour
 
     private void Start()
     {
-        //itemHolder.GetComponent<Renderer>().material.color = Color.clear;
-        //GetComponent<MeshRenderer>().enabled = false;
-        for (int i = 0; i < 1000; i++)
-        {
-            Item x = MGetItem();
-            if (x != null)
-            {
 
-                Debug.Log(x.name);
-            }
-        }
     }
 
     private void Update()
@@ -81,8 +71,12 @@ public class ItemNode : MonoBehaviour
         }
         return null;
     }
+    /// <summary>
+    /// Changes this node to a specific item. If it's null, this node gets destroyed
+    /// </summary>
+    /// <param name="item"></param>
     public void SetItem(Item item)
     {
-
+        if (item == null) Destroy(gameObject);
     }
 }

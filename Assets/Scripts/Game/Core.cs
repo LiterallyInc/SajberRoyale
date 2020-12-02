@@ -22,9 +22,11 @@ public class Core : MonoBehaviourPun
         if (Input.GetKeyDown(KeyCode.B)) MStartGame();
     }
     [PunRPC]
-    private void ConfigureLoot(List<NodeInfo> ns)
+    private void ConfigureLoot(string[] itemIDs, int[] nodes)
     {
-        nodeSpawns = ns;
+        nodeSpawns.Clear();
+        for (int i = 0; i < itemIDs.Length; i++) nodeSpawns.Add(new NodeInfo(itemIDs[i], nodes[i]));
+
         GameObject[] itemNodes = GameObject.FindGameObjectsWithTag("ItemNode");
         foreach (NodeInfo n in nodeSpawns)
         {
@@ -38,7 +40,15 @@ public class Core : MonoBehaviourPun
     /// </summary>
     public void MStartGame()
     {
-        this.photonView.RPC("ConfigureLoot", RpcTarget.All, nodeSpawns);
+        //this is an extremely bad optimized method with poor standards, couldn't be bothered with seralizing shit
+        List<int> nodes = new List<int>();
+        List<string> items = new List<string>();
+        for (int i = 0; i < nodeSpawns.Count; i++)
+        {
+            items.Add(nodeSpawns[i].itemID);
+            nodes.Add(nodeSpawns[i].nodeIndex);
+        }
+        this.photonView.RPC("ConfigureLoot", RpcTarget.All, (object)items.ToArray(), (object)nodes.ToArray());
     }
     /// <summary>
     /// Creates a list with all loot and saves it locally. 

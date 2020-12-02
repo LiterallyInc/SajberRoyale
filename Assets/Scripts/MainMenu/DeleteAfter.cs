@@ -7,12 +7,6 @@ public class DeleteAfter : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(DeleteIn());
-    }
-
-    private IEnumerator DeleteIn()
-    {
-        yield return new WaitForSeconds(Delay);
-        Destroy(this.gameObject);
+        Destroy(this.gameObject, Delay);
     }
 }

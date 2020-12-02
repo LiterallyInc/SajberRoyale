@@ -4,12 +4,12 @@
 /// </summary>
 public class NodeInfo
 {
-    public Item item;
+    public string itemID;
     public int nodeIndex;
 
-    public NodeInfo(Item i, int n)
+    public NodeInfo(string i, int n)
     {
-        item = i;
+        itemID = i;
         nodeIndex = n;
     }
 }

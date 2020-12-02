@@ -24,6 +24,9 @@ public class ItemDatabase : MonoBehaviour
         }
 
     }
+    /// <summary>
+    /// Gets an item object by its ID
+    /// </summary>
     public Item GetItem(string id)
     {
         foreach(Item item in Items)

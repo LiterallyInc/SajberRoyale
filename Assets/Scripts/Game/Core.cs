@@ -8,6 +8,7 @@ public class Core : MonoBehaviourPun
     public static Core Instance;
     public const float SpawnOdds = 0.4f;
     public List<NodeInfo> nodeSpawns = new List<NodeInfo>();
+    public ItemDatabase ItemDatabase;
     // Start is called before the first frame update
     private void Start()
     {
@@ -27,7 +28,7 @@ public class Core : MonoBehaviourPun
         GameObject[] itemNodes = GameObject.FindGameObjectsWithTag("ItemNode");
         foreach (NodeInfo n in nodeSpawns)
         {
-            itemNodes[n.nodeIndex].GetComponent<ItemNode>().SetItem(n.item);
+            itemNodes[n.nodeIndex].GetComponent<ItemNode>().SetItem(ItemDatabase.GetItem(n.itemID));
         }
     }
     
@@ -53,7 +54,7 @@ public class Core : MonoBehaviourPun
             Item item = node.MGetItem();
             if (item != null)
             {
-                nodeSpawns.Add(new NodeInfo(item, i));
+                nodeSpawns.Add(new NodeInfo(item.ID, i));
             }
         }
         Debug.Log($"Core/CreateLoot: MASTER: Created a node spawn list. Added items to {nodeSpawns.Count}/{itemNodes.Length} nodes.");

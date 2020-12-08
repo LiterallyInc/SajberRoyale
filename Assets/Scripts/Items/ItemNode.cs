@@ -26,6 +26,7 @@ public class ItemNode : MonoBehaviour
     public ParticleSystem particles;
 
     public bool hasItem = false;
+    public Item item;
 
     public enum Bias
     {

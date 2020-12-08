@@ -43,7 +43,14 @@ public class Core : MonoBehaviourPun
             if (!node.hasItem) node.SetItem(null);
         }
     }
-    
+    [PunRPC]
+    public void DestroyNode(double pos)
+    {
+        foreach(GameObject go in GameObject.FindGameObjectsWithTag("ItemNode"))
+        {
+            if (go.transform.position.x * go.transform.position.y * go.transform.position.z == pos) go.GetComponent<ItemNode>().SetItem(null);
+        }
+    }
     #region Ran by master client only
     /// <summary>
     /// Starts the game for everyone.

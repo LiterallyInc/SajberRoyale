@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System.Linq;
 public class Core : MonoBehaviourPun
 {
     public static Core Instance;
@@ -13,24 +13,34 @@ public class Core : MonoBehaviourPun
     private void Start()
     {
         Instance = this;
-        MCreateLoot();
+        if(PhotonNetwork.IsMasterClient) MCreateLoot();
     }
 
     // Update is called once per frame
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.B)) MStartGame();
+        if (Input.GetKeyDown(KeyCode.B) && PhotonNetwork.IsMasterClient) MStartGame();
     }
     [PunRPC]
-    private void ConfigureLoot(string[] itemIDs, int[] nodes)
+    private void PlaceLoot(string[] itemIDs, int[] nodes)
     {
+        Debug.Log($"Core/PlaceLoot: Recieved {nodes.Length} items from master.");
+        Debug.Log($"CorePlaceLoot:\n{string.Join("|", nodes)}\n{string.Join("|", itemIDs)}");
         nodeSpawns.Clear();
         for (int i = 0; i < itemIDs.Length; i++) nodeSpawns.Add(new NodeInfo(itemIDs[i], nodes[i]));
 
+        //get gameobject list sorted equal to all clients
         GameObject[] itemNodes = GameObject.FindGameObjectsWithTag("ItemNode");
+        itemNodes = itemNodes.OrderBy(o => o.transform.position.x * o.transform.position.y * o.transform.position.z).ToArray();
+
         foreach (NodeInfo n in nodeSpawns)
         {
             itemNodes[n.nodeIndex].GetComponent<ItemNode>().SetItem(ItemDatabase.GetItem(n.itemID));
+        }
+        foreach (GameObject n in GameObject.FindGameObjectsWithTag("ItemNode"))
+        {
+            ItemNode node = n.GetComponent<ItemNode>();
+            if (!node.hasItem) node.SetItem(null);
         }
     }
     
@@ -48,7 +58,7 @@ public class Core : MonoBehaviourPun
             items.Add(nodeSpawns[i].itemID);
             nodes.Add(nodeSpawns[i].nodeIndex);
         }
-        this.photonView.RPC("ConfigureLoot", RpcTarget.All, (object)items.ToArray(), (object)nodes.ToArray());
+        this.photonView.RPC("PlaceLoot", RpcTarget.All, (object)items.ToArray(), (object)nodes.ToArray());
     }
     /// <summary>
     /// Creates a list with all loot and saves it locally. 
@@ -57,7 +67,11 @@ public class Core : MonoBehaviourPun
     {
         nodeSpawns.Clear();
         Debug.Log("Core/CreateLoot: MASTER: Creating node spawn list...");
+
+        //get gameobject list sorted equal to all clients
         GameObject[] itemNodes = GameObject.FindGameObjectsWithTag("ItemNode");
+        itemNodes = itemNodes.OrderBy(o => o.transform.position.x * o.transform.position.y * o.transform.position.z).ToArray();
+
         for (int i = 0; i < itemNodes.Length; i++)
         {
             ItemNode node = itemNodes[i].GetComponent<ItemNode>();

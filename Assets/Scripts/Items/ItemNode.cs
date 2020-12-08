@@ -25,7 +25,7 @@ public class ItemNode : MonoBehaviour
     [Header("ItemNode")]
     public ParticleSystem particles;
 
-    public bool hasItem;
+    public bool hasItem = false;
 
     public enum Bias
     {
@@ -77,6 +77,17 @@ public class ItemNode : MonoBehaviour
     /// <param name="item"></param>
     public void SetItem(Item item)
     {
-        if (item == null) Destroy(gameObject);
+        if (item == null)
+        {
+            Destroy(gameObject);
+            hasItem = false;
+            return;
+        }
+        hasItem = true;
+        itemHolder.GetComponent<MeshRenderer>().enabled = false;
+        this.gameObject.GetComponent<MeshRenderer>().enabled = false;
+        GameObject itemobject = Instantiate(item.item);
+        itemobject.transform.SetParent(itemHolder.transform);
+        itemobject.transform.localPosition = Vector3.zero;
     }
 }

@@ -85,6 +85,7 @@ public class ItemNode : MonoBehaviour
             return;
         }
         hasItem = true;
+        this.item = item;
         itemHolder.GetComponent<MeshRenderer>().enabled = false;
         this.gameObject.GetComponent<MeshRenderer>().enabled = false;
         GameObject itemobject = Instantiate(item.item);

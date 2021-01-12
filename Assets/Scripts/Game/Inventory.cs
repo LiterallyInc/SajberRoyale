@@ -68,12 +68,12 @@ public class Inventory : MonoBehaviourPun
         if (Input.GetKeyDown(KeyCode.Alpha4)) SetSlot(3);
         if (Input.GetKeyDown(KeyCode.Alpha5)) SetSlot(4);
 
-        if (Input.GetAxis("Mouse ScrollWheel") < 0f)
+        if (Input.GetAxis("Mouse ScrollWheel") > 0f)
         {
             if (currentSelected == 0) SetSlot(4);
             else SetSlot(currentSelected - 1);
         }
-        else if (Input.GetAxis("Mouse ScrollWheel") > 0f)
+        else if (Input.GetAxis("Mouse ScrollWheel") < 0f)
         {
             if (currentSelected == 4) SetSlot(0);
             else SetSlot(currentSelected + 1);

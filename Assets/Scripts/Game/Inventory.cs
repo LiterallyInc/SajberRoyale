@@ -1,7 +1,9 @@
-﻿using UnityEngine;
+﻿using Photon.Pun;
+using System;
+using UnityEngine;
 using UnityEngine.UI;
 
-public class Inventory : MonoBehaviour
+public class Inventory : MonoBehaviourPun
 {
     /// <summary>
     /// The 5 slots each player have in their inventory.
@@ -50,13 +52,14 @@ public class Inventory : MonoBehaviour
         icons[slotIndex].texture = item.icon.texture;
     }
 
-    
-
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Q)) Drop();
         SetSlot();
     }
+
     #region Hotbar control
+
     private void SetSlot()
     {
         if (Input.GetKeyDown(KeyCode.Alpha1)) SetSlot(0);
@@ -76,10 +79,27 @@ public class Inventory : MonoBehaviour
             else SetSlot(currentSelected + 1);
         }
     }
+
     private void SetSlot(int slot)
     {
         currentSelected = slot;
         selectedOverlay.transform.localPosition = new Vector3(selectedPos[slot], -0.5f, 0);
     }
-    #endregion
+
+    private void Drop()
+    {
+        if (items[currentSelected] == null) return;
+        else
+        {
+            Core.Instance.photonView.RPC("PlaceItem", RpcTarget.All, items[currentSelected].ID, $"{this.transform.position.x}|{this.transform.position.y}|{this.transform.position.z}");
+            RemoveItem();
+        }
+    }
+    private void RemoveItem()
+    {
+        items[currentSelected] = null;
+        icons[currentSelected].texture = baseTexture.texture;
+    }
+
+    #endregion Hotbar control
 }

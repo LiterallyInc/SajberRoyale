@@ -7,6 +7,7 @@ namespace SajberRoyale.MainMenu
     public class Intro : MonoBehaviour
     {
         public float introLenght;
+        public string scene;
 
         private void Start()
         {
@@ -23,7 +24,7 @@ namespace SajberRoyale.MainMenu
         {
             yield return new WaitForSeconds(introLenght);
             Cursor.visible = true;
-            SceneManager.LoadScene("main");
+            SceneManager.LoadScene(scene);
         }
     }
 }

@@ -71,12 +71,12 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         base.OnJoinedRoom();
-        Debug.Log($"Master: {PhotonNetwork.MasterClient}, playing with {PhotonNetwork.CurrentRoom.PlayerCount} players.");
-        SceneManager.LoadScene(2);
+        Debug.Log($"Master: {PhotonNetwork.MasterClient}, playing with {PhotonNetwork.CurrentRoom.PlayerCount} players. {PhotonNetwork.CloudRegion}");
+        SceneManager.LoadScene("fabians_playground");
     }
     public override void OnJoinRoomFailed(short returnCode, string message)
     {
         base.OnJoinRoomFailed(returnCode, message);
-        Status.text = $"\"{Roomname.name}\" is not a valid room :(";
+        Status.text = $"\"{Roomname.text}\" is not a valid room :( server: {PhotonNetwork.CloudRegion}";
     }
 }

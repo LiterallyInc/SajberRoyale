@@ -5,21 +5,35 @@ using UnityEngine;
 
 public class ItemDatabase : MonoBehaviour
 {
-    Dictionary<string, Item> ItemList = new Dictionary<string, Item>();
+    public static ItemDatabase Instance;
     [SerializeField]
     public List<Item> Items;
+    [HideInInspector]
+    public List<Item> weightedItems = new List<Item>();
 
-    private void Start()
+    private void Awake()
     {
-        Item test = new _Weapon()
+        Instance = this;
+        //weights all items
+        foreach(Item item in Items)
         {
-            description = "hey",
-            type = Item.Type.Ammo
-        };
+            for (int i = 0; i < item.spawnWeight; i++)
+            {
+                weightedItems.Add(item);
+            }
+        }
 
     }
-    // Update is called once per frame
-    void Update()
+    /// <summary>
+    /// Gets an item object by its ID
+    /// </summary>
+    public Item GetItem(string id)
     {
+        foreach(Item item in Items)
+        {
+            if (item.ID == id) return item;
+        }
+        Debug.LogError($"Tried getting invalid weapon: {id}");
+        return null;
     }
 }

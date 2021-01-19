@@ -23,7 +23,7 @@ namespace SajberRoyale.MainMenu
         {
             yield return new WaitForSeconds(introLenght);
             Cursor.visible = true;
-            SceneManager.LoadScene(1);
+            SceneManager.LoadScene("main");
         }
     }
 }

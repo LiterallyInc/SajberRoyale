@@ -17,7 +17,7 @@ public class ButtonController : MonoBehaviour
 
     public void JoinRoom()
     {
-        SceneManager.LoadScene("game");
+        SceneManager.LoadScene("main_lts");
     }
     public void SetSecret(string s)
     {

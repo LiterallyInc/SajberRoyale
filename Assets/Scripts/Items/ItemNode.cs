@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ItemNode : MonoBehaviour
 {
@@ -27,8 +24,9 @@ public class ItemNode : MonoBehaviour
 
     [Header("ItemNode")]
     public ParticleSystem particles;
-    public bool hasItem;
 
+    public bool hasItem = false;
+    public Item item;
 
     public enum Bias
     {
@@ -37,16 +35,61 @@ public class ItemNode : MonoBehaviour
         Ammo = 2,
         Healing = 3
     }
-    void Start()
+
+    private void Start()
     {
-        //itemHolder.GetComponent<Renderer>().material.color = Color.clear;
-        //GetComponent<MeshRenderer>().enabled = false;
+
     }
 
-    void Update()
+    private void Update()
     {
-        //Move the item
-        itemHolder.transform.localPosition = new Vector3(0, Mathf.Sin(Time.time * speed)*height+15, 0);
+        //Make the item float
+        itemHolder.transform.localPosition = new Vector3(0, Mathf.Sin(Time.time * speed) * height + 15, 0);
         itemHolder.transform.RotateAround(transform.position, transform.up, Time.deltaTime * 10f);
+    }
+
+    /// <summary>
+    /// Generates the item that should spawn here.
+    /// Ran by the master client only.
+    /// </summary>
+    public Item MGetItem()
+    {
+        //calculate spawn odds
+        if (UnityEngine.Random.Range(0, 100) > Core.SpawnOdds * rarityModifier * 100) return null;
+
+        //try 20 times to spawn here
+        for (int i = 0; i < 20; i++)
+        {
+            Item rnd = ItemDatabase.Instance.weightedItems[Random.Range(0, ItemDatabase.Instance.weightedItems.Count)];
+            //if anything can spawn, just pick the first
+            if (bias == Bias.Anything) return rnd;
+
+            //if bias should be forced, take first item if correct
+            else if (forceBias && (int)rnd.type == (int)bias) return rnd;
+
+            //bias is active but not forced, 60% chance to discard incorrect items
+            else if ((int)rnd.type == (int)bias && Random.Range(0, 100) < 60) return rnd;
+        }
+        return null;
+    }
+    /// <summary>
+    /// Changes this node to a specific item. If it's null, this node gets destroyed
+    /// </summary>
+    /// <param name="item"></param>
+    public void SetItem(Item item)
+    {
+        if (item == null)
+        {
+            Destroy(gameObject);
+            hasItem = false;
+            return;
+        }
+        hasItem = true;
+        this.item = item;
+        itemHolder.GetComponent<MeshRenderer>().enabled = false;
+        this.gameObject.GetComponent<MeshRenderer>().enabled = false;
+        GameObject itemobject = Instantiate(item.item);
+        itemobject.transform.SetParent(itemHolder.transform);
+        itemobject.transform.localPosition = Vector3.zero;
     }
 }

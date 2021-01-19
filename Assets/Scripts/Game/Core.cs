@@ -1,4 +1,5 @@
 ﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -13,6 +14,7 @@ public class Core : MonoBehaviourPun
     // Start is called before the first frame update
     private void Start()
     {
+        //StartCoroutine(WaitForLights());
         Instance = this;
         if (PhotonNetwork.IsMasterClient) MCreateLoot();
     }
@@ -104,6 +106,11 @@ public class Core : MonoBehaviourPun
             }
         }
         Debug.Log($"Core/CreateLoot: MASTER: Created a node spawn list. Added items to {nodeSpawns.Count}/{itemNodes.Length} nodes.");
+    }
+    IEnumerator WaitForLights()
+    {
+        yield return new WaitForSeconds(5);
+        RoomNode.Get("H527").Deactivate();
     }
 
     #endregion Ran by master client only

@@ -6,7 +6,52 @@ ModelImporter:
   - first:
       74: 1827226128182048838
     second: Take 001
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Brick
+    second: {fileID: 2100000, guid: af09cb9e084967c46b21e682a5a6e39a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: cottonwall
+    second: {fileID: 2100000, guid: 4ec72f4b51b6ace49a8fc78e62f66223, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: floor2
+    second: {fileID: 2100000, guid: f71f3f668ff24bd4f809222b94e24b36, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: "f\xF6nsterbord"
+    second: {fileID: 2100000, guid: edf33bc85b611a1429e6666936ef09d4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: "f\xF6nsterkarm"
+    second: {fileID: 2100000, guid: 08f86c9b07b73214c94ac038428fc4bf, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lightwood
+    second: {fileID: 2100000, guid: 158f56987dcbb4e4baec55129a4cef60, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: v6floor
+    second: {fileID: 2100000, guid: 518e743675af1cd45950dfb774108592, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: "v\xE4gtextur"
+    second: {fileID: 2100000, guid: 1ab4294998a749b46ab329a6ee27e427, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: wood
+    second: {fileID: 2100000, guid: af5bf3ddb91e93f41af99dc1f2a9c316, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

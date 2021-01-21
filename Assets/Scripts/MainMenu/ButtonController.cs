@@ -8,7 +8,7 @@ public class ButtonController : MonoBehaviour
 {
     private void Update()
     {
-        GameObject.Find("Canvas/Text").GetComponent<Text>().text = DiscordController.Instance.presence.joinSecret;
+
     }
     public void ConnectToServer()
     {
@@ -18,10 +18,6 @@ public class ButtonController : MonoBehaviour
     public void JoinRoom()
     {
         SceneManager.LoadScene("main_lts");
-    }
-    public void SetSecret(string s)
-    {
-        DiscordController.joinSecret = s;
     }
     public void Exit()
     {

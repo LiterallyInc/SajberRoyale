@@ -53,27 +53,23 @@ public class DiscordController : MonoBehaviour
     public void ReadyCallback(ref DiscordRpc.DiscordUser connectedUser)
     {
         Debug.Log(string.Format("RPC: connected to {0}", connectedUser.userId));
-        GameObject.Find("Canvas/discord status").GetComponent<Text>().text += connectedUser.userId + "\n";
         onConnect.Invoke();
     }
 
     public void DisconnectedCallback(int errorCode, string message)
     {
         Debug.Log(string.Format("RPC: disconnect {0}: {1}", errorCode, message));
-        GameObject.Find("Canvas/discord status").GetComponent<Text>().text += errorCode + message + "\n";
         onDisconnect.Invoke();
     }
 
     public void ErrorCallback(int errorCode, string message)
     {
-        GameObject.Find("Canvas/discord status").GetComponent<Text>().text += errorCode + message + "\n";
         Debug.Log(string.Format("RPC: error {0}: {1}", errorCode, message));
     }
 
     public void JoinCallback(string secret)
     {
         Debug.Log(string.Format("RPC: join ({0})", secret));
-        GameObject.Find("Canvas/discord status").GetComponent<Text>().text += string.Format("RPC: join ({0})", secret) + "\n";
         onJoin.Invoke(secret);
     }
 
@@ -86,7 +82,6 @@ public class DiscordController : MonoBehaviour
     public void RequestCallback(ref DiscordRpc.DiscordUser request)
     {
         Debug.Log(string.Format("RPC: join request {0}#{1}: {2}", request.username, request.discriminator, request.userId));
-        GameObject.Find("Canvas/discord status").GetComponent<Text>().text += string.Format("RPC: join request {0}#{1}: {2}", request.username, request.discriminator, request.userId) + "\n";
         joinRequest = request;
         onJoinRequest.Invoke(request);
     }

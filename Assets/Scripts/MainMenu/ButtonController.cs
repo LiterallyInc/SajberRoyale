@@ -6,9 +6,14 @@ using UnityEngine.UI;
 
 public class ButtonController : MonoBehaviour
 {
+    public GameObject ConnectionGUI;
     private void Update()
     {
 
+    }
+    public void ToggleConnectionGUI(bool open)
+    {
+        ConnectionGUI.SetActive(open);
     }
     public void ConnectToServer()
     {

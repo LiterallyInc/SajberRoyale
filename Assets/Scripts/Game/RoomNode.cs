@@ -5,6 +5,7 @@ public class RoomNode : MonoBehaviour
 {
     public string roomName;
     public bool isActivated = true;
+    public Light[] Lights;
 
     private void Start()
     {
@@ -35,12 +36,10 @@ public class RoomNode : MonoBehaviour
     public void Deactivate()
     {
         isActivated = false;
-        Collider[] colliders = Physics.OverlapBox(gameObject.transform.position, transform.localScale / 2, Quaternion.identity);
-        foreach (Collider c in colliders)
+        foreach (Light l in Lights)
         {
-            Debug.Log(c.name);
-            LampContainer lampContainer = c.GetComponent<LampContainer>();
-            if (lampContainer != null) lampContainer.TurnOff(roomName);
+            l.color = Color.red;
+            l.intensity = 0.1f;
         }
     }
 }

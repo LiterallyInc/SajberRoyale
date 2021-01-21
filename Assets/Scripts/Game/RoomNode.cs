@@ -15,7 +15,7 @@ public class RoomNode : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log($"Entered room {roomName}");
-        GameObject.Find("Canvas: Player UI/RoomInfo").GetComponent<Text>().text = $"Current room: {roomName}";
+        //GameObject.Find("Canvas: Player UI/RoomInfo").GetComponent<Text>().text = $"Current room: {roomName}";
     }
 
     private void OnTriggerExit(Collider other)

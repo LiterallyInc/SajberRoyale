@@ -11,6 +11,11 @@ public class ButtonController : MonoBehaviour
     public InputField IF_Server;
     public Button B_Connect;
 
+    private void Start()
+    {
+        IF_Name.text = PlayerPrefs.GetString("username", "");
+        if (Application.isEditor) IF_Server.text = "@dev";
+    }
     private void Update()
     {
         B_Connect.interactable = IF_Name.text.Trim().Length >= 3 && IF_Server.text.Trim().Length > 0;
@@ -21,6 +26,7 @@ public class ButtonController : MonoBehaviour
     }
     public void ConnectToServer()
     {
+        PlayerPrefs.SetString("username", IF_Name.text);
         GetComponent<NetConnector>().Connect(IF_Name.text, IF_Server.text);
     }
 

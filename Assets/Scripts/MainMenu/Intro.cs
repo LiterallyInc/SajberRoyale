@@ -16,7 +16,11 @@ namespace SajberRoyale.MainMenu
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Space)) SceneManager.LoadScene(1);
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                Cursor.visible = true;
+                SceneManager.LoadScene(1);
+            }
         }
 
         private IEnumerator Wait()

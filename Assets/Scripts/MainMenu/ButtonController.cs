@@ -10,9 +10,10 @@ public class ButtonController : MonoBehaviour
     public InputField IF_Name;
     public InputField IF_Server;
     public Button B_Connect;
+
     private void Update()
     {
-        B_Connect.interactable = IF_Name.text.Length >= 3 && IF_Server.text.Length > 0;
+        B_Connect.interactable = IF_Name.text.Trim().Length >= 3 && IF_Server.text.Trim().Length > 0;
     }
     public void ToggleConnectionGUI(bool open)
     {
@@ -20,13 +21,9 @@ public class ButtonController : MonoBehaviour
     }
     public void ConnectToServer()
     {
-
+        GetComponent<NetConnector>().Connect(IF_Name.text, IF_Server.text);
     }
 
-    public void JoinRoom()
-    {
-        SceneManager.LoadScene("main_lts");
-    }
     public void Exit()
     {
         Application.Quit();

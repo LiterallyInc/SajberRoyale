@@ -1,15 +1,19 @@
 ﻿using Photon.Pun;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Core : MonoBehaviourPun
 {
     public static Core Instance;
     public const float SpawnOdds = 0.4f;
+    [HideInInspector]
     public List<NodeInfo> nodeSpawns = new List<NodeInfo>();
     public ItemDatabase ItemDatabase;
+    public GameObject Camera;
 
     // Start is called before the first frame update
     private void Start()
@@ -65,6 +69,15 @@ public class Core : MonoBehaviourPun
         ItemNode itemnode = node.GetComponent<ItemNode>();
         itemnode.SetItem(ItemDatabase.GetItem(itemid));
     }
+    [PunRPC]
+    public void Summon()
+    {
+        Destroy(Camera);
+        GameObject[] SpawnNodes = GameObject.FindGameObjectsWithTag("PlayerSpawn");
+        Vector3 SpawnPos = SpawnNodes[Random.Range(0, SpawnNodes.Length - 1)].transform.position;
+        SpawnPos.y++;
+        PhotonNetwork.Instantiate("Player", SpawnPos, Quaternion.identity);
+    }
 
     #region Ran by master client only
 
@@ -82,6 +95,9 @@ public class Core : MonoBehaviourPun
             nodes.Add(nodeSpawns[i].nodeIndex);
         }
         this.photonView.RPC("PlaceLoot", RpcTarget.All, (object)items.ToArray(), (object)nodes.ToArray());
+            
+            
+        this.photonView.RPC("Summon", RpcTarget.All);
     }
 
     /// <summary>
@@ -114,4 +130,8 @@ public class Core : MonoBehaviourPun
     }
 
     #endregion Ran by master client only
+
+    #region Pregame
+
+    #endregion
 }

@@ -54,7 +54,12 @@ public class NetConnector : MonoBehaviourPunCallbacks
     public override void OnJoinRoomFailed(short returnCode, string message)
     {
         Debug.Log(message);
-        Status.text = $"Room {PhotonNetwork.CloudRegion}, Error {returnCode}: {message}";
+        Status.text = returnCode switch
+        {
+            32758 => $"Error {returnCode}: This server does not exist.",
+            32764 => $"Error {returnCode}: This server have already started.",
+            _ => $"Error {returnCode}: {message}",
+        };
         base.OnJoinRoomFailed(returnCode, message);
     }
 }

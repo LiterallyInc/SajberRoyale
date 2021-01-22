@@ -19,8 +19,7 @@ public class Clock : MonoBehaviour
     private void UpdateClock()
     {
         Sec.Rotate(new Vector3(-1 * modifier, 0, 0));
-        Min.Rotate(new Vector3(-1 / 60 * modifier, 0, 0));
-        Hour.Rotate(new Vector3(-1 / 60 / 90 * modifier, 0, 0));
-        Debug.Log($"mo{modifier}");
+        Min.Rotate(new Vector3(-1 * modifier / 60, 0, 0));
+        Hour.Rotate(new Vector3(-1 * modifier / 60 / 90 , 0, 0));
     }
 }

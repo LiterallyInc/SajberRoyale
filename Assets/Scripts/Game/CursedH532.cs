@@ -20,6 +20,7 @@ public class CursedH532 : MonoBehaviourPun
     public Renderer Sayori;
     public Renderer DoorOverlay;
     public AudioReverbZone Echo;
+    public Clock Clock;
 
     [Header("Misc")]
     public Transform AudioNodeHolder;
@@ -43,7 +44,6 @@ public class CursedH532 : MonoBehaviourPun
 
     public Material Skybox_Default;
     public Material Skybox_Space;
-    
 
     private void Start()
     {
@@ -55,16 +55,18 @@ public class CursedH532 : MonoBehaviourPun
             AudioNodes.Add(child);
         }
     }
+
     private void Update()
     {
-        if(isSpace) RenderSettings.skybox.SetFloat("_Rotation", Time.time);
+        if (isSpace) RenderSettings.skybox.SetFloat("_Rotation", Time.time);
         else RenderSettings.skybox.SetFloat("_Rotation", 0);
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider c)
     {
+        if (!c.GetComponent<PhotonView>()) return;
         if (roomCursed) return;
-        else StartCoroutine(Curse());
+        else StartCoroutine(Curse(c.GetComponent<PhotonView>().IsMine));
     }
 
     private void OpenDoor(bool open)
@@ -72,8 +74,8 @@ public class CursedH532 : MonoBehaviourPun
         DoorClosed.SetActive(!open);
         DoorOpen.SetActive(open);
 
-        DoorOpen.GetComponent<AudioSource>().Play();
-        DoorClosed.GetComponent<AudioSource>().Play();
+        if (open) DoorOpen.GetComponent<AudioSource>().Play();
+        else DoorClosed.GetComponent<AudioSource>().Play();
 
         Echo.enabled = !open;
     }
@@ -82,7 +84,7 @@ public class CursedH532 : MonoBehaviourPun
     {
         isSpace = space;
         RenderSettings.skybox = isSpace ? Skybox_Space : Skybox_Default;
-        if(!isSpace) RenderSettings.skybox.SetFloat("_Rotation", 0);
+        if (!isSpace) RenderSettings.skybox.SetFloat("_Rotation", 0);
     }
 
     private void Play(AudioClip clip)
@@ -91,6 +93,7 @@ public class CursedH532 : MonoBehaviourPun
         H532AudioComponent ac = instance.GetComponent<H532AudioComponent>();
         ac.Start(clip, false, Vector3.zero);
     }
+
     private void Play(AudioClip clip, Vector3 pos)
     {
         GameObject instance = Instantiate(Resources.Load("Prefabs/H532AudioNode", typeof(GameObject)), gameObject.transform) as GameObject;
@@ -98,7 +101,11 @@ public class CursedH532 : MonoBehaviourPun
         ac.Start(clip, true, pos);
     }
 
-    private IEnumerator Curse()
+    /// <summary>
+    /// Starts the H533 curse sequence
+    /// </summary>
+    /// <param name="isMe">Local variable whether you triggered it yourself or not</param>
+    private IEnumerator Curse(bool isMe)
     {
         //instants
         DoorHitbox.enabled = true;
@@ -111,20 +118,19 @@ public class CursedH532 : MonoBehaviourPun
         //Queued
         StartCoroutine(Queue(1, () => Play(a_giggle)));
         StartCoroutine(Queue(2, () => OpenDoor(false)));
-        StartCoroutine(Queue(2, () => StartCoroutine(LerpCamera(0, 10, 10))));
+        if (isMe) StartCoroutine(Queue(2, () => StartCoroutine(LerpCamera(0, 10, 10))));
         StartCoroutine(Queue(2, () => RoofLamp.color = new Color(1, 0.7688679f, 0.7753899f)));
         StartCoroutine(Queue(5, () => Play(a_spectrum)));
         StartCoroutine(Queue(7, () => Play(a_canyouhearme)));
+        StartCoroutine(Queue(5, () => Clock.modifier = -1000));
         StartCoroutine(Queue(8f, () => Play(a_flippage)));
         StartCoroutine(Queue(8f, () => Poster.material.SetTexture("_MainTex", t_posterCursed)));
-        StartCoroutine(Queue(13.9f, () => Play(a_glitch)));
-        StartCoroutine(Queue(13.9f, () => StartCoroutine(LerpCamera(10, 350, 1.3f))));
+        if (isMe) StartCoroutine(Queue(13.9f, () => Play(a_glitch)));
+        if (isMe) StartCoroutine(Queue(13.9f, () => StartCoroutine(LerpCamera(10, 350, 1.3f))));
         StartCoroutine(Queue(21.35f, () => StartCoroutine(SetWhiteboard())));
         StartCoroutine(Queue(23f, () => Sayori.enabled = true));
         StartCoroutine(Queue(25.35f, () => Play(a_breathing, Whiteboard.transform.localPosition)));
         StartCoroutine(Queue(25.35f, () => DoorOverlay.enabled = true));
-        
-       
     }
 
     private IEnumerator LerpCamera(float v_start, float v_end, float duration)
@@ -165,6 +171,7 @@ public class CursedH532 : MonoBehaviourPun
         yield return new WaitForSeconds(delay);
         method();
     }
+
     private void OnApplicationQuit()
     {
         RenderSettings.skybox.SetFloat("_Rotation", 0);

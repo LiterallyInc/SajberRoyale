@@ -14,6 +14,7 @@ public class Core : MonoBehaviourPun
     public List<NodeInfo> nodeSpawns = new List<NodeInfo>();
     public ItemDatabase ItemDatabase;
     public GameObject Camera;
+    public static int seed = 0;
 
     // Start is called before the first frame update
     private void Start()
@@ -70,9 +71,10 @@ public class Core : MonoBehaviourPun
         itemnode.SetItem(ItemDatabase.GetItem(itemid));
     }
     [PunRPC]
-    public void Summon()
+    public void Summon(int seed)
     {
         Destroy(Camera);
+        Core.seed = seed;
         GameObject[] SpawnNodes = GameObject.FindGameObjectsWithTag("PlayerSpawn");
         Vector3 SpawnPos = SpawnNodes[Random.Range(0, SpawnNodes.Length - 1)].transform.position;
         SpawnPos.y++;
@@ -97,7 +99,7 @@ public class Core : MonoBehaviourPun
         this.photonView.RPC("PlaceLoot", RpcTarget.All, (object)items.ToArray(), (object)nodes.ToArray());
             
             
-        this.photonView.RPC("Summon", RpcTarget.All);
+        this.photonView.RPC("Summon", RpcTarget.All, Random.Range(0, 1000));
     }
 
     /// <summary>

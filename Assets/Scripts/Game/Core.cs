@@ -34,7 +34,7 @@ public class Core : MonoBehaviourPun
     private void PlaceLoot(string[] itemIDs, int[] nodes)
     {
         Debug.Log($"Core/PlaceLoot: Recieved {nodes.Length} items from master.");
-        Debug.Log($"CorePlaceLoot:\n{string.Join("|", nodes)}\n{string.Join("|", itemIDs)}");
+        if (nodes.Length > 0) Debug.Log($"Core/PlaceLoot:\n{string.Join("|", nodes)}\n{string.Join("|", itemIDs)}");
         nodeSpawns.Clear();
         for (int i = 0; i < itemIDs.Length; i++) nodeSpawns.Add(new NodeInfo(itemIDs[i], nodes[i]));
 

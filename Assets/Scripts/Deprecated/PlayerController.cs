@@ -18,7 +18,9 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
 
     [Tooltip("The local player instance. Use this to know if the local player is represented in the Scene")]
     public static GameObject LocalPlayerInstance;
+
     // Start is called before the first frame update
+    [Obsolete]
     void Start()
     {
         Name.text = playername = PhotonNetwork.NickName;

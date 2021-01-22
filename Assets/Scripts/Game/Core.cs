@@ -97,8 +97,8 @@ public class Core : MonoBehaviourPun
             nodes.Add(nodeSpawns[i].nodeIndex);
         }
         this.photonView.RPC("PlaceLoot", RpcTarget.All, (object)items.ToArray(), (object)nodes.ToArray());
-            
-            
+
+        PhotonNetwork.CurrentRoom.IsOpen = false;
         this.photonView.RPC("Summon", RpcTarget.All, Random.Range(0, 1000));
     }
 

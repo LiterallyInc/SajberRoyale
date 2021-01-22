@@ -164,10 +164,10 @@ namespace EasySurvivalScripts
                     break;
             }
 
-            LandAnimation = characterController.isGrounded;
+            
             CharacterAnimator.SetFloat("Horizontal", HorzAnimation);
             CharacterAnimator.SetFloat("Vertical", VertAnimation);
-            CharacterAnimator.SetBool("isGrounded", LandAnimation);
+            CharacterAnimator.SetBool("isGrounded", true);
         }
 
         bool onGround()

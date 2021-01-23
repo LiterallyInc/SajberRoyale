@@ -12,7 +12,7 @@ public class Clock : MonoBehaviour
     {
         Sec.rotation = Quaternion.Euler(new Vector3(-90 - DateTime.Now.Second * 6, 0, 0));
         Min.rotation = Quaternion.Euler(new Vector3(-90 - DateTime.Now.Minute * 6, 0, 0));
-        Hour.rotation = Quaternion.Euler(new Vector3(-90 - DateTime.Now.Hour * 30, 0, 0));
+        Hour.rotation = Quaternion.Euler(new Vector3(-90 - DateTime.Now.Hour * 30 - DateTime.Now.Minute*0.5f, 0, 0));
         InvokeRepeating("UpdateClock", 1, 0.16666f);
     }
 

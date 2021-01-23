@@ -21,6 +21,12 @@ public class CursedH532 : MonoBehaviourPun
     public Renderer DoorOverlay;
     public AudioReverbZone Echo;
     public Clock Clock;
+    public Animator Overlay;
+
+    [Header("Space Objects")]
+    public Animator Credits;
+
+    public AudioSource Credits_Music;
 
     [Header("Misc")]
     public Transform AudioNodeHolder;
@@ -58,7 +64,7 @@ public class CursedH532 : MonoBehaviourPun
 
     private void Update()
     {
-        if (isSpace) RenderSettings.skybox.SetFloat("_Rotation", Time.time);
+        if (isSpace) RenderSettings.skybox.SetFloat("_Rotation", Time.time/3);
         else RenderSettings.skybox.SetFloat("_Rotation", 0);
     }
 
@@ -66,7 +72,7 @@ public class CursedH532 : MonoBehaviourPun
     {
         if (!c.GetComponent<PhotonView>()) return;
         if (roomCursed) return;
-        else StartCoroutine(Curse(c.GetComponent<PhotonView>().IsMine));
+        else StartCoroutine(Curse(c.GetComponent<PhotonView>().IsMine, c));
     }
 
     private void OpenDoor(bool open)
@@ -105,7 +111,7 @@ public class CursedH532 : MonoBehaviourPun
     /// Starts the H533 curse sequence
     /// </summary>
     /// <param name="isMe">Local variable whether you triggered it yourself or not</param>
-    private IEnumerator Curse(bool isMe)
+    private IEnumerator Curse(bool isMe, Collider c)
     {
         //instants
         DoorHitbox.enabled = true;
@@ -131,6 +137,26 @@ public class CursedH532 : MonoBehaviourPun
         StartCoroutine(Queue(23f, () => Sayori.enabled = true));
         StartCoroutine(Queue(25.35f, () => Play(a_breathing, Whiteboard.transform.localPosition)));
         StartCoroutine(Queue(25.35f, () => DoorOverlay.enabled = true));
+
+        //Go to space
+        if (isMe) StartCoroutine(Queue(34.5f, () => Overlay.Play("ShowOverlay")));
+        if (isMe) StartCoroutine(Queue(34.5f, () => StartCoroutine(LerpCamera(350, 0, 4.5f))));
+        if (isMe) StartCoroutine(Queue(39.2f, () => SetSpace(true)));
+        if (isMe) StartCoroutine(Queue(39.2f, () => Overlay.Play("HideOverlay")));
+        if (isMe) StartCoroutine(Queue(39.4f, () => c.transform.position = new Vector3(0, -211, 1233)));
+        if (isMe) StartCoroutine(Queue(40f, () => Credits_Music.Play()));
+        if (isMe) StartCoroutine(Queue(39.5f, () => Credits.Play("CreditsAnim")));
+        if (isMe) StartCoroutine(Queue(77.5f, () => Overlay.Play("ShowOverlay")));
+        if (isMe) StartCoroutine(Queue(80f, () => SetSpace(false)));
+        if (isMe) StartCoroutine(Queue(80f, () => GoToNode(c)));
+        if (isMe) StartCoroutine(Queue(80f, () => Overlay.Play("HideOverlay")));
+    }
+    private void GoToNode(Collider c)
+    {
+        GameObject[] SpawnNodes = GameObject.FindGameObjectsWithTag("PlayerSpawn");
+        Vector3 SpawnPos = SpawnNodes[UnityEngine.Random.Range(0, SpawnNodes.Length - 1)].transform.position;
+        SpawnPos.y++;
+        c.transform.position = SpawnPos;
     }
 
     private IEnumerator LerpCamera(float v_start, float v_end, float duration)

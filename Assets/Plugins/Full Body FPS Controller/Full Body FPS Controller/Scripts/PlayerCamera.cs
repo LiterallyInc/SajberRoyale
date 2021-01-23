@@ -102,16 +102,7 @@ namespace EasySurvivalScripts
 
         void GetSetPerspective()
         {
-            switch (cameraPerspective)
-            {
-                case CameraPerspective.FirstPerson:
-                    SetCameraHelperPosition_FPS();
-                    break;
-
-                case CameraPerspective.ThirdPerson:
-                    SetCameraHelperPosition_TPS();
-                    break;
-            }
+            SetCameraHelperPosition_FPS();
         }
 
         void SetCameraHelperPosition_FPS()
@@ -122,17 +113,6 @@ namespace EasySurvivalScripts
             _fpsCameraHelper.localPosition = FPS_CameraOffset;
 
             transform.position = _fpsCameraHelper.position;
-
-        }
-
-        void SetCameraHelperPosition_TPS()
-        {
-            if (!CharacterAnimator)
-                return;
-
-            _tpsCameraHelper.localPosition = TPS_CameraOffset;
-
-            transform.position = _tpsCameraHelper.position;
 
         }
 

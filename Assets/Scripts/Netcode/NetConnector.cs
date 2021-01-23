@@ -41,7 +41,7 @@ public class NetConnector : MonoBehaviourPunCallbacks
 
     public void SetRoom()
     {
-        if(PhotonNetwork.OfflineMode) PhotonNetwork.CreateRoom($"offline{Random.Range(0, 10000)}");
+        if (PhotonNetwork.OfflineMode) PhotonNetwork.CreateRoom($"offline{Random.Range(0, 10000)}");
         else if (srv[0] == '@') PhotonNetwork.CreateRoom(srv.Substring(1).Trim());
         else PhotonNetwork.JoinRoom(srv.Trim());
     }
@@ -58,7 +58,7 @@ public class NetConnector : MonoBehaviourPunCallbacks
         Debug.Log($"Joined room {PhotonNetwork.CurrentRoom}");
         Debug.Log(PhotonNetwork.CurrentRoom.Players[1]);
         base.OnJoinedRoom();
-        SceneManager.LoadScene("game");
+        if (SceneManager.GetActiveScene().name != "game") SceneManager.LoadScene("game");
     }
 
     public override void OnJoinRoomFailed(short returnCode, string message)

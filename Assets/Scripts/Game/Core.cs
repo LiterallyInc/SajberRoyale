@@ -1,5 +1,4 @@
 ﻿using Photon.Pun;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,10 +7,13 @@ using Random = UnityEngine.Random;
 
 public class Core : MonoBehaviourPun
 {
+    public bool GameStarted;
     public static Core Instance;
     public const float SpawnOdds = 0.4f;
+
     [HideInInspector]
     public List<NodeInfo> nodeSpawns = new List<NodeInfo>();
+
     public ItemDatabase ItemDatabase;
     public GameObject Camera;
     public static int seed = 0;
@@ -27,7 +29,16 @@ public class Core : MonoBehaviourPun
     // Update is called once per frame
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.B) && PhotonNetwork.IsMasterClient) MStartGame();
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            if (PhotonNetwork.IsMasterClient) MStartGame();
+            else if (!PhotonNetwork.IsConnected)
+            {
+                PhotonNetwork.OfflineMode = true;
+                PhotonNetwork.CreateRoom("offline");
+                MStartGame();
+            }
+        }
     }
 
     [PunRPC]
@@ -70,6 +81,7 @@ public class Core : MonoBehaviourPun
         ItemNode itemnode = node.GetComponent<ItemNode>();
         itemnode.SetItem(ItemDatabase.GetItem(itemid));
     }
+
     [PunRPC]
     public void Summon(int seed)
     {
@@ -125,15 +137,12 @@ public class Core : MonoBehaviourPun
         }
         Debug.Log($"Core/CreateLoot: MASTER: Created a node spawn list. Added items to {nodeSpawns.Count}/{itemNodes.Length} nodes.");
     }
-    IEnumerator WaitForLights()
+
+    private IEnumerator WaitForLights()
     {
         yield return new WaitForSeconds(5);
         RoomNode.Get("H527").Deactivate();
     }
 
     #endregion Ran by master client only
-
-    #region Pregame
-
-    #endregion
 }

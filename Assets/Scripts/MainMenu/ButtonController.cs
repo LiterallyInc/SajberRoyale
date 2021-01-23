@@ -24,6 +24,10 @@ public class ButtonController : MonoBehaviour
     {
         ConnectionGUI.SetActive(open);
     }
+    public void Sandbox()
+    {
+        GetComponent<NetConnector>().PlayOffline();
+    }
     public void ConnectToServer()
     {
         PlayerPrefs.SetString("username", IF_Name.text);

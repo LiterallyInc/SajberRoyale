@@ -1,14 +1,20 @@
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class NetConnector : MonoBehaviourPunCallbacks
 {
     private string srv;
     private static bool isConnected = false;
-    public Text Status; 
+    public Text Status;
+
+    public void PlayOffline()
+    {
+        PhotonNetwork.OfflineMode = true;
+        PhotonNetwork.NickName = "Player";
+    }
 
     public void Connect(string name, string server)
     {
@@ -25,14 +31,18 @@ public class NetConnector : MonoBehaviourPunCallbacks
 
     public override void OnConnectedToMaster()
     {
-        isConnected = true;
-        Debug.Log($"SRNet: Connected to server. Region: {PhotonNetwork.ServerAddress}");
+        if (!PhotonNetwork.OfflineMode)
+        {
+            isConnected = true;
+            Debug.Log($"SRNet: Connected to server. Region: {PhotonNetwork.ServerAddress}");
+        }
         SetRoom();
     }
 
     public void SetRoom()
     {
-        if (srv[0] == '@') PhotonNetwork.CreateRoom(srv.Substring(1).Trim());
+        if(PhotonNetwork.OfflineMode) PhotonNetwork.CreateRoom($"offline{Random.Range(0, 10000)}");
+        else if (srv[0] == '@') PhotonNetwork.CreateRoom(srv.Substring(1).Trim());
         else PhotonNetwork.JoinRoom(srv.Trim());
     }
 

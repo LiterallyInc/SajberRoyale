@@ -141,10 +141,10 @@ public class CursedH532 : MonoBehaviourPun
         //Go to space
         if (isMe) StartCoroutine(Queue(34.5f, () => Overlay.Play("ShowOverlay")));
         if (isMe) StartCoroutine(Queue(34.5f, () => StartCoroutine(LerpCamera(350, 0, 4.5f))));
+        if (isMe) StartCoroutine(Queue(38.8f, () => Credits_Music.Play()));
         if (isMe) StartCoroutine(Queue(39.2f, () => SetSpace(true)));
         if (isMe) StartCoroutine(Queue(39.2f, () => Overlay.Play("HideOverlay")));
         if (isMe) StartCoroutine(Queue(39.4f, () => c.transform.position = new Vector3(0, -211, 1233)));
-        if (isMe) StartCoroutine(Queue(40f, () => Credits_Music.Play()));
         if (isMe) StartCoroutine(Queue(39.5f, () => Credits.Play("CreditsAnim")));
         if (isMe) StartCoroutine(Queue(77.5f, () => Overlay.Play("ShowOverlay")));
         if (isMe) StartCoroutine(Queue(80f, () => SetSpace(false)));

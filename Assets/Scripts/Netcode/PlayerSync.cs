@@ -27,6 +27,7 @@ public class PlayerSync : MonoBehaviourPun
             string mesh = Meshes[Random.Range(0, Meshes.Length)];
             Player = PhotonNetwork.Instantiate($"CharMeshes/{mesh}", Vector3.zero, Quaternion.identity);
             PlayerMovement.CharacterAnimator = Player.GetComponent<Animator>();
+            if (PhotonNetwork.OfflineMode) PhotonNetwork.NickName = mesh;
             Game.Skin = mesh;
         }
         //place the other avatars

@@ -1,8 +1,5 @@
 using Photon.Pun;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 public class Game : MonoBehaviourPun
 {
@@ -10,10 +7,13 @@ public class Game : MonoBehaviourPun
     public static int TotalPlayers = 0;
     public static int AlivePlayers = 0;
     public static long StartEpoch = 0;
+    public static string CurrentRoom = "Unknown";
+    public static string Skin = "Unknown";
+    public static int Kills;
 
     public static void StartGame()
     {
-	IsActive = true;
+        IsActive = true;
         StartEpoch = DateTimeOffset.Now.ToUnixTimeSeconds();
         TotalPlayers = PhotonNetwork.CurrentRoom.PlayerCount;
         AlivePlayers = PhotonNetwork.CurrentRoom.PlayerCount;

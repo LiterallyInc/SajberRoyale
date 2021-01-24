@@ -24,8 +24,10 @@ public class PlayerSync : MonoBehaviourPun
         }
         else //else instansiate the avatar and set the animator
         {
-            Player = PhotonNetwork.Instantiate($"CharMeshes/{Meshes[Random.Range(0, Meshes.Length)]}", Vector3.zero, Quaternion.identity);
+            string mesh = Meshes[Random.Range(0, Meshes.Length)];
+            Player = PhotonNetwork.Instantiate($"CharMeshes/{mesh}", Vector3.zero, Quaternion.identity);
             PlayerMovement.CharacterAnimator = Player.GetComponent<Animator>();
+            Game.Skin = mesh;
         }
         //place the other avatars
         foreach(GameObject g in GameObject.FindGameObjectsWithTag("Avatar"))

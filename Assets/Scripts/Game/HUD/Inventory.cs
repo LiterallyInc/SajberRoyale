@@ -1,5 +1,4 @@
 ﻿using Photon.Pun;
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,11 +13,6 @@ public class Inventory : MonoBehaviourPun
     /// Images for icons in inventory
     /// </summary>
     public RawImage[] icons = new RawImage[5];
-
-    /// <summary>
-    /// Images for icons in inventory
-    /// </summary>
-    public float[] selectedPos = new float[5];
 
     /// <summary>
     /// Zero based index of currently selected item
@@ -83,7 +77,7 @@ public class Inventory : MonoBehaviourPun
     private void SetSlot(int slot)
     {
         currentSelected = slot;
-        selectedOverlay.transform.localPosition = new Vector3(selectedPos[slot], -0.5f, 0);
+        selectedOverlay.transform.localPosition = new Vector3(-91.52f + slot * 46.5f, -0.5f, 0);
     }
 
     private void Drop()
@@ -95,6 +89,7 @@ public class Inventory : MonoBehaviourPun
             RemoveItem();
         }
     }
+
     private void RemoveItem()
     {
         items[currentSelected] = null;

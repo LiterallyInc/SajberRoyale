@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
+using Photon;
+using Photon.Pun;
 
 [System.Serializable]
 public class DiscordJoinEvent : UnityEngine.Events.UnityEvent<string> { }
@@ -26,11 +27,8 @@ public class DiscordController : MonoBehaviour
 
     public static string state = "Unknown state";
     public static string details = "Unknown details";
-    public static string joinSecret = "";
-    public static string matchSecret = "MmhuZToxMjMxMjM6cWl3amR3MWlqZA==";
-    public static string partyId = "ae488379-351d-4a4f-ad32-2b9b01c91657";
-    public const int partyMax = 20;
-    public static int partySize = 1;
+    public static long startTimestamp = 0;
+    public static string largeImageText = "Unknown room";
 
     private DiscordRpc.EventHandlers handlers;
 
@@ -88,13 +86,11 @@ public class DiscordController : MonoBehaviour
 
     private void Start()
     {
-        matchSecret = Random.Range(0, 1000000).ToString();
         Instance = this;
         DontDestroyOnLoad(this.gameObject);
         presence.largeImageKey = "logo";
         presence.details = "Unknown mode";
         presence.state = "Unknown state";
-        presence.partyMax = 20;
         DiscordRpc.UpdatePresence(presence);
         DiscordRpc.RunCallbacks();
     }
@@ -105,29 +101,46 @@ public class DiscordController : MonoBehaviour
         {
             case "main":
                 details = "In the main menu";
-                state = "";
+                state = "Let's go!";
+                largeImageText = "No room";
                 break;
+
             case "game":
-                details = "In-game";
-                state = "5 players left";
+                SetGamePresence();
                 break;
+
             default:
                 details = "Unknown mode";
                 state = "Unknown state";
+                largeImageText = "Unknown room";
                 break;
         }
-        if (presence.details != details || presence.state != state || presence.joinSecret != joinSecret || presence.partySize != partySize)
+        if (presence.details != details || presence.state != state || presence.startTimestamp != startTimestamp)
         {
             presence.details = details;
             presence.state = state;
-            presence.joinSecret = joinSecret;
-            presence.matchSecret = matchSecret;
-            presence.partyId = partyId;
-            presence.partySize = partySize;
+            presence.startTimestamp = startTimestamp;
             DiscordRpc.UpdatePresence(presence);
-            Debug.Log("Updated RPC");
         }
         DiscordRpc.RunCallbacks();
+    }
+
+    private void SetGamePresence()
+    {
+        if (Game.IsActive && PhotonNetwork.IsConnected)
+        {
+            details = "In-game";
+            state = $"{Game.AlivePlayers}/{Game.TotalPlayers} players left";
+            startTimestamp = Game.StartEpoch;
+            largeImageText = $"Room: {PhotonNetwork.CurrentRoom.Name}";
+        }
+        else
+        {
+            details = "Waiting for game";
+            state = $"{PhotonNetwork.CurrentRoom.PlayerCount} players";
+            startTimestamp = 0;
+            largeImageText = $"Room: {PhotonNetwork.CurrentRoom.Name}";
+        }
     }
 
     private void OnEnable()

@@ -29,7 +29,7 @@ public class Core : MonoBehaviourPun
     // Update is called once per frame
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.B))
+        if (Input.GetKeyDown(KeyCode.B) && !Game.IsActive)
         {
             if (PhotonNetwork.IsMasterClient) MStartGame();
             else if (!PhotonNetwork.IsConnected)
@@ -92,9 +92,12 @@ public class Core : MonoBehaviourPun
         SpawnPos.y++;
         PhotonNetwork.Instantiate("Player", SpawnPos, Quaternion.identity);
     }
-
+    [PunRPC]
+    private void StartGame()
+    {
+        Game.StartGame();
+    }
     #region Ran by master client only
-
     /// <summary>
     /// Starts the game for everyone.
     /// </summary>
@@ -112,6 +115,7 @@ public class Core : MonoBehaviourPun
 
         PhotonNetwork.CurrentRoom.IsOpen = false;
         this.photonView.RPC("Summon", RpcTarget.All, Random.Range(0, 1000));
+        this.photonView.RPC("StartGame", RpcTarget.All);
     }
 
     /// <summary>

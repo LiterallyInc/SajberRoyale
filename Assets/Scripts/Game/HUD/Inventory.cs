@@ -26,6 +26,9 @@ public class Inventory : MonoBehaviourPun
 
     public GameObject selectedOverlay;
 
+    public AudioClip Drop;
+    public AudioClip Pickup;
+
     /// <summary>
     /// inserts item in players inventory
     /// </summary>
@@ -44,11 +47,13 @@ public class Inventory : MonoBehaviourPun
         if (slotIndex == -1) slotIndex = currentSelected;
         items[slotIndex] = item;
         icons[slotIndex].texture = item.icon.texture;
+        GetComponent<AudioSource>().clip = Pickup;
+        GetComponent<AudioSource>().Play();
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q)) Drop();
+        if (Input.GetKeyDown(KeyCode.Q)) DropItem();
         SetSlot();
     }
 
@@ -80,13 +85,15 @@ public class Inventory : MonoBehaviourPun
         selectedOverlay.transform.localPosition = new Vector3(-91.52f + slot * 46.5f, -0.5f, 0);
     }
 
-    private void Drop()
+    private void DropItem()
     {
         if (items[currentSelected] == null) return;
         else
         {
             Core.Instance.photonView.RPC("PlaceItem", RpcTarget.All, items[currentSelected].ID, $"{this.transform.position.x}|{this.transform.position.y}|{this.transform.position.z}");
             RemoveItem();
+            GetComponent<AudioSource>().clip = Drop;
+            GetComponent<AudioSource>().Play();
         }
     }
 

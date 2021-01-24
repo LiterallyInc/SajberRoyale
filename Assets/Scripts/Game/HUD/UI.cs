@@ -8,7 +8,7 @@ public class UI : MonoBehaviour
     public Text TechStats;
     private void Start()
     {
-        InvokeRepeating("UpdateStats", 1, 0.1f);
+        InvokeRepeating("UpdateStats", 0, 0.1f);
     }
     private void UpdateStats()
     {

@@ -130,14 +130,14 @@ public class DiscordController : MonoBehaviour
         if (Game.IsActive && PhotonNetwork.IsConnected)
         {
             details = "In-game";
-            state = $"{Game.AlivePlayers}/{Game.TotalPlayers} players left";
+            state = $"{Game.AlivePlayers}/{Game.TotalPlayers} player{(Game.TotalPlayers > 1 ? "s" : "")} left";
             startTimestamp = Game.StartEpoch;
             largeImageText = $"Room: {PhotonNetwork.CurrentRoom.Name}";
         }
         else
         {
             details = "Waiting for game";
-            state = $"{PhotonNetwork.CurrentRoom.PlayerCount} players";
+            state = $"{PhotonNetwork.CurrentRoom.PlayerCount} player{(PhotonNetwork.CurrentRoom.PlayerCount>1 ? "s" :"")}";
             startTimestamp = 0;
             largeImageText = $"Room: {PhotonNetwork.CurrentRoom.Name}";
         }

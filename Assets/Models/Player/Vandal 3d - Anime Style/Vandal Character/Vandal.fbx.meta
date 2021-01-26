@@ -1,268 +1,788 @@
 fileFormatVersion: 2
 guid: ceba17569edb6d5418f7c6c12038cdac
 ModelImporter:
-  serializedVersion: 22
-  fileIDToRecycleName:
-    100000: Armature
-    100002: Body
-    100004: Cap
-    100006: Chest
-    100008: Eye_L
-    100010: Eye_L_end
-    100012: Eye_R
-    100014: Eye_R_end
-    100016: HairJoint_1be31375_8e0b_4df8_A0ee_52d1bedd9b55
-    100018: HairJoint_36018f64_526d_4e13_B27a_9e70096cebec
-    100020: HairJoint_38a1cd8b_B8f4_42db_B9a5_D39df4beedf4
-    100022: HairJoint_38a1cd8b_B8f4_42db_B9a5_D39df4beedf4_end
-    100024: HairJoint_44ee48ec_A132_4c6b_A14f_B0b1a0526502
-    100026: HairJoint_44ee48ec_A132_4c6b_A14f_B0b1a0526502_end
-    100028: HairJoint_487a3bdf_089b_4f5d_9296_E84f5c8e57be
-    100030: HairJoint_5806da88_2c3c_4025_9683_392e3113379d
-    100032: HairJoint_6e2a4b7c_1848_4e04_A969_0efc2a18c9ee
-    100034: HairJoint_6e2a4b7c_1848_4e04_A969_0efc2a18c9ee_end
-    100036: HairJoint_764335d6_8dac_4c2a_B7b9_47596eb1604d
-    100038: HairJoint_A6f9f1af_Ac4e_4d78_921f_E81d4daa1e83
-    100040: HairJoint_B8dba143_0970_40b9_91f7_5afd67f3e4e2
-    100042: HairJoint_Bb5b53d2_5375_405c_Af97_F14ce7378023
-    100044: HairJoint_Bb5b53d2_5375_405c_Af97_F14ce7378023_end
-    100046: HairJoint_Be66e7fb_A995_49fb_A75c_41a2e6c1e36c
-    100048: HairJoint_Be66e7fb_A995_49fb_A75c_41a2e6c1e36c_end
-    100050: HairJoint_Cf2fac08_2537_4e92_8c9b_2ffd5ee08d91
-    100052: HairJoint_Cf2fac08_2537_4e92_8c9b_2ffd5ee08d91_end
-    100054: HairJoint_D5cc1658_3b1e_4ee5_9dc7_2111c049c719
-    100056: HairJoint_D5cc1658_3b1e_4ee5_9dc7_2111c049c719_end
-    100058: HairJoint_Fa16f815_B564_41d1_909d_6dbb58ce505f
-    100060: Head
-    100062: Hips
-    100064: IndexFinger1_L
-    100066: IndexFinger1_R
-    100068: IndexFinger2_L
-    100070: IndexFinger2_R
-    100072: IndexFinger3_L
-    100074: IndexFinger3_L_end
-    100076: IndexFinger3_R
-    100078: IndexFinger3_R_end
-    100080: J_Sec_L_TopsUpperArmInside
-    100082: J_Sec_L_TopsUpperArmInside_end
-    100084: J_Sec_L_TopsUpperArmOutside
-    100086: J_Sec_L_TopsUpperArmOutside_end
-    100088: J_Sec_L_TopsUpperLegBack
-    100090: J_Sec_L_TopsUpperLegBack_end
-    100092: J_Sec_L_TopsUpperLegFront
-    100094: J_Sec_L_TopsUpperLegFront_end
-    100096: J_Sec_L_TopsUpperLegSide
-    100098: J_Sec_L_TopsUpperLegSide_end
-    100100: J_Sec_R_TopsUpperArmInside
-    100102: J_Sec_R_TopsUpperArmInside_end
-    100104: J_Sec_R_TopsUpperArmOutside
-    100106: J_Sec_R_TopsUpperArmOutside_end
-    100108: J_Sec_R_TopsUpperLegBack
-    100110: J_Sec_R_TopsUpperLegBack_end
-    100112: J_Sec_R_TopsUpperLegFront
-    100114: J_Sec_R_TopsUpperLegFront_end
-    100116: J_Sec_R_TopsUpperLegSide
-    100118: J_Sec_R_TopsUpperLegSide_end
-    100120: Left ankle
-    100122: Left arm
-    100124: Left elbow
-    100126: Left knee
-    100128: Left leg
-    100130: Left shoulder
-    100132: Left toe
-    100134: Left toe_end
-    100136: Left wrist
-    100138: LeftEye
-    100140: LeftEye_end
-    100142: LittleFinger1_L
-    100144: LittleFinger1_R
-    100146: LittleFinger2_L
-    100148: LittleFinger2_R
-    100150: LittleFinger3_L
-    100152: LittleFinger3_L_end
-    100154: LittleFinger3_R
-    100156: LittleFinger3_R_end
-    100158: MiddleFinger1_L
-    100160: MiddleFinger1_R
-    100162: MiddleFinger2_L
-    100164: MiddleFinger2_R
-    100166: MiddleFinger3_L
-    100168: MiddleFinger3_L_end
-    100170: MiddleFinger3_R
-    100172: MiddleFinger3_R_end
-    100174: Neck
-    100176: Right ankle
-    100178: Right arm
-    100180: Right elbow
-    100182: Right knee
-    100184: Right leg
-    100186: Right shoulder
-    100188: Right toe
-    100190: Right toe_end
-    100192: Right wrist
-    100194: RightEye
-    100196: RightEye_end
-    100198: RingFinger1_L
-    100200: RingFinger1_R
-    100202: RingFinger2_L
-    100204: RingFinger2_R
-    100206: RingFinger3_L
-    100208: RingFinger3_L_end
-    100210: RingFinger3_R
-    100212: RingFinger3_R_end
-    100214: Shirt
-    100216: Spine
-    100218: Thumb0_L
-    100220: Thumb0_R
-    100222: Thumb1_L
-    100224: Thumb1_R
-    100226: Thumb2_L
-    100228: Thumb2_L_end
-    100230: Thumb2_R
-    100232: Thumb2_R_end
-    100234: //RootNode
-    400000: Armature
-    400002: Body
-    400004: Cap
-    400006: Chest
-    400008: Eye_L
-    400010: Eye_L_end
-    400012: Eye_R
-    400014: Eye_R_end
-    400016: HairJoint_1be31375_8e0b_4df8_A0ee_52d1bedd9b55
-    400018: HairJoint_36018f64_526d_4e13_B27a_9e70096cebec
-    400020: HairJoint_38a1cd8b_B8f4_42db_B9a5_D39df4beedf4
-    400022: HairJoint_38a1cd8b_B8f4_42db_B9a5_D39df4beedf4_end
-    400024: HairJoint_44ee48ec_A132_4c6b_A14f_B0b1a0526502
-    400026: HairJoint_44ee48ec_A132_4c6b_A14f_B0b1a0526502_end
-    400028: HairJoint_487a3bdf_089b_4f5d_9296_E84f5c8e57be
-    400030: HairJoint_5806da88_2c3c_4025_9683_392e3113379d
-    400032: HairJoint_6e2a4b7c_1848_4e04_A969_0efc2a18c9ee
-    400034: HairJoint_6e2a4b7c_1848_4e04_A969_0efc2a18c9ee_end
-    400036: HairJoint_764335d6_8dac_4c2a_B7b9_47596eb1604d
-    400038: HairJoint_A6f9f1af_Ac4e_4d78_921f_E81d4daa1e83
-    400040: HairJoint_B8dba143_0970_40b9_91f7_5afd67f3e4e2
-    400042: HairJoint_Bb5b53d2_5375_405c_Af97_F14ce7378023
-    400044: HairJoint_Bb5b53d2_5375_405c_Af97_F14ce7378023_end
-    400046: HairJoint_Be66e7fb_A995_49fb_A75c_41a2e6c1e36c
-    400048: HairJoint_Be66e7fb_A995_49fb_A75c_41a2e6c1e36c_end
-    400050: HairJoint_Cf2fac08_2537_4e92_8c9b_2ffd5ee08d91
-    400052: HairJoint_Cf2fac08_2537_4e92_8c9b_2ffd5ee08d91_end
-    400054: HairJoint_D5cc1658_3b1e_4ee5_9dc7_2111c049c719
-    400056: HairJoint_D5cc1658_3b1e_4ee5_9dc7_2111c049c719_end
-    400058: HairJoint_Fa16f815_B564_41d1_909d_6dbb58ce505f
-    400060: Head
-    400062: Hips
-    400064: IndexFinger1_L
-    400066: IndexFinger1_R
-    400068: IndexFinger2_L
-    400070: IndexFinger2_R
-    400072: IndexFinger3_L
-    400074: IndexFinger3_L_end
-    400076: IndexFinger3_R
-    400078: IndexFinger3_R_end
-    400080: J_Sec_L_TopsUpperArmInside
-    400082: J_Sec_L_TopsUpperArmInside_end
-    400084: J_Sec_L_TopsUpperArmOutside
-    400086: J_Sec_L_TopsUpperArmOutside_end
-    400088: J_Sec_L_TopsUpperLegBack
-    400090: J_Sec_L_TopsUpperLegBack_end
-    400092: J_Sec_L_TopsUpperLegFront
-    400094: J_Sec_L_TopsUpperLegFront_end
-    400096: J_Sec_L_TopsUpperLegSide
-    400098: J_Sec_L_TopsUpperLegSide_end
-    400100: J_Sec_R_TopsUpperArmInside
-    400102: J_Sec_R_TopsUpperArmInside_end
-    400104: J_Sec_R_TopsUpperArmOutside
-    400106: J_Sec_R_TopsUpperArmOutside_end
-    400108: J_Sec_R_TopsUpperLegBack
-    400110: J_Sec_R_TopsUpperLegBack_end
-    400112: J_Sec_R_TopsUpperLegFront
-    400114: J_Sec_R_TopsUpperLegFront_end
-    400116: J_Sec_R_TopsUpperLegSide
-    400118: J_Sec_R_TopsUpperLegSide_end
-    400120: Left ankle
-    400122: Left arm
-    400124: Left elbow
-    400126: Left knee
-    400128: Left leg
-    400130: Left shoulder
-    400132: Left toe
-    400134: Left toe_end
-    400136: Left wrist
-    400138: LeftEye
-    400140: LeftEye_end
-    400142: LittleFinger1_L
-    400144: LittleFinger1_R
-    400146: LittleFinger2_L
-    400148: LittleFinger2_R
-    400150: LittleFinger3_L
-    400152: LittleFinger3_L_end
-    400154: LittleFinger3_R
-    400156: LittleFinger3_R_end
-    400158: MiddleFinger1_L
-    400160: MiddleFinger1_R
-    400162: MiddleFinger2_L
-    400164: MiddleFinger2_R
-    400166: MiddleFinger3_L
-    400168: MiddleFinger3_L_end
-    400170: MiddleFinger3_R
-    400172: MiddleFinger3_R_end
-    400174: Neck
-    400176: Right ankle
-    400178: Right arm
-    400180: Right elbow
-    400182: Right knee
-    400184: Right leg
-    400186: Right shoulder
-    400188: Right toe
-    400190: Right toe_end
-    400192: Right wrist
-    400194: RightEye
-    400196: RightEye_end
-    400198: RingFinger1_L
-    400200: RingFinger1_R
-    400202: RingFinger2_L
-    400204: RingFinger2_R
-    400206: RingFinger3_L
-    400208: RingFinger3_L_end
-    400210: RingFinger3_R
-    400212: RingFinger3_R_end
-    400214: Shirt
-    400216: Spine
-    400218: Thumb0_L
-    400220: Thumb0_R
-    400222: Thumb1_L
-    400224: Thumb1_R
-    400226: Thumb2_L
-    400228: Thumb2_L_end
-    400230: Thumb2_R
-    400232: Thumb2_R_end
-    400234: //RootNode
-    2100000: M00_001_01_Bottoms_01_CLOTH
-    2100002: M00_005_01_Shoes_01_CLOTH
-    2100004: M00_000_HairBack_00_HAIR
-    2100006: F00_000_Hair_00_HAIR_01
-    2100008: F00_000_Hair_00_HAIR_02
-    2100010: M00_000_00_FaceBrow_00_FACE
-    2100012: M00_000_00_FaceMouth_00_FACE
-    2100014: M00_000_00_EyeIris_00_EYE
-    2100016: M00_000_00_EyeHighlight_00_EYE
-    2100018: M00_000_00_EyeWhite_00_EYE
-    2100020: M00_000_00_Face_00_SKIN
-    2100022: M00_000_00_FaceEyelash_00_FACE
-    2100024: M00_000_00_FaceEyeline_00_FACE
-    2100026: M00_000_00_EyeExtra_01_EYE
-    2100028: M00_001_01_Body_00_SKIN
-    2100030: Material
-    2100032: M00_005_01_Tops_01_CLOTH
-    4300000: Body
-    4300002: Cap
-    4300004: Shirt
-    9500000: //RootNode
-    13700000: Body
-    13700002: Cap
-    13700004: Shirt
+  serializedVersion: 20200
+  internalIDToNameTable:
+  - first:
+      1: 100000
+    second: Armature
+  - first:
+      1: 100002
+    second: Body
+  - first:
+      1: 100004
+    second: Cap
+  - first:
+      1: 100006
+    second: Chest
+  - first:
+      1: 100008
+    second: Eye_L
+  - first:
+      1: 100010
+    second: Eye_L_end
+  - first:
+      1: 100012
+    second: Eye_R
+  - first:
+      1: 100014
+    second: Eye_R_end
+  - first:
+      1: 100016
+    second: HairJoint_1be31375_8e0b_4df8_A0ee_52d1bedd9b55
+  - first:
+      1: 100018
+    second: HairJoint_36018f64_526d_4e13_B27a_9e70096cebec
+  - first:
+      1: 100020
+    second: HairJoint_38a1cd8b_B8f4_42db_B9a5_D39df4beedf4
+  - first:
+      1: 100022
+    second: HairJoint_38a1cd8b_B8f4_42db_B9a5_D39df4beedf4_end
+  - first:
+      1: 100024
+    second: HairJoint_44ee48ec_A132_4c6b_A14f_B0b1a0526502
+  - first:
+      1: 100026
+    second: HairJoint_44ee48ec_A132_4c6b_A14f_B0b1a0526502_end
+  - first:
+      1: 100028
+    second: HairJoint_487a3bdf_089b_4f5d_9296_E84f5c8e57be
+  - first:
+      1: 100030
+    second: HairJoint_5806da88_2c3c_4025_9683_392e3113379d
+  - first:
+      1: 100032
+    second: HairJoint_6e2a4b7c_1848_4e04_A969_0efc2a18c9ee
+  - first:
+      1: 100034
+    second: HairJoint_6e2a4b7c_1848_4e04_A969_0efc2a18c9ee_end
+  - first:
+      1: 100036
+    second: HairJoint_764335d6_8dac_4c2a_B7b9_47596eb1604d
+  - first:
+      1: 100038
+    second: HairJoint_A6f9f1af_Ac4e_4d78_921f_E81d4daa1e83
+  - first:
+      1: 100040
+    second: HairJoint_B8dba143_0970_40b9_91f7_5afd67f3e4e2
+  - first:
+      1: 100042
+    second: HairJoint_Bb5b53d2_5375_405c_Af97_F14ce7378023
+  - first:
+      1: 100044
+    second: HairJoint_Bb5b53d2_5375_405c_Af97_F14ce7378023_end
+  - first:
+      1: 100046
+    second: HairJoint_Be66e7fb_A995_49fb_A75c_41a2e6c1e36c
+  - first:
+      1: 100048
+    second: HairJoint_Be66e7fb_A995_49fb_A75c_41a2e6c1e36c_end
+  - first:
+      1: 100050
+    second: HairJoint_Cf2fac08_2537_4e92_8c9b_2ffd5ee08d91
+  - first:
+      1: 100052
+    second: HairJoint_Cf2fac08_2537_4e92_8c9b_2ffd5ee08d91_end
+  - first:
+      1: 100054
+    second: HairJoint_D5cc1658_3b1e_4ee5_9dc7_2111c049c719
+  - first:
+      1: 100056
+    second: HairJoint_D5cc1658_3b1e_4ee5_9dc7_2111c049c719_end
+  - first:
+      1: 100058
+    second: HairJoint_Fa16f815_B564_41d1_909d_6dbb58ce505f
+  - first:
+      1: 100060
+    second: Head
+  - first:
+      1: 100062
+    second: Hips
+  - first:
+      1: 100064
+    second: IndexFinger1_L
+  - first:
+      1: 100066
+    second: IndexFinger1_R
+  - first:
+      1: 100068
+    second: IndexFinger2_L
+  - first:
+      1: 100070
+    second: IndexFinger2_R
+  - first:
+      1: 100072
+    second: IndexFinger3_L
+  - first:
+      1: 100074
+    second: IndexFinger3_L_end
+  - first:
+      1: 100076
+    second: IndexFinger3_R
+  - first:
+      1: 100078
+    second: IndexFinger3_R_end
+  - first:
+      1: 100080
+    second: J_Sec_L_TopsUpperArmInside
+  - first:
+      1: 100082
+    second: J_Sec_L_TopsUpperArmInside_end
+  - first:
+      1: 100084
+    second: J_Sec_L_TopsUpperArmOutside
+  - first:
+      1: 100086
+    second: J_Sec_L_TopsUpperArmOutside_end
+  - first:
+      1: 100088
+    second: J_Sec_L_TopsUpperLegBack
+  - first:
+      1: 100090
+    second: J_Sec_L_TopsUpperLegBack_end
+  - first:
+      1: 100092
+    second: J_Sec_L_TopsUpperLegFront
+  - first:
+      1: 100094
+    second: J_Sec_L_TopsUpperLegFront_end
+  - first:
+      1: 100096
+    second: J_Sec_L_TopsUpperLegSide
+  - first:
+      1: 100098
+    second: J_Sec_L_TopsUpperLegSide_end
+  - first:
+      1: 100100
+    second: J_Sec_R_TopsUpperArmInside
+  - first:
+      1: 100102
+    second: J_Sec_R_TopsUpperArmInside_end
+  - first:
+      1: 100104
+    second: J_Sec_R_TopsUpperArmOutside
+  - first:
+      1: 100106
+    second: J_Sec_R_TopsUpperArmOutside_end
+  - first:
+      1: 100108
+    second: J_Sec_R_TopsUpperLegBack
+  - first:
+      1: 100110
+    second: J_Sec_R_TopsUpperLegBack_end
+  - first:
+      1: 100112
+    second: J_Sec_R_TopsUpperLegFront
+  - first:
+      1: 100114
+    second: J_Sec_R_TopsUpperLegFront_end
+  - first:
+      1: 100116
+    second: J_Sec_R_TopsUpperLegSide
+  - first:
+      1: 100118
+    second: J_Sec_R_TopsUpperLegSide_end
+  - first:
+      1: 100120
+    second: Left ankle
+  - first:
+      1: 100122
+    second: Left arm
+  - first:
+      1: 100124
+    second: Left elbow
+  - first:
+      1: 100126
+    second: Left knee
+  - first:
+      1: 100128
+    second: Left leg
+  - first:
+      1: 100130
+    second: Left shoulder
+  - first:
+      1: 100132
+    second: Left toe
+  - first:
+      1: 100134
+    second: Left toe_end
+  - first:
+      1: 100136
+    second: Left wrist
+  - first:
+      1: 100138
+    second: LeftEye
+  - first:
+      1: 100140
+    second: LeftEye_end
+  - first:
+      1: 100142
+    second: LittleFinger1_L
+  - first:
+      1: 100144
+    second: LittleFinger1_R
+  - first:
+      1: 100146
+    second: LittleFinger2_L
+  - first:
+      1: 100148
+    second: LittleFinger2_R
+  - first:
+      1: 100150
+    second: LittleFinger3_L
+  - first:
+      1: 100152
+    second: LittleFinger3_L_end
+  - first:
+      1: 100154
+    second: LittleFinger3_R
+  - first:
+      1: 100156
+    second: LittleFinger3_R_end
+  - first:
+      1: 100158
+    second: MiddleFinger1_L
+  - first:
+      1: 100160
+    second: MiddleFinger1_R
+  - first:
+      1: 100162
+    second: MiddleFinger2_L
+  - first:
+      1: 100164
+    second: MiddleFinger2_R
+  - first:
+      1: 100166
+    second: MiddleFinger3_L
+  - first:
+      1: 100168
+    second: MiddleFinger3_L_end
+  - first:
+      1: 100170
+    second: MiddleFinger3_R
+  - first:
+      1: 100172
+    second: MiddleFinger3_R_end
+  - first:
+      1: 100174
+    second: Neck
+  - first:
+      1: 100176
+    second: Right ankle
+  - first:
+      1: 100178
+    second: Right arm
+  - first:
+      1: 100180
+    second: Right elbow
+  - first:
+      1: 100182
+    second: Right knee
+  - first:
+      1: 100184
+    second: Right leg
+  - first:
+      1: 100186
+    second: Right shoulder
+  - first:
+      1: 100188
+    second: Right toe
+  - first:
+      1: 100190
+    second: Right toe_end
+  - first:
+      1: 100192
+    second: Right wrist
+  - first:
+      1: 100194
+    second: RightEye
+  - first:
+      1: 100196
+    second: RightEye_end
+  - first:
+      1: 100198
+    second: RingFinger1_L
+  - first:
+      1: 100200
+    second: RingFinger1_R
+  - first:
+      1: 100202
+    second: RingFinger2_L
+  - first:
+      1: 100204
+    second: RingFinger2_R
+  - first:
+      1: 100206
+    second: RingFinger3_L
+  - first:
+      1: 100208
+    second: RingFinger3_L_end
+  - first:
+      1: 100210
+    second: RingFinger3_R
+  - first:
+      1: 100212
+    second: RingFinger3_R_end
+  - first:
+      1: 100214
+    second: Shirt
+  - first:
+      1: 100216
+    second: Spine
+  - first:
+      1: 100218
+    second: Thumb0_L
+  - first:
+      1: 100220
+    second: Thumb0_R
+  - first:
+      1: 100222
+    second: Thumb1_L
+  - first:
+      1: 100224
+    second: Thumb1_R
+  - first:
+      1: 100226
+    second: Thumb2_L
+  - first:
+      1: 100228
+    second: Thumb2_L_end
+  - first:
+      1: 100230
+    second: Thumb2_R
+  - first:
+      1: 100232
+    second: Thumb2_R_end
+  - first:
+      1: 100234
+    second: //RootNode
+  - first:
+      4: 400000
+    second: Armature
+  - first:
+      4: 400002
+    second: Body
+  - first:
+      4: 400004
+    second: Cap
+  - first:
+      4: 400006
+    second: Chest
+  - first:
+      4: 400008
+    second: Eye_L
+  - first:
+      4: 400010
+    second: Eye_L_end
+  - first:
+      4: 400012
+    second: Eye_R
+  - first:
+      4: 400014
+    second: Eye_R_end
+  - first:
+      4: 400016
+    second: HairJoint_1be31375_8e0b_4df8_A0ee_52d1bedd9b55
+  - first:
+      4: 400018
+    second: HairJoint_36018f64_526d_4e13_B27a_9e70096cebec
+  - first:
+      4: 400020
+    second: HairJoint_38a1cd8b_B8f4_42db_B9a5_D39df4beedf4
+  - first:
+      4: 400022
+    second: HairJoint_38a1cd8b_B8f4_42db_B9a5_D39df4beedf4_end
+  - first:
+      4: 400024
+    second: HairJoint_44ee48ec_A132_4c6b_A14f_B0b1a0526502
+  - first:
+      4: 400026
+    second: HairJoint_44ee48ec_A132_4c6b_A14f_B0b1a0526502_end
+  - first:
+      4: 400028
+    second: HairJoint_487a3bdf_089b_4f5d_9296_E84f5c8e57be
+  - first:
+      4: 400030
+    second: HairJoint_5806da88_2c3c_4025_9683_392e3113379d
+  - first:
+      4: 400032
+    second: HairJoint_6e2a4b7c_1848_4e04_A969_0efc2a18c9ee
+  - first:
+      4: 400034
+    second: HairJoint_6e2a4b7c_1848_4e04_A969_0efc2a18c9ee_end
+  - first:
+      4: 400036
+    second: HairJoint_764335d6_8dac_4c2a_B7b9_47596eb1604d
+  - first:
+      4: 400038
+    second: HairJoint_A6f9f1af_Ac4e_4d78_921f_E81d4daa1e83
+  - first:
+      4: 400040
+    second: HairJoint_B8dba143_0970_40b9_91f7_5afd67f3e4e2
+  - first:
+      4: 400042
+    second: HairJoint_Bb5b53d2_5375_405c_Af97_F14ce7378023
+  - first:
+      4: 400044
+    second: HairJoint_Bb5b53d2_5375_405c_Af97_F14ce7378023_end
+  - first:
+      4: 400046
+    second: HairJoint_Be66e7fb_A995_49fb_A75c_41a2e6c1e36c
+  - first:
+      4: 400048
+    second: HairJoint_Be66e7fb_A995_49fb_A75c_41a2e6c1e36c_end
+  - first:
+      4: 400050
+    second: HairJoint_Cf2fac08_2537_4e92_8c9b_2ffd5ee08d91
+  - first:
+      4: 400052
+    second: HairJoint_Cf2fac08_2537_4e92_8c9b_2ffd5ee08d91_end
+  - first:
+      4: 400054
+    second: HairJoint_D5cc1658_3b1e_4ee5_9dc7_2111c049c719
+  - first:
+      4: 400056
+    second: HairJoint_D5cc1658_3b1e_4ee5_9dc7_2111c049c719_end
+  - first:
+      4: 400058
+    second: HairJoint_Fa16f815_B564_41d1_909d_6dbb58ce505f
+  - first:
+      4: 400060
+    second: Head
+  - first:
+      4: 400062
+    second: Hips
+  - first:
+      4: 400064
+    second: IndexFinger1_L
+  - first:
+      4: 400066
+    second: IndexFinger1_R
+  - first:
+      4: 400068
+    second: IndexFinger2_L
+  - first:
+      4: 400070
+    second: IndexFinger2_R
+  - first:
+      4: 400072
+    second: IndexFinger3_L
+  - first:
+      4: 400074
+    second: IndexFinger3_L_end
+  - first:
+      4: 400076
+    second: IndexFinger3_R
+  - first:
+      4: 400078
+    second: IndexFinger3_R_end
+  - first:
+      4: 400080
+    second: J_Sec_L_TopsUpperArmInside
+  - first:
+      4: 400082
+    second: J_Sec_L_TopsUpperArmInside_end
+  - first:
+      4: 400084
+    second: J_Sec_L_TopsUpperArmOutside
+  - first:
+      4: 400086
+    second: J_Sec_L_TopsUpperArmOutside_end
+  - first:
+      4: 400088
+    second: J_Sec_L_TopsUpperLegBack
+  - first:
+      4: 400090
+    second: J_Sec_L_TopsUpperLegBack_end
+  - first:
+      4: 400092
+    second: J_Sec_L_TopsUpperLegFront
+  - first:
+      4: 400094
+    second: J_Sec_L_TopsUpperLegFront_end
+  - first:
+      4: 400096
+    second: J_Sec_L_TopsUpperLegSide
+  - first:
+      4: 400098
+    second: J_Sec_L_TopsUpperLegSide_end
+  - first:
+      4: 400100
+    second: J_Sec_R_TopsUpperArmInside
+  - first:
+      4: 400102
+    second: J_Sec_R_TopsUpperArmInside_end
+  - first:
+      4: 400104
+    second: J_Sec_R_TopsUpperArmOutside
+  - first:
+      4: 400106
+    second: J_Sec_R_TopsUpperArmOutside_end
+  - first:
+      4: 400108
+    second: J_Sec_R_TopsUpperLegBack
+  - first:
+      4: 400110
+    second: J_Sec_R_TopsUpperLegBack_end
+  - first:
+      4: 400112
+    second: J_Sec_R_TopsUpperLegFront
+  - first:
+      4: 400114
+    second: J_Sec_R_TopsUpperLegFront_end
+  - first:
+      4: 400116
+    second: J_Sec_R_TopsUpperLegSide
+  - first:
+      4: 400118
+    second: J_Sec_R_TopsUpperLegSide_end
+  - first:
+      4: 400120
+    second: Left ankle
+  - first:
+      4: 400122
+    second: Left arm
+  - first:
+      4: 400124
+    second: Left elbow
+  - first:
+      4: 400126
+    second: Left knee
+  - first:
+      4: 400128
+    second: Left leg
+  - first:
+      4: 400130
+    second: Left shoulder
+  - first:
+      4: 400132
+    second: Left toe
+  - first:
+      4: 400134
+    second: Left toe_end
+  - first:
+      4: 400136
+    second: Left wrist
+  - first:
+      4: 400138
+    second: LeftEye
+  - first:
+      4: 400140
+    second: LeftEye_end
+  - first:
+      4: 400142
+    second: LittleFinger1_L
+  - first:
+      4: 400144
+    second: LittleFinger1_R
+  - first:
+      4: 400146
+    second: LittleFinger2_L
+  - first:
+      4: 400148
+    second: LittleFinger2_R
+  - first:
+      4: 400150
+    second: LittleFinger3_L
+  - first:
+      4: 400152
+    second: LittleFinger3_L_end
+  - first:
+      4: 400154
+    second: LittleFinger3_R
+  - first:
+      4: 400156
+    second: LittleFinger3_R_end
+  - first:
+      4: 400158
+    second: MiddleFinger1_L
+  - first:
+      4: 400160
+    second: MiddleFinger1_R
+  - first:
+      4: 400162
+    second: MiddleFinger2_L
+  - first:
+      4: 400164
+    second: MiddleFinger2_R
+  - first:
+      4: 400166
+    second: MiddleFinger3_L
+  - first:
+      4: 400168
+    second: MiddleFinger3_L_end
+  - first:
+      4: 400170
+    second: MiddleFinger3_R
+  - first:
+      4: 400172
+    second: MiddleFinger3_R_end
+  - first:
+      4: 400174
+    second: Neck
+  - first:
+      4: 400176
+    second: Right ankle
+  - first:
+      4: 400178
+    second: Right arm
+  - first:
+      4: 400180
+    second: Right elbow
+  - first:
+      4: 400182
+    second: Right knee
+  - first:
+      4: 400184
+    second: Right leg
+  - first:
+      4: 400186
+    second: Right shoulder
+  - first:
+      4: 400188
+    second: Right toe
+  - first:
+      4: 400190
+    second: Right toe_end
+  - first:
+      4: 400192
+    second: Right wrist
+  - first:
+      4: 400194
+    second: RightEye
+  - first:
+      4: 400196
+    second: RightEye_end
+  - first:
+      4: 400198
+    second: RingFinger1_L
+  - first:
+      4: 400200
+    second: RingFinger1_R
+  - first:
+      4: 400202
+    second: RingFinger2_L
+  - first:
+      4: 400204
+    second: RingFinger2_R
+  - first:
+      4: 400206
+    second: RingFinger3_L
+  - first:
+      4: 400208
+    second: RingFinger3_L_end
+  - first:
+      4: 400210
+    second: RingFinger3_R
+  - first:
+      4: 400212
+    second: RingFinger3_R_end
+  - first:
+      4: 400214
+    second: Shirt
+  - first:
+      4: 400216
+    second: Spine
+  - first:
+      4: 400218
+    second: Thumb0_L
+  - first:
+      4: 400220
+    second: Thumb0_R
+  - first:
+      4: 400222
+    second: Thumb1_L
+  - first:
+      4: 400224
+    second: Thumb1_R
+  - first:
+      4: 400226
+    second: Thumb2_L
+  - first:
+      4: 400228
+    second: Thumb2_L_end
+  - first:
+      4: 400230
+    second: Thumb2_R
+  - first:
+      4: 400232
+    second: Thumb2_R_end
+  - first:
+      4: 400234
+    second: //RootNode
+  - first:
+      21: 2100000
+    second: M00_001_01_Bottoms_01_CLOTH
+  - first:
+      21: 2100002
+    second: M00_005_01_Shoes_01_CLOTH
+  - first:
+      21: 2100004
+    second: M00_000_HairBack_00_HAIR
+  - first:
+      21: 2100006
+    second: F00_000_Hair_00_HAIR_01
+  - first:
+      21: 2100008
+    second: F00_000_Hair_00_HAIR_02
+  - first:
+      21: 2100010
+    second: M00_000_00_FaceBrow_00_FACE
+  - first:
+      21: 2100012
+    second: M00_000_00_FaceMouth_00_FACE
+  - first:
+      21: 2100014
+    second: M00_000_00_EyeIris_00_EYE
+  - first:
+      21: 2100016
+    second: M00_000_00_EyeHighlight_00_EYE
+  - first:
+      21: 2100018
+    second: M00_000_00_EyeWhite_00_EYE
+  - first:
+      21: 2100020
+    second: M00_000_00_Face_00_SKIN
+  - first:
+      21: 2100022
+    second: M00_000_00_FaceEyelash_00_FACE
+  - first:
+      21: 2100024
+    second: M00_000_00_FaceEyeline_00_FACE
+  - first:
+      21: 2100026
+    second: M00_000_00_EyeExtra_01_EYE
+  - first:
+      21: 2100028
+    second: M00_001_01_Body_00_SKIN
+  - first:
+      21: 2100030
+    second: Material
+  - first:
+      21: 2100032
+    second: M00_005_01_Tops_01_CLOTH
+  - first:
+      43: 4300000
+    second: Body
+  - first:
+      43: 4300002
+    second: Cap
+  - first:
+      43: 4300004
+    second: Shirt
+  - first:
+      95: 9500000
+    second: //RootNode
+  - first:
+      137: 13700000
+    second: Body
+  - first:
+      137: 13700002
+    second: Cap
+  - first:
+      137: 13700004
+    second: Shirt
   externalObjects:
   - first:
       type: UnityEngine:Material
@@ -350,7 +870,7 @@ ModelImporter:
       name: Material
     second: {fileID: 2100000, guid: f5fcc88c53041f54a971b3efa29278f2, type: 2}
   materials:
-    importMaterials: 1
+    materialImportMode: 1
     materialName: 0
     materialSearch: 1
     materialLocation: 1
@@ -382,21 +902,31 @@ ModelImporter:
     globalScale: 1
     meshCompression: 0
     addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1
     importLights: 1
+    fileIdsGeneration: 1
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
-    optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    bakeAxisConversion: 0
     preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
     indexFormat: 0
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 0
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
     useFileScale: 1
   tangentSpace:
@@ -404,10 +934,13 @@ ModelImporter:
     normalImportMode: 0
     tangentImportMode: 3
     normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 1
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
   importAnimation: 1
-  copyAvatar: 0
   humanDescription:
-    serializedVersion: 2
+    serializedVersion: 3
     human:
     - boneName: Hips
       humanName: Hips
@@ -1439,14 +1972,17 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
+    globalScale: 1
     rootMotionBoneName: 
-    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
     hasExtraRoot: 1
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 3
   humanoidOversampling: 1
+  avatarSetup: 1
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 0
   additionalBone: 0
   userData: 
   assetBundleName: 

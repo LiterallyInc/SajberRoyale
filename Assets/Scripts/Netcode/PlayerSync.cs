@@ -5,16 +5,12 @@ public class PlayerSync : MonoBehaviourPun
 {
     public GameObject CameraController;
     public EasySurvivalScripts.PlayerMovement PlayerMovement;
-
-    public string[] Meshes;
     private GameObject Player;
 
     private void Start()
     {
         if (!PhotonNetwork.IsConnected) return;
-
-        //seed character with owner ID to sync them
-        Random.InitState(Core.seed * photonView.OwnerActorNr);
+        
 
         //delete local comps if it's another user
         if (!photonView.IsMine)
@@ -24,11 +20,9 @@ public class PlayerSync : MonoBehaviourPun
         }
         else //else instansiate the avatar and set the animator
         {
-            string mesh = Meshes[Random.Range(0, Meshes.Length)];
-            Player = PhotonNetwork.Instantiate($"CharMeshes/{mesh}", Vector3.zero, Quaternion.identity);
+            Player = PhotonNetwork.Instantiate($"CharMeshes/{Game.Skin}", Vector3.zero, Quaternion.identity);
             PlayerMovement.CharacterAnimator = Player.GetComponent<Animator>();
-            if (PhotonNetwork.OfflineMode) PhotonNetwork.NickName = mesh;
-            Game.Skin = mesh;
+            if (PhotonNetwork.OfflineMode) PhotonNetwork.NickName = Game.Skin;
         }
         //place the other avatars
         foreach(GameObject g in GameObject.FindGameObjectsWithTag("Avatar"))

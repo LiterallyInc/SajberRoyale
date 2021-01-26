@@ -4,12 +4,18 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
+using UnityEngine.UI;
 
 public class Core : MonoBehaviourPun
 {
+    public string[] Meshes;
     public bool GameStarted;
     public static Core Instance;
     public const float SpawnOdds = 0.4f;
+    public GameObject Canvas_Pregame;
+    public GameObject Canvas_Gameplay;
+    public Button Button_Start;
 
     [HideInInspector]
     public List<NodeInfo> nodeSpawns = new List<NodeInfo>();
@@ -19,11 +25,30 @@ public class Core : MonoBehaviourPun
     public static int seed = 0;
 
     // Start is called before the first frame update
-    private void Start()
+    private void Awake()
     {
-        //StartCoroutine(WaitForLights());
         Instance = this;
-        if (PhotonNetwork.IsMasterClient) MCreateLoot();
+        if (PhotonNetwork.IsMasterClient)
+        {
+            seed = Random.Range(0, 1000);
+            Hashtable rseed = new Hashtable();
+            rseed.Add("seed", seed);
+            PhotonNetwork.CurrentRoom.SetCustomProperties(rseed);
+            MCreateLoot();
+            Button_Start.interactable = true;
+        }
+        else if(PhotonNetwork.IsConnected)
+        {
+            Hashtable hashtable = PhotonNetwork.CurrentRoom.CustomProperties;
+            seed = (int)hashtable["seed"];
+        }
+        else if(PhotonNetwork.LocalPlayer.ActorNumber == -1)
+        {
+            PhotonNetwork.OfflineMode = true;
+            PhotonNetwork.CreateRoom("offline");
+            
+        }
+    
     }
 
     // Update is called once per frame
@@ -34,8 +59,7 @@ public class Core : MonoBehaviourPun
             if (PhotonNetwork.IsMasterClient) MStartGame();
             else if (!PhotonNetwork.IsConnected)
             {
-                PhotonNetwork.OfflineMode = true;
-                PhotonNetwork.CreateRoom("offline");
+
                 MStartGame();
             }
         }
@@ -83,10 +107,9 @@ public class Core : MonoBehaviourPun
     }
 
     [PunRPC]
-    public void Summon(int seed)
+    public void Summon()
     {
         Destroy(Camera);
-        Core.seed = seed;
         GameObject[] SpawnNodes = GameObject.FindGameObjectsWithTag("PlayerSpawn");
         Vector3 SpawnPos = SpawnNodes[Random.Range(0, SpawnNodes.Length - 1)].transform.position;
         SpawnPos.y++;
@@ -95,7 +118,7 @@ public class Core : MonoBehaviourPun
     [PunRPC]
     private void StartGame()
     {
-        Game.StartGame();
+        StartCoroutine(StartIn());
     }
     #region Ran by master client only
     /// <summary>
@@ -114,8 +137,16 @@ public class Core : MonoBehaviourPun
         this.photonView.RPC("PlaceLoot", RpcTarget.All, (object)items.ToArray(), (object)nodes.ToArray());
 
         PhotonNetwork.CurrentRoom.IsOpen = false;
-        this.photonView.RPC("Summon", RpcTarget.All, Random.Range(0, 1000));
         this.photonView.RPC("StartGame", RpcTarget.All);
+    }
+    IEnumerator StartIn()
+    {
+        Camera.GetComponent<Animator>().Play("CameraStart");
+        yield return new WaitForSeconds(3.3f);
+        Summon();
+        Canvas_Gameplay.SetActive(true);
+        Button_Start.gameObject.SetActive(false);
+        Game.StartGame();
     }
 
     /// <summary>

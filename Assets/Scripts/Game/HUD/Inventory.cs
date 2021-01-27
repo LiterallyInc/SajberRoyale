@@ -29,6 +29,8 @@ public class Inventory : MonoBehaviourPun
     public AudioClip Drop;
     public AudioClip Pickup;
 
+    public Item CurrentWeapon;
+
     /// <summary>
     /// inserts item in players inventory
     /// </summary>
@@ -82,6 +84,7 @@ public class Inventory : MonoBehaviourPun
     private void SetSlot(int slot)
     {
         currentSelected = slot;
+        CurrentWeapon = items[slot];
         selectedOverlay.transform.localPosition = new Vector3(-91.52f + slot * 46.5f, -0.5f, 0);
     }
 
@@ -90,6 +93,7 @@ public class Inventory : MonoBehaviourPun
         if (items[currentSelected] == null) return;
         else
         {
+            CurrentWeapon = null;
             Core.Instance.photonView.RPC("PlaceItem", RpcTarget.All, items[currentSelected].ID, $"{this.transform.position.x}|{this.transform.position.y}|{this.transform.position.z}");
             RemoveItem();
             GetComponent<AudioSource>().clip = Drop;

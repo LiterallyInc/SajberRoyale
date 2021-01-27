@@ -25,24 +25,20 @@ public class PlayerSync : MonoBehaviourPun
             if (PhotonNetwork.OfflineMode) PhotonNetwork.NickName = Game.Skin;
         }
         //place the other avatars
-        foreach(GameObject g in GameObject.FindGameObjectsWithTag("Avatar"))
+
+        InvokeRepeating("SetSkin", 0f, 1f);
+        Destroy(this, 15f);
+    }
+    private void SetSkin()
+    {
+        foreach (GameObject g in GameObject.FindGameObjectsWithTag("Avatar"))
         {
-            if(g.GetComponent<PhotonView>().ControllerActorNr == photonView.ControllerActorNr)
+            if (g.GetComponent<PhotonView>().ControllerActorNr == photonView.ControllerActorNr)
             {
                 g.transform.parent = gameObject.transform;
                 g.transform.localPosition = new Vector3(-0.01f, -1.16f, -0.1f);
+                g.tag = "Untagged";
             }
-        }
-        
-    }
-
-    private void Update()
-    {
-        if (Application.isEditor && Input.GetKeyDown(KeyCode.K))
-        {
-            Player.GetComponent<PhotonView>().ObservedComponents.Add(Player.GetComponent<PhotonAnimatorView>());
-            //GameObject newMesh = Instantiate(Meshes[Random.Range(0, Meshes.Length)], gameObject.transform);
-            //PlayerMovement.CharacterAnimator = newMesh.GetComponent<Animator>();
         }
     }
 }

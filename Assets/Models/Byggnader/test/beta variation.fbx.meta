@@ -35,6 +35,11 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: kakel
+    second: {fileID: 2100000, guid: 00aaca89e27a3314e9b2362068d6b29e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: lightwood
     second: {fileID: 2100000, guid: 158f56987dcbb4e4baec55129a4cef60, type: 2}
   - first:
@@ -45,8 +50,18 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: "v\xE4gggul"
+    second: {fileID: 2100000, guid: 52719d26ce551a0489c3a1ae96eb91f7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: "v\xE4gtextur"
     second: {fileID: 2100000, guid: 1ab4294998a749b46ab329a6ee27e427, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: "v\xE4gtexturr\xF6d"
+    second: {fileID: 2100000, guid: c94ce26f09976b74a9ca5e8891ab3e46, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule

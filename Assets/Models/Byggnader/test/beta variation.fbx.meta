@@ -15,6 +15,11 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: "R\xF6dmatta"
+    second: {fileID: 2100000, guid: 7dba8a71370531a4988ad7bbbc937662, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: cottonwall
     second: {fileID: 2100000, guid: 4ec72f4b51b6ace49a8fc78e62f66223, type: 2}
   - first:

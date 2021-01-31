@@ -4,7 +4,7 @@ using UnityEngine;
 public class PlayerSync : MonoBehaviourPun
 {
     public GameObject CameraController;
-    public EasySurvivalScripts.PlayerMovement PlayerMovement;
+    public Component[] LocalScripts;
     private GameObject Player;
 
     private void Start()
@@ -16,12 +16,12 @@ public class PlayerSync : MonoBehaviourPun
         if (!photonView.IsMine)
         {
             Destroy(CameraController);
-            Destroy(PlayerMovement);
+            foreach (Component c in LocalScripts) Destroy(c);
         }
         else //else instansiate the avatar and set the animator
         {
             Player = PhotonNetwork.Instantiate($"CharMeshes/{Game.Skin}", Vector3.zero, Quaternion.identity);
-            PlayerMovement.CharacterAnimator = Player.GetComponent<Animator>();
+            //PlayerMovement.CharacterAnimator = Player.GetComponent<Animator>();
             if (PhotonNetwork.OfflineMode) PhotonNetwork.NickName = Game.Skin;
         }
         //place the other avatars

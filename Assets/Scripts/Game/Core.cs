@@ -113,7 +113,7 @@ public class Core : MonoBehaviourPun
         GameObject[] SpawnNodes = GameObject.FindGameObjectsWithTag("PlayerSpawn");
         Vector3 SpawnPos = SpawnNodes[Random.Range(0, SpawnNodes.Length - 1)].transform.position;
         SpawnPos.y++;
-        PhotonNetwork.Instantiate("Player", SpawnPos, Quaternion.identity);
+        PhotonNetwork.Instantiate("UFPS_Player", SpawnPos, Quaternion.identity);
     }
     [PunRPC]
     private void StartGame()

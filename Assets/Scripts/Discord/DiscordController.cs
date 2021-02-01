@@ -137,6 +137,7 @@ public class DiscordController : MonoBehaviour
         else
         {
             details = "Waiting for game";
+            if (PhotonNetwork.CurrentRoom == null) return;
             state = $"{PhotonNetwork.CurrentRoom.PlayerCount} player{(PhotonNetwork.CurrentRoom.PlayerCount>1 ? "s" :"")}";
             startTimestamp = 0;
             largeImageText = $"Room: {PhotonNetwork.CurrentRoom.Name}";

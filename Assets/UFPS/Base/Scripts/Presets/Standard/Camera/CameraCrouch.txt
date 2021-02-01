@@ -5,7 +5,7 @@
 ComponentType vp_FPCamera
 PositionOffset 0 0.75 0.1
 RotationKneeling 0
-RotationStrafeRoll -2.5
+RotationStrafeRoll -0.5
 ShakeSpeed 0.05
 ShakeAmplitude 10 50 0
 BobRate 0.5 1.0 0.5 0.5

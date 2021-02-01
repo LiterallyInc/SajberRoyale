@@ -354,7 +354,7 @@ public class vp_BodyAnimator : MonoBehaviour
 	/// </summary>
 	protected virtual void UpdateAnimationSpeeds()
 	{
-
+		if (!Player) return;
 		// --- turn animation speed ---
 
 		if (Time.time > m_NextAllowedUpdateTurnTargetTime)
@@ -404,7 +404,6 @@ public class vp_BodyAnimator : MonoBehaviour
 	/// </summary>
 	protected virtual float GetStrafeDirection()
 	{
-
 		// if using keyboard, return a binary value
 		if (vp_Input.Instance.ControlType == 0)
 		{
@@ -425,7 +424,7 @@ public class vp_BodyAnimator : MonoBehaviour
 	/// </summary>
 	protected virtual void UpdateAnimator()
 	{
-
+		if (!Player) return;
 		// --- booleans used to transition between blend states ---
 		// TODO: these should be moved to event callbacks on the next optimization run
 
@@ -510,7 +509,7 @@ public class vp_BodyAnimator : MonoBehaviour
 	/// </summary>
 	protected virtual void UpdatePosition()
 	{
-
+		if (!Player) return;
 		if (Player.IsFirstPerson.Get())
 			return;
 
@@ -525,7 +524,7 @@ public class vp_BodyAnimator : MonoBehaviour
 	/// </summary>
 	protected virtual void UpdateBody()
 	{
-
+		if (!Player) return;
 		// blend rotation towards target yaw, if active
 		m_PrevBodyYaw = m_BodyYaw;
 		m_BodyYaw = Mathf.LerpAngle(m_BodyYaw, m_CurrentBodyYawTarget, Time.deltaTime * ((Player.Velocity.Get().magnitude > 0.1f) ? FeetAdjustSpeedMoving : FeetAdjustSpeedStanding));
@@ -589,6 +588,7 @@ public class vp_BodyAnimator : MonoBehaviour
 	/// </summary>
 	protected virtual void UpdateSpine()
 	{
+		if (!Player) return;
 
 		if (Player.Climb.Active)
 			return;
@@ -709,7 +709,6 @@ public class vp_BodyAnimator : MonoBehaviour
 	/// </summary>
 	protected virtual Vector3 GetLookPoint()
 	{
-
 		m_HeadLookBackup = HeadPoint.transform.eulerAngles;
 		HeadPoint.transform.eulerAngles = vp_MathUtility.NaNSafeVector3(Player.Rotation.Get());
 		m_LookPoint = HeadPoint.transform.position
@@ -819,8 +818,8 @@ public class vp_BodyAnimator : MonoBehaviour
 	/// </summary>
 	protected virtual void InitMaxSpeeds()
 	{
-		return;
-		if(Player.IsLocal.Get())
+		if (!Player) return;
+		if (Player.IsLocal.Get())
 		{
 			// get max speed of first vp_FPController that we can find under the ancestor
 			vp_FPController controller = Transform.root.GetComponentInChildren<vp_FPController>();

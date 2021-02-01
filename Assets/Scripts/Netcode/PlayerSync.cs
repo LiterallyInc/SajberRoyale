@@ -19,7 +19,7 @@ public class PlayerSync : MonoBehaviourPun
         }
         else //else instansiate the avatar and set the animator
         {
-            Player = PhotonNetwork.Instantiate($"CharMeshes/Satomi", Vector3.zero, Quaternion.identity);
+            Player = PhotonNetwork.Instantiate($"CharMeshes/{Game.Skin}", Vector3.zero, Quaternion.identity);
             //PlayerMovement.CharacterAnimator = Player.GetComponent<Animator>();
             if (PhotonNetwork.OfflineMode) PhotonNetwork.NickName = Game.Skin;
         }

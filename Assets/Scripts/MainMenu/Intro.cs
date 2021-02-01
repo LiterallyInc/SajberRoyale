@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Video;
 
 namespace SajberRoyale.MainMenu
 {
@@ -10,8 +11,16 @@ namespace SajberRoyale.MainMenu
 
         private void Start()
         {
-            Cursor.visible = false;
-            StartCoroutine(Wait());
+            GetComponent<VideoPlayer>().SetDirectAudioVolume(0, PlayerPrefs.GetFloat(Helper.Settings.volumeMaster.ToString(), 0.5f));
+            if (PlayerPrefs.GetInt(Helper.Settings.playIntro.ToString(), 1) == 0)
+            {
+                SceneManager.LoadScene("main");
+            }
+            else
+            {
+                Cursor.visible = false;
+                StartCoroutine(Wait());
+            }
         }
 
         private void Update()

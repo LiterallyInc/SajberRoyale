@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 public class Core : MonoBehaviourPun
 {
-    public string[] Meshes;
+    public string[] Meshes; //all character names
     public bool GameStarted;
     public static Core Instance;
     public const float SpawnOdds = 0.4f;

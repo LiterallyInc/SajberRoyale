@@ -88,6 +88,14 @@ public class DiscordController : MonoBehaviour
     {
         Instance = this;
         DontDestroyOnLoad(this.gameObject);
+        if (PlayerPrefs.GetInt(Helper.Settings.discordRpc.ToString(), 1) == 1)
+        {
+            StartRPC();
+        }
+        
+    }
+    public void StartRPC()
+    {
         presence.largeImageKey = "logo";
         presence.details = "Unknown mode";
         presence.state = "Unknown state";
@@ -97,7 +105,8 @@ public class DiscordController : MonoBehaviour
 
     private void Update()
     {
-        switch (SceneManager.GetActiveScene().name)
+        if (PlayerPrefs.GetInt(Helper.Settings.discordRpc.ToString(), 1) != 1) return;
+            switch (SceneManager.GetActiveScene().name)
         {
             case "main":
                 details = "In the main menu";

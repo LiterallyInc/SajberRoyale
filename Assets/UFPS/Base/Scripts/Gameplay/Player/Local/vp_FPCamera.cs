@@ -358,7 +358,7 @@ public class vp_FPCamera : vp_Component
 		    return;
 
 		UpdateInput();
-		
+		if (RenderingFieldOfView !=45) RenderingFieldOfView = PlayerPrefs.GetFloat(Helper.Settings.fov.ToString(), 80);
 	}
 
 

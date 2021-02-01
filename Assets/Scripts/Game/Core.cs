@@ -126,6 +126,7 @@ public class Core : MonoBehaviourPun
     /// </summary>
     public void MStartGame()
     {
+        Button_Start.interactable = false;
         //this is an extremely bad optimized method with poor standards, couldn't be bothered with seralizing shit
         List<int> nodes = new List<int>();
         List<string> items = new List<string>();

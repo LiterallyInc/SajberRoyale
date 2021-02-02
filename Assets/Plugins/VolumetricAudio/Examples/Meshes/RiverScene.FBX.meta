@@ -1,0 +1,184 @@
+fileFormatVersion: 2
+guid: 8f2e41af416096949b32f2e2ff00472e
+ModelImporter:
+  serializedVersion: 18
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: Ground
+    100004: Water
+    100006: Grass
+    100008: Mud
+    100010: Power Lines
+    100012: Pylons
+    100014: PowerLine1
+    100016: PowerLine2
+    100018: Forcefield
+    100020: Posts
+    100022: Pipe
+    100024: Propellor
+    100026: Turbine
+    100028: Sewer
+    100030: ForcefieldPosts
+    100032: PipePosts
+    100034: PowerLinePylons
+    100036: PowerLineWire
+    100038: PowerLineWire 1
+    100040: TurbinePost
+    100042: TurbinePropellor
+    100044: PowerLineWireA
+    100046: PowerLineWireB
+    400000: //RootNode
+    400002: Ground
+    400004: Water
+    400006: Grass
+    400008: Mud
+    400010: Power Lines
+    400012: Pylons
+    400014: PowerLine1
+    400016: PowerLine2
+    400018: Forcefield
+    400020: Posts
+    400022: Pipe
+    400024: Propellor
+    400026: Turbine
+    400028: Sewer
+    400030: ForcefieldPosts
+    400032: PipePosts
+    400034: PowerLinePylons
+    400036: PowerLineWire
+    400038: PowerLineWire 1
+    400040: TurbinePost
+    400042: TurbinePropellor
+    400044: PowerLineWireA
+    400046: PowerLineWireB
+    2300000: //RootNode
+    2300002: Ground
+    2300004: Water
+    2300006: Grass
+    2300008: Mud
+    2300010: Power Lines
+    2300012: Pylons
+    2300014: PowerLine1
+    2300016: PowerLine2
+    2300018: Forcefield
+    2300020: Posts
+    2300022: Pipe
+    2300024: Propellor
+    2300026: Turbine
+    2300028: Sewer
+    2300030: ForcefieldPosts
+    2300032: PipePosts
+    2300034: PowerLinePylons
+    2300036: PowerLineWire
+    2300038: PowerLineWire 1
+    2300040: TurbinePost
+    2300042: TurbinePropellor
+    2300044: PowerLineWireA
+    2300046: PowerLineWireB
+    3300000: //RootNode
+    3300002: Ground
+    3300004: Water
+    3300006: Grass
+    3300008: Mud
+    3300010: Power Lines
+    3300012: Pylons
+    3300014: PowerLine1
+    3300016: PowerLine2
+    3300018: Forcefield
+    3300020: Posts
+    3300022: Pipe
+    3300024: Propellor
+    3300026: Turbine
+    3300028: Sewer
+    3300030: ForcefieldPosts
+    3300032: PipePosts
+    3300034: PowerLinePylons
+    3300036: PowerLineWire
+    3300038: PowerLineWire 1
+    3300040: TurbinePost
+    3300042: TurbinePropellor
+    3300044: PowerLineWireA
+    3300046: PowerLineWireB
+    4300000: Plane001
+    4300002: Ground
+    4300004: Water
+    4300006: Grass
+    4300008: Mud
+    4300010: Pylons
+    4300012: Power Lines
+    4300014: PowerLine1
+    4300016: PowerLine2
+    4300018: Posts
+    4300020: Forcefield
+    4300022: Pipe
+    4300024: Turbine
+    4300026: Propellor
+    4300028: Sewer
+    4300030: PowerLinePylons
+    4300032: PowerLineWire
+    4300034: PowerLineWire
+    4300036: ForcefieldPosts
+    4300038: TurbinePost
+    4300040: TurbinePropellor
+    4300042: PipePosts
+    4300044: PowerLineWireB
+    4300046: PowerLineWireA
+    9500000: //RootNode
+  materials:
+    importMaterials: 0
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 0
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

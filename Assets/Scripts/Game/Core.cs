@@ -148,6 +148,7 @@ public class Core : MonoBehaviourPun
         Summon();
         Canvas_Gameplay.SetActive(true);
         Button_Start.gameObject.SetActive(false);
+        AudioSync.RestartAll();
         Game.StartGame();
     }
 

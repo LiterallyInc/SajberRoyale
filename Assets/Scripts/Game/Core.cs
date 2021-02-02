@@ -17,6 +17,7 @@ public class Core : MonoBehaviourPun
     public GameObject Canvas_Gameplay;
     public Button Button_Start;
     public Transform Player; //reference to player gameobject
+    public GameObject UI; //reference to game ui
 
     [HideInInspector]
     public List<NodeInfo> nodeSpawns = new List<NodeInfo>();

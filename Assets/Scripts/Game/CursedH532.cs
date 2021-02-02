@@ -124,15 +124,13 @@ public class CursedH532 : MonoBehaviourPun
         //Queued
         StartCoroutine(Queue(1, () => Play(a_giggle)));
         StartCoroutine(Queue(2, () => OpenDoor(false)));
-        if (isMe) StartCoroutine(Queue(2, () => StartCoroutine(LerpCamera(0, 10, 10))));
         StartCoroutine(Queue(2, () => RoofLamp.color = new Color(1, 0.7688679f, 0.7753899f)));
+        if (isMe) StartCoroutine(Queue(2, () => StartCoroutine(LerpCamera(0, 0.2f, 10))));
         StartCoroutine(Queue(5, () => Play(a_spectrum)));
         StartCoroutine(Queue(7, () => Play(a_canyouhearme)));
         StartCoroutine(Queue(5, () => Clock.modifier = -1000));
         StartCoroutine(Queue(8f, () => Play(a_flippage)));
         StartCoroutine(Queue(8f, () => Poster.material.SetTexture("_MainTex", t_posterCursed)));
-        if (isMe) StartCoroutine(Queue(13.9f, () => Play(a_glitch)));
-        if (isMe) StartCoroutine(Queue(13.9f, () => StartCoroutine(LerpCamera(10, 350, 1.3f))));
         StartCoroutine(Queue(21.35f, () => StartCoroutine(SetWhiteboard())));
         StartCoroutine(Queue(23f, () => Sayori.enabled = true));
         StartCoroutine(Queue(25.35f, () => Play(a_breathing, Whiteboard.transform.localPosition)));
@@ -140,16 +138,22 @@ public class CursedH532 : MonoBehaviourPun
 
         //Go to space
         if (isMe) StartCoroutine(Queue(34.5f, () => Overlay.Play("ShowOverlay")));
-        if (isMe) StartCoroutine(Queue(34.5f, () => StartCoroutine(LerpCamera(350, 0, 4.5f))));
-        if (isMe) StartCoroutine(Queue(38f, () => Credits_Music.Play()));
+        if (isMe) StartCoroutine(Queue(33.5f, () => StartCoroutine(LerpCamera(0.2f, 10f, 2))));
+        if (isMe) StartCoroutine(Queue(34.5f, () => FindObjectOfType<vp_FPCamera>().ShakeAmplitude = new Vector3(10,10,10)));
+        if (isMe) StartCoroutine(Queue(38.2f, () => Credits_Music.Play()));
+        if (isMe) StartCoroutine(Queue(39f, () => FindObjectOfType<vp_FPCamera>().ShakeSpeed = 0f));
         if (isMe) StartCoroutine(Queue(39.2f, () => SetSpace(true)));
         if (isMe) StartCoroutine(Queue(39.2f, () => Overlay.Play("HideOverlay")));
+        if (isMe) StartCoroutine(Queue(39.2f, () => Core.Instance.UI.transform.Find("Data").gameObject.SetActive(false)));
         if (isMe) StartCoroutine(Queue(39.4f, () => c.transform.position = new Vector3(0, -211, 1233)));
         if (isMe) StartCoroutine(Queue(39.5f, () => Credits.Play("CreditsAnim")));
+        if (isMe) StartCoroutine(Queue(77.5f, () => StartCoroutine(LerpCamera(0f, 10f, 2))));
         if (isMe) StartCoroutine(Queue(77.5f, () => Overlay.Play("ShowOverlay")));
+        if (isMe) StartCoroutine(Queue(79.5f, () => FindObjectOfType<vp_FPCamera>().ShakeSpeed = 0f));
         if (isMe) StartCoroutine(Queue(80f, () => SetSpace(false)));
         if (isMe) StartCoroutine(Queue(80f, () => GoToNode(c)));
         if (isMe) StartCoroutine(Queue(80f, () => Credits.gameObject.SetActive(false)));
+        if (isMe) StartCoroutine(Queue(80f, () => Core.Instance.UI.transform.Find("Data").gameObject.SetActive(true)));
         if (isMe) StartCoroutine(Queue(80f, () => Overlay.Play("HideOverlay")));
     }
     private void GoToNode(Collider c)
@@ -165,11 +169,11 @@ public class CursedH532 : MonoBehaviourPun
         float elapsed = 0.0f;
         while (elapsed < duration)
         {
-            Camera.main.transform.localEulerAngles = new Vector3(Camera.main.transform.localEulerAngles.x, 0, Mathf.Lerp(v_start, v_end, elapsed / duration));
+            FindObjectOfType<vp_FPCamera>().ShakeSpeed = Mathf.Lerp(v_start, v_end, elapsed / duration);
             elapsed += Time.deltaTime;
             yield return null;
         }
-        Camera.main.transform.localEulerAngles = new Vector3(Camera.main.transform.localEulerAngles.x, 0, v_end);
+        FindObjectOfType<vp_FPCamera>().ShakeSpeed = v_end;
     }
 
     private IEnumerator LerpAmbient(float v_start, float v_end, float duration)

@@ -55,6 +55,11 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: "pasted__f\xF6nsterkarm"
+    second: {fileID: 2100000, guid: 08f86c9b07b73214c94ac038428fc4bf, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: v6floor
     second: {fileID: 2100000, guid: 518e743675af1cd45950dfb774108592, type: 2}
   - first:

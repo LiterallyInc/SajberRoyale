@@ -16,6 +16,7 @@ public class Core : MonoBehaviourPun
     public GameObject Canvas_Pregame;
     public GameObject Canvas_Gameplay;
     public Button Button_Start;
+    public Transform Player; //reference to player gameobject
 
     [HideInInspector]
     public List<NodeInfo> nodeSpawns = new List<NodeInfo>();
@@ -101,7 +102,7 @@ public class Core : MonoBehaviourPun
     public void PlaceItem(string itemid, string pos)
     {
         GameObject node = Instantiate(Resources.Load("Prefabs/Items/ItemNode") as GameObject);
-        node.transform.position = new Vector3(float.Parse(pos.Split('|')[0]), float.Parse(pos.Split('|')[1]) - 0.8f, float.Parse(pos.Split('|')[2]));
+        node.transform.position = new Vector3(float.Parse(pos.Split('|')[0]), float.Parse(pos.Split('|')[1]), float.Parse(pos.Split('|')[2]));
         ItemNode itemnode = node.GetComponent<ItemNode>();
         itemnode.SetItem(ItemDatabase.GetItem(itemid));
     }

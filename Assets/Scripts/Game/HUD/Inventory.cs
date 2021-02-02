@@ -36,7 +36,7 @@ public class Inventory : MonoBehaviourPun
     /// </summary>
     public void TakeItem(Item item)
     {
-        Debug.Log($"Picked up {item.name} (id: {item.ID}");
+        Debug.Log($"Picked up {item.name} (id: {item.ID})");
         int slotIndex = -1;
         for (int i = 0; i < items.Length; i++)
         {
@@ -94,7 +94,9 @@ public class Inventory : MonoBehaviourPun
         else
         {
             CurrentWeapon = null;
-            Core.Instance.photonView.RPC("PlaceItem", RpcTarget.All, items[currentSelected].ID, $"{this.transform.position.x}|{this.transform.position.y}|{this.transform.position.z}");
+            Item item = items[currentSelected];
+            Debug.Log($"Dropped {item.name} (id: {item.ID})");
+            Core.Instance.photonView.RPC("PlaceItem", RpcTarget.All, item.ID, $"{Core.Instance.Player.position.x}|{Core.Instance.Player.position.y}|{Core.Instance.Player.position.z}");
             RemoveItem();
             GetComponent<AudioSource>().clip = Drop;
             GetComponent<AudioSource>().Play();

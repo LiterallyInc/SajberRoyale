@@ -528,11 +528,24 @@ namespace Console
                 if(RoomNode.Get(room) == null) return new ConsoleOutput($"Could not find a room with ID \"{room}\"", ConsoleOutput.OutputType.Error);
                 else
                 {
-                    Core.Instance.photonView.RPC("TeleportTo", RpcTarget.All, id, room);
+                    if (PhotonNetwork.LocalPlayer.ActorNumber == id) Core.Instance.TeleportTo(id, room);
+                    else Core.Instance.photonView.RPC("TeleportTo", RpcTarget.Others, id, room);
                     return new ConsoleOutput($"Teleported player {id} to room \"{room}\"", ConsoleOutput.OutputType.Log);
                 }
                 
                     
+            }
+        }
+        [ConsoleCommand("rooms", "Lists all room IDs")]
+        class rooms : Command
+        {
+            public override ConsoleOutput Logic()
+            {
+                base.Logic();
+                List<string> rooms = new List<string>();
+                foreach (GameObject go in GameObject.FindGameObjectsWithTag("Room")) rooms.Add(go.name.ToLower());
+                rooms.Sort();
+                return new ConsoleOutput($"Available rooms: {string.Join(", ", rooms)}", ConsoleOutput.OutputType.Log);
             }
         }
 

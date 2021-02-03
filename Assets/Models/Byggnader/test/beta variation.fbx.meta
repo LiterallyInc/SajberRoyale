@@ -60,6 +60,11 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: stakettextur
+    second: {fileID: 2100000, guid: 17de8917cc7eb224497dfba5590e9d93, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: v6floor
     second: {fileID: 2100000, guid: 518e743675af1cd45950dfb774108592, type: 2}
   - first:

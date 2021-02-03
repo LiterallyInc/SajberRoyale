@@ -9,10 +9,13 @@ using UnityEngine;
 public class ConsoleActivator : MonoBehaviour
 {
 
-
+    private void Start()
+    {
+        Console.DeveloperConsole.active = false;
+    }
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F4))
+        if ((Input.GetKeyDown(KeyCode.F4) && Input.GetKey(KeyCode.LeftShift)) || (Input.GetKey(KeyCode.F4) && Input.GetKeyDown(KeyCode.LeftShift)))
         {
             Console.DeveloperConsole.active = !Console.DeveloperConsole.active;
         }

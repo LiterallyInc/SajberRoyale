@@ -232,16 +232,6 @@ namespace Console
                 }
                 return true;
             }
-
-        public static string AwakeMessage()
-        {
-            
-            string message = "Engine started, loaded "+System.AppDomain.CurrentDomain.GetAssemblies().Length + " assemblies, network is "+ Application.internetReachability+".";
-              
-
-            return message;
-        }
-
         public static bool CompareLists<T>(List<T> aListA, List<T> aListB)
         {
             if (aListA == null || aListB == null || aListA.Count != aListB.Count)

@@ -209,8 +209,10 @@ namespace Console
 
         public void Start()
         {
-            commands = Commands.Instance;//Instantiate commands
-            WriteSystem(Utility.AwakeMessage());
+            commands = Commands.Instance; 
+            if(!Application.isEditor) WriteWarning("Welcome to SajberRoyale! Please keep in mind that usage of this console is logged during tournaments and will result in a termination. Seems like Fabian leaked the dev menu huh?");
+            WriteSystem($"Loaded {System.AppDomain.CurrentDomain.GetAssemblies().Length} assemblies.");
+            
             Application.logMessageReceived += new Application.LogCallback(this.PrintUnityOutput);
 #if UNITY_STANDALONE
             windowRect = new Rect(200, 200, Screen.width * 1 / 2, Screen.height * 3 / 5);
@@ -223,6 +225,7 @@ namespace Console
         {
             if (_active)
             {
+                Cursor.visible = true;
                 if (Input.GetMouseButton(0) || Input.GetMouseButton(1))//inputFocusTrigger gets true when user presses enter on a prediction button. But if user clicks, make this trigger false
                 {
                     inputFocusTrigger = false;

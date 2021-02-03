@@ -33,7 +33,7 @@ public class ItemDatabase : MonoBehaviour
         {
             if (item.ID == id) return item;
         }
-        Debug.LogError($"Tried getting invalid weapon: {id}");
+        Debug.LogWarning($"ItemDB: Tried getting invalid weapon: {id}");
         return null;
     }
 }

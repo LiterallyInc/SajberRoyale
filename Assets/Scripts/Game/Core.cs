@@ -18,6 +18,7 @@ public class Core : MonoBehaviourPun
     public Button Button_Start;
     public Transform Player; //reference to player gameobject
     public GameObject UI; //reference to game ui
+    public Inventory Inventory;
 
     [HideInInspector]
     public List<NodeInfo> nodeSpawns = new List<NodeInfo>();

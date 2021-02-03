@@ -210,7 +210,7 @@ namespace Console
         public void Start()
         {
             commands = Commands.Instance; 
-            if(!Application.isEditor) WriteWarning("Welcome to SajberRoyale! Please keep in mind that usage of this console is logged during tournaments and will result in a termination. Seems like Fabian leaked the dev menu huh?");
+            if(!Application.isEditor) WriteWarning("Welcome to SajberRoyale! Please keep in mind that usage of this console is logged during tournaments and will result in a termination. Seems like Fabian leaked the dev password huh?");
             WriteSystem($"Loaded {System.AppDomain.CurrentDomain.GetAssemblies().Length} assemblies.");
             
             Application.logMessageReceived += new Application.LogCallback(this.PrintUnityOutput);

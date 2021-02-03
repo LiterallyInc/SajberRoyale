@@ -18,6 +18,21 @@ public class NetConnector : MonoBehaviourPunCallbacks
 
     public void Connect(string name, string server)
     {
+        Debug.Log(server.SHA512());
+        if (server.SHA512() == Helper.devhash)
+        {
+            if (!Helper.isDev)
+            {
+                PlayerPrefs.SetInt(Helper.Settings.isDev.ToString(), 1);
+                Status.text = "Welcome, fellow LiterallyInc. member!";
+                Helper.isDev = true;
+            }
+            else
+            {
+                Status.text = "You are already a member of LiterallyInc.!";
+            }
+            return;
+        }
         srv = server;
         PhotonNetwork.NickName = name;
         PhotonNetwork.GameVersion = Application.version;

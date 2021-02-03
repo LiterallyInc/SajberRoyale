@@ -15,7 +15,7 @@ public class ConsoleActivator : MonoBehaviour
     }
     void Update()
     {
-        if ((Input.GetKeyDown(KeyCode.F4) && Input.GetKey(KeyCode.LeftShift)) || (Input.GetKey(KeyCode.F4) && Input.GetKeyDown(KeyCode.LeftShift)))
+        if (Input.GetKeyDown(KeyCode.F4) && Helper.isDev)
         {
             Console.DeveloperConsole.active = !Console.DeveloperConsole.active;
         }

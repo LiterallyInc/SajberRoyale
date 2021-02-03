@@ -1,6 +1,12 @@
 public class Helper
 {
-    public static bool isDev = false;
+    private static bool isDev = false;
+    public static bool IsDev
+    {
+        get { if (UnityEngine.Application.isEditor) return true; return isDev; }
+        set { isDev = value; }
+    }
+
     public static string devhash = "83B7ADDB5720A55C15BC1F567E66D40F202801C94B785F01C3BED80A563D6AF163A7C2F4FA9902A58ADD033AD1405521365827316DF56B0EF9A538E8A8947818";
     /// <summary>
     /// Contains all playerpref-keys used by SajberRoyale settings.

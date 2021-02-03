@@ -15,7 +15,7 @@ public class ConsoleActivator : MonoBehaviour
     }
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F4) && Helper.isDev)
+        if (Input.GetKeyDown(KeyCode.F4) && Helper.IsDev)
         {
             Console.DeveloperConsole.active = !Console.DeveloperConsole.active;
         }

@@ -11,7 +11,7 @@ namespace SajberRoyale.MainMenu
 
         private void Start()
         {
-            if (PlayerPrefs.GetInt(Helper.Settings.isDev.ToString(), 0) == 1) Helper.isDev = true;
+            if (PlayerPrefs.GetInt(Helper.Settings.isDev.ToString(), 0) == 1) Helper.IsDev = true;
 
             GetComponent<VideoPlayer>().SetDirectAudioVolume(0, PlayerPrefs.GetFloat(Helper.Settings.volumeMaster.ToString(), 0.5f));
             if (PlayerPrefs.GetInt(Helper.Settings.playIntro.ToString(), 1) == 0)

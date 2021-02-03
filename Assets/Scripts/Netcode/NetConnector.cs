@@ -18,14 +18,13 @@ public class NetConnector : MonoBehaviourPunCallbacks
 
     public void Connect(string name, string server)
     {
-        Debug.Log(server.SHA512());
         if (server.SHA512() == Helper.devhash)
         {
-            if (!Helper.isDev)
+            if (!Helper.IsDev)
             {
                 PlayerPrefs.SetInt(Helper.Settings.isDev.ToString(), 1);
                 Status.text = "Welcome, fellow LiterallyInc. member!";
-                Helper.isDev = true;
+                Helper.IsDev = true;
             }
             else
             {

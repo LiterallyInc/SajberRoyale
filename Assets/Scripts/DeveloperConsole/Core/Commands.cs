@@ -512,10 +512,27 @@ namespace Console
                 {
                     return new ConsoleOutput($"Could not find item with ID \"{item}\"", ConsoleOutput.OutputType.Error);
                 }
+            }
+        }
+        [ConsoleCommand("tp", "Teleport a player to a room")]
+        class tp : Command
+        {
+            [CommandParameter("userID")]
+            public int id;
+            [CommandParameter("room")]
+            public string room;
+            public override ConsoleOutput Logic()
+            {
+                base.Logic();
+                if(Core.Instance.GetPlayer(id) == null) return new ConsoleOutput($"Could not find a player with ID \"{id}\"", ConsoleOutput.OutputType.Error);
+                if(RoomNode.Get(room) == null) return new ConsoleOutput($"Could not find a room with ID \"{room}\"", ConsoleOutput.OutputType.Error);
+                else
+                {
+                    Core.Instance.photonView.RPC("TeleportTo", RpcTarget.All, id, room);
+                    return new ConsoleOutput($"Teleported player {id} to room \"{room}\"", ConsoleOutput.OutputType.Log);
+                }
                 
-
-               
-
+                    
             }
         }
 

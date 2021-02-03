@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using Random = UnityEngine.Random;
-using Hashtable = ExitGames.Client.Photon.Hashtable;
 using UnityEngine.UI;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
+using Random = UnityEngine.Random;
 
 public class Core : MonoBehaviourPun
 {
@@ -40,18 +40,16 @@ public class Core : MonoBehaviourPun
             MCreateLoot();
             Button_Start.interactable = true;
         }
-        else if(PhotonNetwork.IsConnected)
+        else if (PhotonNetwork.IsConnected)
         {
             Hashtable hashtable = PhotonNetwork.CurrentRoom.CustomProperties;
             seed = (int)hashtable["seed"];
         }
-        else if(PhotonNetwork.LocalPlayer.ActorNumber == -1)
+        else if (PhotonNetwork.LocalPlayer.ActorNumber == -1)
         {
             PhotonNetwork.OfflineMode = true;
             PhotonNetwork.CreateRoom("offline");
-            
         }
-    
     }
 
     // Update is called once per frame
@@ -62,7 +60,6 @@ public class Core : MonoBehaviourPun
             if (PhotonNetwork.IsMasterClient) MStartGame();
             else if (!PhotonNetwork.IsConnected)
             {
-
                 MStartGame();
             }
         }
@@ -118,12 +115,15 @@ public class Core : MonoBehaviourPun
         SpawnPos.y++;
         PhotonNetwork.Instantiate("UFPS_Player", SpawnPos, Quaternion.identity);
     }
+
     [PunRPC]
     private void StartGame()
     {
         StartCoroutine(StartIn());
     }
+
     #region Ran by master client only
+
     /// <summary>
     /// Starts the game for everyone.
     /// </summary>
@@ -143,7 +143,8 @@ public class Core : MonoBehaviourPun
         PhotonNetwork.CurrentRoom.IsOpen = false;
         this.photonView.RPC("StartGame", RpcTarget.All);
     }
-    IEnumerator StartIn()
+
+    private IEnumerator StartIn()
     {
         Camera.GetComponent<Animator>().Play("CameraStart");
         yield return new WaitForSeconds(3.3f);
@@ -178,10 +179,39 @@ public class Core : MonoBehaviourPun
         Debug.Log($"Core/CreateLoot: MASTER: Created a node spawn list. Added items to {nodeSpawns.Count}/{itemNodes.Length} nodes.");
     }
 
-    private IEnumerator WaitForLights()
+    /// <summary>
+    /// Teleports local player to a room
+    /// </summary>
+    /// <param name="id">Player to teleport</param>
+    /// <param name="room">Room name to teleport to</param>
+    /// <returns>Whether the teleportation was successful</returns>
+    [PunRPC]
+    public bool TeleportTo(int id, string room)
     {
-        yield return new WaitForSeconds(5);
-        RoomNode.Get("H527").Deactivate();
+        if (PhotonNetwork.LocalPlayer.ActorNumber != id) return false;
+        if (RoomNode.Get(room.ToLower()) != null)
+        {
+            Player.parent.position = RoomNode.Get(room.ToLower()).transform.position;
+            return true;
+        }
+        return false;
+    }
+
+    /// <summary>
+    /// Gets a player object by actor number
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    public Transform GetPlayer(int actornr)
+    {
+        foreach (GameObject g in GameObject.FindGameObjectsWithTag("Player"))
+        {
+            if (g.GetComponent<PhotonView>())
+            {
+                if (g.GetComponent<PhotonView>().ControllerActorNr == actornr) return g.transform;
+            }
+        }
+        return null;
     }
 
     #endregion Ran by master client only

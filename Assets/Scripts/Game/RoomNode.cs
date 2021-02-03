@@ -7,9 +7,11 @@ public class RoomNode : MonoBehaviour
     public string roomName;
     public bool isActivated = true;
     public Light[] Lights;
+    private string id; //gameobject name
 
     private void Start()
     {
+        id = name.ToLower();
         Destroy(GetComponent<MeshRenderer>());
     }
 
@@ -28,12 +30,12 @@ public class RoomNode : MonoBehaviour
         //Debug.Log($"Exited room {roomName}");
     }
 
-    public static RoomNode Get(string name)
+    public static RoomNode Get(string id)
     {
         RoomNode[] nodes = FindObjectsOfType<RoomNode>();
         foreach (RoomNode node in nodes)
         {
-            if (node.roomName.ToLower() == name.ToLower()) return node;
+            if (node.id == id) return node;
         }
         return null;
     }

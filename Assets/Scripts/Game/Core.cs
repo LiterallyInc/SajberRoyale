@@ -19,6 +19,7 @@ public class Core : MonoBehaviourPun
     public Transform Player; //reference to player gameobject
     public GameObject UI; //reference to game ui
     public Inventory Inventory;
+    public AnimeClub Club;
 
     [HideInInspector]
     public List<NodeInfo> nodeSpawns = new List<NodeInfo>();
@@ -148,6 +149,7 @@ public class Core : MonoBehaviourPun
     {
         Camera.GetComponent<Animator>().Play("CameraStart");
         yield return new WaitForSeconds(3.3f);
+        Club.StartAudio();
         Summon();
         Canvas_Gameplay.SetActive(true);
         Button_Start.gameObject.SetActive(false);

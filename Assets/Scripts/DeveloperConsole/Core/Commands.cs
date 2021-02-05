@@ -549,6 +549,28 @@ namespace Console
             }
         }
 
+        [ConsoleCommand("light", "Creates a light source")]
+        class Light : Command
+        {
+            public override ConsoleOutput Logic()
+            {
+                base.Logic();
+                GameObject g = GameObject.Instantiate(new GameObject("s"));
+                g.AddComponent<UnityEngine.Light>();
+                g.transform.position = Core.Instance.Player.position;
+                return new ConsoleOutput($"Created a light source.", ConsoleOutput.OutputType.Log);
+            }
+        }
+        [ConsoleCommand("pos", "Gets your global position")]
+        class position : Command
+        {
+            public override ConsoleOutput Logic()
+            {
+                base.Logic();
+                return new ConsoleOutput($"You are at {Core.Instance.Player.position}", ConsoleOutput.OutputType.Log);
+            }
+        }
+
         #endregion
     }
 

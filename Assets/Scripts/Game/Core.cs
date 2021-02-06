@@ -49,6 +49,7 @@ public class Core : MonoBehaviourPun
         {
             Hashtable hashtable = PhotonNetwork.CurrentRoom.CustomProperties;
             seed = (int)hashtable["seed"];
+            Game.Instance.IsTournament = (bool)hashtable["isTournament"];
         }
         else if (PhotonNetwork.LocalPlayer.ActorNumber == -1)
         {

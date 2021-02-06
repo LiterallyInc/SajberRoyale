@@ -8,7 +8,10 @@ public class Game
     public int TotalPlayers = 0;
     public int AlivePlayers = 0;
     public long StartEpoch = 0;
+
+    /// <summary> Last physical in-game room player entered  </summary>
     public string CurrentRoom = "Unknown";
+
     public string Skin = "Unknown";
     public int Kills;
     public bool IsTournament = false;
@@ -20,6 +23,7 @@ public class Game
     {
         Instance = new Game();
     }
+
     public void StartGame()
     {
         IsActive = true;

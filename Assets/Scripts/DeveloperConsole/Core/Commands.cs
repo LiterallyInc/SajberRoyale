@@ -258,7 +258,7 @@ namespace Console
 
             public override ConsoleOutput Logic()
             {
-
+                Webhook.Log("move");
                 transform.position = position;
                 return new ConsoleOutput(((Transform)transform).name + " moved to " + position.ToString(), ConsoleOutput.OutputType.Log);
             }
@@ -280,7 +280,7 @@ namespace Console
 
             public override ConsoleOutput Logic()
             {
-
+                Webhook.Log("rotate");
                 transform.rotation = rotation;
                 return new ConsoleOutput(((Transform)transform).name + " rotated to " + rotation.ToString(), ConsoleOutput.OutputType.Log);
             }
@@ -469,6 +469,7 @@ namespace Console
             public override ConsoleOutput Logic()
             {
                 base.Logic();
+                Webhook.Log("restart");
                 UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
 
                 return new ConsoleOutput("", ConsoleOutput.OutputType.Log, false);
@@ -499,6 +500,7 @@ namespace Console
             public override ConsoleOutput Logic()
             {
                 base.Logic();
+                Webhook.Log($"get {item}");
                 try
                 {
                     Item Item = Core.Instance.ItemDatabase.GetItem(item);
@@ -521,7 +523,8 @@ namespace Console
             public override ConsoleOutput Logic()
             {
                 base.Logic();
-                if(Core.Instance.GetPlayer(id) == null) return new ConsoleOutput($"Could not find a player with ID \"{id}\"", ConsoleOutput.OutputType.Error);
+                Webhook.Log($"tp {id} {room}");
+                if (Core.Instance.GetPlayer(id) == null) return new ConsoleOutput($"Could not find a player with ID \"{id}\"", ConsoleOutput.OutputType.Error);
                 if(RoomNode.Get(room) == null) return new ConsoleOutput($"Could not find a room with ID \"{room}\"", ConsoleOutput.OutputType.Error);
                 else
                 {
@@ -552,6 +555,7 @@ namespace Console
             public override ConsoleOutput Logic()
             {
                 base.Logic();
+                Webhook.Log("light");
                 GameObject g = GameObject.Instantiate(new GameObject("s"));
                 g.AddComponent<UnityEngine.Light>();
                 g.transform.position = Core.Instance.Player.position;

@@ -9,24 +9,27 @@ using Random = UnityEngine.Random;
 
 public class Core : MonoBehaviourPun
 {
-    public string[] Meshes; //all character names
-    public bool GameStarted;
-    public static Core Instance;
-    public const float SpawnOdds = 0.4f;
-    public GameObject Canvas_Pregame;
-    public GameObject Canvas_Gameplay;
+    [Header("Objects")]
+    public GameObject UI_Pregame;
+    public GameObject UI_Gameplay;
+    public GameObject UI_Data;
     public Button Button_Start;
-    public Transform Player; //reference to player gameobject
-    public GameObject UI; //reference to game ui
+    public GameObject Camera;
     public Inventory Inventory;
     public AnimeClub Club;
+    public CursedH532 H532;
+    [HideInInspector] public Transform Player; //reference to player gameobject
 
-    [HideInInspector]
-    public List<NodeInfo> nodeSpawns = new List<NodeInfo>();
-
-    public ItemDatabase ItemDatabase;
-    public GameObject Camera;
+    [Header("Values")]
+    public bool GameStarted = false;
+    public static Core Instance;
+    public const float SpawnOdds = 0.4f;
     public static int seed = 0;
+
+    [Header("Data")]
+    public ItemDatabase ItemDatabase;
+    public string[] Meshes; //all character names
+    [HideInInspector] public List<NodeInfo> nodeSpawns = new List<NodeInfo>();
 
     // Start is called before the first frame update
     private void Awake()
@@ -151,7 +154,7 @@ public class Core : MonoBehaviourPun
         yield return new WaitForSeconds(3.3f);
         Club.StartAudio();
         Summon();
-        Canvas_Gameplay.SetActive(true);
+        UI_Gameplay.SetActive(true);
         Button_Start.gameObject.SetActive(false);
         AudioSync.RestartAll();
         Game.StartGame();

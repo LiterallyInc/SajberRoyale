@@ -330,7 +330,7 @@ namespace Console
                 var outputs = DeveloperConsole.Instance.consoleOutputs;
                 var src = DateTime.Now;
 
-                string fileName = "console-" + src.Year + "-" + src.Hour + "-" + src.Minute + ".txt";
+                string fileName = $"console-{src.Year}-{src.Hour}-{src.Minute}.txt";
                 string fileContent = "";
 
                 foreach (ConsoleOutput consoleOutput in outputs)

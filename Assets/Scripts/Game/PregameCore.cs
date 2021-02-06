@@ -25,7 +25,7 @@ public class PregameCore : MonoBehaviourPun
         port.transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
         Random.InitState(Core.seed * id);
         string skin = Core.Instance.Meshes[Random.Range(0, Core.Instance.Meshes.Length)];
-        if (id == PhotonNetwork.LocalPlayer.ActorNumber) Game.Skin = skin;
+        if (id == PhotonNetwork.LocalPlayer.ActorNumber) Game.Instance.Skin = skin;
         port.GetComponent<PortraitContainer>().Username.text = name;
         port.GetComponent<PortraitContainer>().Portrait.sprite = Resources.Load<Sprite>($"CharPortraits/{skin}");
         if (id % 2 == 0) port.GetComponent<PortraitContainer>().Frame.sprite = port.GetComponent<PortraitContainer>().FrameAlt;

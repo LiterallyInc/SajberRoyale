@@ -14,7 +14,7 @@ public class AnimeClub : MonoBehaviour
     }
     void Update()
     {
-        if (!Audio.isPlaying && Game.IsActive) NextSong();
+        if (!Audio.isPlaying && Game.Instance.IsActive) NextSong();
     }
     private void NextSong()
     {

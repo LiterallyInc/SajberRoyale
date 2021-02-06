@@ -13,11 +13,11 @@ public class UI : MonoBehaviour
     private void UpdateStats()
     {
         GameStats.text = $@"{PhotonNetwork.NickName}
-<size=10><i>Playing as {Game.Skin}</i></size>
+<size=10><i>Playing as {Game.Instance.Skin}</i></size>
 
-Room: {Game.CurrentRoom}
-Kills: {Game.Kills}
-Alive: {Game.AlivePlayers}/{Game.TotalPlayers}
+Room: {Game.Instance.CurrentRoom}
+Kills: {Game.Instance.Kills}
+Alive: {Game.Instance.AlivePlayers}/{Game.Instance.TotalPlayers}
 ";
         string ping = $"{PhotonNetwork.GetPing()} ms";
         if (PhotonNetwork.OfflineMode) ping = "Offline";

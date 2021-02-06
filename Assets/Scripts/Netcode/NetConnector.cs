@@ -9,7 +9,10 @@ public class NetConnector : MonoBehaviourPunCallbacks
     private string srv;
     private static bool isConnected = false;
     public Text Status;
-
+    private void Start()
+    {
+        Game.ResetGame();
+    }
     public void PlayOffline()
     {
         PhotonNetwork.OfflineMode = true;
@@ -57,6 +60,11 @@ public class NetConnector : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.OfflineMode) PhotonNetwork.CreateRoom($"offline{Random.Range(0, 10000)}");
         else if (srv[0] == '@') PhotonNetwork.CreateRoom(srv.Substring(1).Trim());
+        else if (srv[0] == '%' && Helper.IsDev)
+        {
+            Game.Instance.IsTournament = true;
+            PhotonNetwork.CreateRoom(srv.Substring(1).Trim());
+        }
         else PhotonNetwork.JoinRoom(srv.Trim());
     }
 

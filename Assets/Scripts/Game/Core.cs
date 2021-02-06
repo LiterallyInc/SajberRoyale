@@ -38,9 +38,10 @@ public class Core : MonoBehaviourPun
         if (PhotonNetwork.IsMasterClient)
         {
             seed = Random.Range(0, 1000);
-            Hashtable rseed = new Hashtable();
-            rseed.Add("seed", seed);
-            PhotonNetwork.CurrentRoom.SetCustomProperties(rseed);
+            Hashtable ht = new Hashtable();
+            ht.Add("seed", seed);
+            ht.Add("isTournament", Game.Instance.IsTournament);
+            PhotonNetwork.CurrentRoom.SetCustomProperties(ht);
             MCreateLoot();
             Button_Start.interactable = true;
         }
@@ -59,7 +60,7 @@ public class Core : MonoBehaviourPun
     // Update is called once per frame
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.B) && !Game.IsActive)
+        if (Input.GetKeyDown(KeyCode.B) && !Game.Instance.IsActive)
         {
             if (PhotonNetwork.IsMasterClient) MStartGame();
             else if (!PhotonNetwork.IsConnected)
@@ -157,7 +158,7 @@ public class Core : MonoBehaviourPun
         UI_Gameplay.SetActive(true);
         Button_Start.gameObject.SetActive(false);
         AudioSync.RestartAll();
-        Game.StartGame();
+        Game.Instance.StartGame();
     }
 
     /// <summary>

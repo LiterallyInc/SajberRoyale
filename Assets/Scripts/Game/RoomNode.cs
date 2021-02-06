@@ -21,7 +21,7 @@ public class RoomNode : MonoBehaviour
         else if (c.GetComponent<PhotonView>().IsMine)
         {
             Debug.Log($"Entered room {roomName}");
-            Game.CurrentRoom = roomName;
+            Game.Instance.CurrentRoom = roomName;
         }
     }
 

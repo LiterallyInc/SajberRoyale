@@ -136,11 +136,11 @@ public class DiscordController : MonoBehaviour
 
     private void SetGamePresence()
     {
-        if (Game.IsActive && PhotonNetwork.IsConnected)
+        if (Game.Instance.IsActive && PhotonNetwork.IsConnected)
         {
             details = "In-game";
-            state = $"{Game.AlivePlayers}/{Game.TotalPlayers} player{(Game.TotalPlayers > 1 ? "s" : "")} left";
-            startTimestamp = Game.StartEpoch;
+            state = $"{Game.Instance.AlivePlayers}/{Game.Instance.TotalPlayers} player{(Game.Instance.TotalPlayers > 1 ? "s" : "")} left";
+            startTimestamp = Game.Instance.StartEpoch;
             largeImageText = $"Room: {PhotonNetwork.CurrentRoom.Name}";
         }
         else

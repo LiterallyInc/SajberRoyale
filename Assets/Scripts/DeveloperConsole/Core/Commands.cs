@@ -409,7 +409,6 @@ namespace Console
             {
                 base.Logic();
                 return new ConsoleOutput($"Server ping: {PhotonNetwork.GetPing()}", ConsoleOutput.OutputType.Log);
-
             }
         }
 
@@ -459,9 +458,7 @@ namespace Console
                 base.Logic();
                 var path = Directory.GetParent(Application.dataPath);
 
-
                 return new ConsoleOutput(path.ToString(), ConsoleOutput.OutputType.Log, false);
-
             }
         }
 

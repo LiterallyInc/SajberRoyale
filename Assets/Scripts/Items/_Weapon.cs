@@ -15,6 +15,11 @@ public class _Weapon : Item
     public float maxDamage;
 
     /// <summary>
+    /// The effective range for applaying damage to the target
+    /// </summary>
+    public float range;
+
+    /// <summary>
     /// Delay between shots
     /// </summary>
     public float shootingDelay;

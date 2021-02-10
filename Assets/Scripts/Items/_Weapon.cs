@@ -44,20 +44,4 @@ public class _Weapon : Item
     /// </summary>
     public AudioClip shootSFX;
 
-    /// <summary>
-    /// Ammo this weapon needs
-    /// </summary>
-    public Ammo ammoType;
-
-    public enum Ammo
-
-    {
-        None,
-        LightBullets,
-        MediumBullets,
-        HeavyBullets,
-        Shells
-    }
-
-
 }

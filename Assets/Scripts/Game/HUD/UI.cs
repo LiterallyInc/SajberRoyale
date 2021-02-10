@@ -12,7 +12,7 @@ public class UI : MonoBehaviour
     }
     private void UpdateStats()
     {
-        GameStats.text = $@"{PhotonNetwork.NickName}
+        GameStats.text = $@"{(Helper.IsDev ? "<color=#FFB4C0>[DEV]</color> " : "")}{PhotonNetwork.NickName} 
 <size=10><i>Playing as {Game.Instance.Skin}</i></size>
 
 Room: {Game.Instance.CurrentRoom}

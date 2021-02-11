@@ -3,7 +3,7 @@ public class Helper
     private static bool isDev = false;
     public static bool IsDev
     {
-        get { if (UnityEngine.Application.isEditor) return true; return isDev; }
+        get { return UnityEngine.Application.isEditor || isDev; }
         set { isDev = value; }
     }
 
@@ -24,7 +24,9 @@ public class Helper
         /// <summary> (60-120) In-game FOV </summary>
         fov,
         /// <summary> (0/1) Whether or not the user got access to developer tools </summary>
-        isDev
+        isDev,
+        /// <summary> (0/1) Whether or not the game should connect to an alternate server </summary>
+        altServer
 
     }
 }

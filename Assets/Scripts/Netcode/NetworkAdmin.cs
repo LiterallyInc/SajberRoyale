@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 namespace SajberRoyale.UI
 {
+    [System.Obsolete]
     public class NetworkAdmin : MonoBehaviour
     {
         public Canvas AdminCanvas;
@@ -28,6 +29,7 @@ namespace SajberRoyale.UI
             }
             TryToLogin();
         }
+
         private void TryToLogin()
         {
             bool loggedin = Application.isEditor || IF_Password.text.SHA512() == passwordhash;

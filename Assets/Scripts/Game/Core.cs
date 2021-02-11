@@ -165,7 +165,7 @@ public class Core : MonoBehaviourPun
     /// <summary>
     /// Creates a list with all loot and saves it locally.
     /// </summary>
-    private void MCreateLoot()
+    public void MCreateLoot()
     {
         nodeSpawns.Clear();
         Debug.Log("Core/CreateLoot: MASTER: Creating node spawn list...");

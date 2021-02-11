@@ -583,6 +583,19 @@ namespace Console
                 return new ConsoleOutput($"Your skin got changed to {skin}", ConsoleOutput.OutputType.Log);
             }
         }
+        [ConsoleCommand("spawnodds", "Sets new spawn odds [PRE-GAME]")]
+        class spawnodds : Command
+        {
+            [CommandParameter("odds 0-1")]
+            public int odds;
+            public override ConsoleOutput Logic()
+            {
+                base.Logic();
+                Core.Instance.SpawnOdds = odds;
+                Core.Instance.MCreateLoot();
+                return new ConsoleOutput($"Itemlist refreshed with new odds: {odds}", ConsoleOutput.OutputType.Log);
+            }
+        }
 
         #endregion
     }

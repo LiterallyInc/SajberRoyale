@@ -23,7 +23,7 @@ public class PregameCore : MonoBehaviourPun
         GameObject port = Instantiate(Resources.Load("Prefabs/UI/Portrait") as GameObject, gameObject.transform, false);
         port.transform.localPosition = PortraitPositions[id - 1];
         port.transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
-        Random.InitState(Core.seed * id);
+        Random.InitState(Core.Instance.seed * id);
         string skin = Core.Instance.Meshes[Random.Range(0, Core.Instance.Meshes.Length)];
         if (id == PhotonNetwork.LocalPlayer.ActorNumber) Game.Instance.Skin = skin;
         port.GetComponent<PortraitContainer>().Username.text = name;

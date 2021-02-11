@@ -21,7 +21,7 @@ public class NetConnector : MonoBehaviourPunCallbacks
 
     public void Connect(string name, string server)
     {
-        if (server.SHA512() == Helper.devhash)
+        if (server.SHA512() == Helper.devhash) //make user developer
         {
             if (!Helper.IsDev)
             {
@@ -40,8 +40,9 @@ public class NetConnector : MonoBehaviourPunCallbacks
         PhotonNetwork.GameVersion = Application.version;
         if (!isConnected)
         {
-            PhotonNetwork.ConnectUsingSettings();
-            Debug.Log($"SRNet: Connecting to server..");
+            if (PlayerPrefs.GetInt(Helper.Settings.altServer.ToString(), 0) == 1) PhotonNetwork.ConnectToRegion("ru");
+            else PhotonNetwork.ConnectUsingSettings();
+            Debug.Log($"SRNet: Connecting to server...");
         }
         else SetRoom();
     }

@@ -10,7 +10,7 @@ public class AnimeClub : MonoBehaviour
 
     public void StartAudio()
     {
-        Shuffle(Songs, Core.seed);
+        Shuffle(Songs, Core.Instance.seed);
     }
     void Update()
     {

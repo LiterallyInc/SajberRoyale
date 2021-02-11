@@ -23,8 +23,8 @@ public class Core : MonoBehaviourPun
     [Header("Values")]
     public bool GameStarted = false;
     public static Core Instance;
-    public const float SpawnOdds = 0.4f;
-    public static int seed = 0;
+    public float SpawnOdds = 0.4f;
+    public int seed = 0;
 
     [Header("Data")]
     public ItemDatabase ItemDatabase;
@@ -165,7 +165,7 @@ public class Core : MonoBehaviourPun
     /// <summary>
     /// Creates a list with all loot and saves it locally.
     /// </summary>
-    private void MCreateLoot()
+    public void MCreateLoot()
     {
         nodeSpawns.Clear();
         Debug.Log("Core/CreateLoot: MASTER: Creating node spawn list...");

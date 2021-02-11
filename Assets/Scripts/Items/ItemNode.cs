@@ -55,7 +55,7 @@ public class ItemNode : MonoBehaviour
     public Item MGetItem()
     {
         //calculate spawn odds
-        if (UnityEngine.Random.Range(0, 100) > Core.SpawnOdds * rarityModifier * 100) return null;
+        if (UnityEngine.Random.Range(0, 100) > Core.Instance.SpawnOdds * rarityModifier * 100) return null;
 
         //try 20 times to spawn here
         for (int i = 0; i < 20; i++)

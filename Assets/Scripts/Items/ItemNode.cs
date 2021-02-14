@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class ItemNode : MonoBehaviour
 {
     [Header("Item properties")]
@@ -38,7 +38,7 @@ public class ItemNode : MonoBehaviour
 
     private void Start()
     {
-
+        if (SceneManager.GetActiveScene().name == "main") Destroy(this.gameObject);
     }
 
     private void Update()

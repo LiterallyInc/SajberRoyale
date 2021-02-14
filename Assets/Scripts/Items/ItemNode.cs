@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+
 public class ItemNode : MonoBehaviour
 {
     [Header("Item properties")]
@@ -25,8 +26,11 @@ public class ItemNode : MonoBehaviour
     [Header("ItemNode")]
     public ParticleSystem particles;
 
+    public new Light light;
+
     public bool hasItem = false;
     public Item item;
+    public bool isLocker = false;
 
     public enum Bias
     {
@@ -38,7 +42,15 @@ public class ItemNode : MonoBehaviour
 
     private void Start()
     {
-        if (SceneManager.GetActiveScene().name == "main") Destroy(this.gameObject);
+        if (SceneManager.GetActiveScene().name == "main")
+        {
+            Destroy(particles);
+            Destroy(light);
+            Destroy(itemHolder);
+            if (name.Contains("ItemNode")) Destroy(this.GetComponent<MeshRenderer>());
+            Destroy(this);
+        }
+        isLocker = !Equals(typeof(Locker));
     }
 
     private void Update()
@@ -72,22 +84,34 @@ public class ItemNode : MonoBehaviour
         }
         return null;
     }
+
     /// <summary>
     /// Changes this node to a specific item. If it's null, this node gets destroyed
     /// </summary>
     /// <param name="item"></param>
     public void SetItem(Item item)
     {
+        itemHolder.GetComponent<MeshRenderer>().enabled = false;
+        if (gameObject.GetComponent<MeshRenderer>()) this.gameObject.GetComponent<MeshRenderer>().enabled = false;
         if (item == null)
         {
-            Destroy(gameObject);
-            hasItem = false;
+            Destroy(particles);
+            Destroy(light);
+            Destroy(itemHolder);
+            gameObject.tag = "Untagged";
+            Destroy(this);
             return;
         }
         hasItem = true;
         this.item = item;
-        itemHolder.GetComponent<MeshRenderer>().enabled = false;
-        this.gameObject.GetComponent<MeshRenderer>().enabled = false;
+        if (name.Contains("ItemNode"))
+            ShowItem();
+    }
+
+    public void ShowItem()
+    {
+        Debug.Log("item set " + name);
+        hasItem = true;
         GameObject itemobject = Instantiate(item.item);
         itemobject.transform.SetParent(itemHolder.transform);
         itemobject.transform.localPosition = Vector3.zero;

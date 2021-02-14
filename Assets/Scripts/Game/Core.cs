@@ -100,7 +100,9 @@ public class Core : MonoBehaviourPun
         foreach (GameObject go in GameObject.FindGameObjectsWithTag("ItemNode"))
         {
             if (go.transform.position.x * go.transform.position.y * go.transform.position.z == pos) go.GetComponent<ItemNode>().SetItem(null);
+            
         }
+
     }
 
     [PunRPC]

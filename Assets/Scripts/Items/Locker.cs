@@ -10,5 +10,7 @@ public class Locker : ItemNode
         Door.transform.localRotation = Quaternion.Euler(0, -120, 0);
         if (hasItem) ShowItem();
         isOpen = true;
+        GetComponent<AudioSource>().Play();
+        GetComponent<Animator>().Play("OpenLocker");
     }
 }

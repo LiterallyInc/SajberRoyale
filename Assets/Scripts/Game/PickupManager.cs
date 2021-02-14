@@ -19,7 +19,7 @@ public class PickupManager : MonoBehaviourPun
             {
                 Locker locker = hit.transform.gameObject.GetComponent<Locker>();
                 if (!locker.isOpen)
-                    locker.Open();
+                    Core.Instance.photonView.RPC("OpenLocker", RpcTarget.All, (double)hit.transform.position.x * (double)hit.transform.position.y * (double)hit.transform.position.z);
                 else
                     TakeItem(node, hit);
             }

@@ -102,8 +102,17 @@ public class Core : MonoBehaviourPun
             if (go.transform.position.x * go.transform.position.y * go.transform.position.z == pos) go.GetComponent<ItemNode>().SetItem(null);
             
         }
-
     }
+    [PunRPC]
+    public void OpenLocker(double pos)
+    {
+        foreach (GameObject go in GameObject.FindGameObjectsWithTag("ItemNode"))
+        {
+            if (go.transform.position.x * go.transform.position.y * go.transform.position.z == pos) go.GetComponent<Locker>().Open();
+
+        }
+    }
+
 
     [PunRPC]
     public void PlaceItem(string itemid, string pos)

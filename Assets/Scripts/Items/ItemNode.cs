@@ -43,7 +43,7 @@ public class ItemNode : MonoBehaviour
     private void Start()
     {
         isLocker = !name.Contains("ItemNode");
-        if (isLocker) height /= 11;
+        if (isLocker) height /= 15;
         if (SceneManager.GetActiveScene().name == "main")
         {
             Destroy();
@@ -64,7 +64,7 @@ public class ItemNode : MonoBehaviour
     public Item MGetItem()
     {
         //calculate spawn odds
-        if (UnityEngine.Random.Range(0, 100) > Core.Instance.SpawnOdds * rarityModifier * 100 / (isLocker ? 15 : 1)) return null;
+        if (UnityEngine.Random.Range(0, 100) > Core.Instance.SpawnOdds / (isLocker ? 15 : 1) * rarityModifier * 100) return null;
 
         //try 20 times to spawn here
         for (int i = 0; i < 20; i++)
@@ -103,11 +103,11 @@ public class ItemNode : MonoBehaviour
 
     public void ShowItem()
     {
-        Debug.Log("item set " + name);
         hasItem = true;
         GameObject itemobject = Instantiate(item.item);
         itemobject.transform.SetParent(itemHolder.transform);
         itemobject.transform.localPosition = Vector3.zero;
+        if (isLocker) itemHolder.transform.localScale = new Vector3(0.06f, 0.06f, 0.06f);
     }
 
     private void Destroy()

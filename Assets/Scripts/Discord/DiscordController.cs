@@ -142,6 +142,7 @@ public class DiscordController : MonoBehaviour
             state = $"{Game.Instance.AlivePlayers}/{Game.Instance.TotalPlayers} player{(Game.Instance.TotalPlayers > 1 ? "s" : "")} left";
             startTimestamp = Game.Instance.StartEpoch;
             largeImageText = $"Room: {PhotonNetwork.CurrentRoom.Name}";
+            presence.smallImageKey = Game.Instance.Skin.ToLower();
         }
         else
         {

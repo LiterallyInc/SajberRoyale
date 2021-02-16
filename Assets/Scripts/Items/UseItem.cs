@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class UseItem : MonoBehaviour
 {
-    [SerializeField] Item stats;
+    [SerializeField] _Weapon weapon_stats;
     [SerializeField] _Melee melee_stats;
     [SerializeField] _Healing healing_stats;
 
@@ -16,16 +16,16 @@ public class UseItem : MonoBehaviour
     {
         if (Input.GetButtonDown("Fire1"))
         {
-            if (stats.type == Item.Type.Weapon)
+            if (weapon_stats.type == Item.Type.Weapon || melee_stats.type == Item.Type.Melee)
                 Action();
-            else if (stats.type == Item.Type.Healing)
+            else if (healing_stats.type == Item.Type.Healing)
                 Heal();
         }
     }
 
     void Action()
     {
-        AudioSource.PlayClipAtPoint(stats.shootSFX, gameObject.transform.position);
+        AudioSource.PlayClipAtPoint(weapon_stats.shootSFX, gameObject.transform.position);
 
         RaycastHit hit;
         if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, weapon_stats.range))        {

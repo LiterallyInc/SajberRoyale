@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 
 [CreateAssetMenu(fileName = "Weapon", menuName = "SajberRoyale/Weapon", order = 1)]
@@ -43,5 +41,4 @@ public class _Weapon : Item
     /// Played every time the weapon is shot
     /// </summary>
     public AudioClip shootSFX;
-
 }

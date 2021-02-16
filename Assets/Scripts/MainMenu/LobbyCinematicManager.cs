@@ -15,7 +15,7 @@ public class LobbyCinematicManager : MonoBehaviour
         currentPath = Random.Range(0, PathNames.Count);
         SetRandomAnimation();
 
-        foreach(AudioSource audio in FindObjectsOfType<AudioSource>())
+        foreach (AudioSource audio in FindObjectsOfType<AudioSource>())
         {
             if (audio.transform.root.name == "Map")
             {
@@ -24,12 +24,11 @@ public class LobbyCinematicManager : MonoBehaviour
                 audio.volume = 0;
             }
         }
-        
     }
+
     private void Update()
     {
         if (Camera.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.85f && !resetQueued) StartCoroutine(ChangeCinematic());
-
     }
 
     private IEnumerator ChangeCinematic()
@@ -39,7 +38,6 @@ public class LobbyCinematicManager : MonoBehaviour
         yield return new WaitForSeconds(2);
         SetRandomAnimation();
         BackFade.Play("Fadein");
-        Debug.Log("a");
     }
 
     private void SetRandomAnimation()
@@ -54,6 +52,8 @@ public class LobbyCinematicManager : MonoBehaviour
             }
             i++;
         }
+        Debug.Log($"LobbyCinematicManager/SetRandom: Path set to {PathNames[currentPath]}");
+
         Camera.Play(PathNames[currentPath], 0, 0);
         resetQueued = false;
     }

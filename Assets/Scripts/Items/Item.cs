@@ -54,6 +54,7 @@ public class Item : ScriptableObject
     public enum Type
     {
         Weapon = 1,
+        Melee = 4,
         Ammo = 2,
         Healing = 3
     }

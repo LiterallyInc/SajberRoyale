@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ItemNode : MonoBehaviour
 {
@@ -25,8 +26,11 @@ public class ItemNode : MonoBehaviour
     [Header("ItemNode")]
     public ParticleSystem particles;
 
+    public new Light light;
+
     public bool hasItem = false;
     public Item item;
+    public bool isLocker = false;
 
     public enum Bias
     {
@@ -38,13 +42,18 @@ public class ItemNode : MonoBehaviour
 
     private void Start()
     {
-
+        isLocker = !name.Contains("ItemNode");
+        if (isLocker) height /= 15;
+        if (SceneManager.GetActiveScene().name == "main")
+        {
+            Destroy();
+        }
     }
 
     private void Update()
     {
         //Make the item float
-        itemHolder.transform.localPosition = new Vector3(0, Mathf.Sin(Time.time * speed) * height + 15, 0);
+        itemHolder.transform.localPosition = new Vector3(0, Mathf.Sin(Time.time * speed) * height + (isLocker ? 0 : 15), 0);
         itemHolder.transform.RotateAround(transform.position, transform.up, Time.deltaTime * 10f);
     }
 
@@ -55,7 +64,7 @@ public class ItemNode : MonoBehaviour
     public Item MGetItem()
     {
         //calculate spawn odds
-        if (UnityEngine.Random.Range(0, 100) > Core.SpawnOdds * rarityModifier * 100) return null;
+        if (UnityEngine.Random.Range(0, 100) > Core.Instance.SpawnOdds / (isLocker ? 15 : 1) * rarityModifier * 100) return null;
 
         //try 20 times to spawn here
         for (int i = 0; i < 20; i++)
@@ -72,24 +81,42 @@ public class ItemNode : MonoBehaviour
         }
         return null;
     }
+
     /// <summary>
     /// Changes this node to a specific item. If it's null, this node gets destroyed
     /// </summary>
     /// <param name="item"></param>
     public void SetItem(Item item)
     {
+        itemHolder.GetComponent<MeshRenderer>().enabled = false;
+        if (gameObject.GetComponent<MeshRenderer>()) this.gameObject.GetComponent<MeshRenderer>().enabled = false;
         if (item == null)
         {
-            Destroy(gameObject);
-            hasItem = false;
+            Destroy();
             return;
         }
         hasItem = true;
         this.item = item;
-        itemHolder.GetComponent<MeshRenderer>().enabled = false;
-        this.gameObject.GetComponent<MeshRenderer>().enabled = false;
+        if (!isLocker)
+            ShowItem();
+    }
+
+    public void ShowItem()
+    {
+        hasItem = true;
         GameObject itemobject = Instantiate(item.item);
         itemobject.transform.SetParent(itemHolder.transform);
         itemobject.transform.localPosition = Vector3.zero;
+        if (isLocker) itemHolder.transform.localScale = new Vector3(0.06f, 0.06f, 0.06f);
+    }
+
+    private void Destroy()
+    {
+        Destroy(particles);
+        Destroy(light);
+        Destroy(itemHolder);
+        gameObject.tag = "Untagged";
+        if (GetComponent<MeshRenderer>()) Destroy(GetComponent<MeshRenderer>());
+        Destroy(this);
     }
 }

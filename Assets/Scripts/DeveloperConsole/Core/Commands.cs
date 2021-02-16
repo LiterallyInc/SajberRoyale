@@ -571,6 +571,31 @@ namespace Console
                 return new ConsoleOutput($"You are at {Core.Instance.Player.position}", ConsoleOutput.OutputType.Log);
             }
         }
+        [ConsoleCommand("skin", "Changes your skin [PRE-GAME]")]
+        class Skin : Command
+        {
+            [CommandParameter("skinID")]
+            public string skin;
+            public override ConsoleOutput Logic()
+            {
+                base.Logic();
+                Game.Instance.Skin = skin;
+                return new ConsoleOutput($"Your skin got changed to {skin}", ConsoleOutput.OutputType.Log);
+            }
+        }
+        [ConsoleCommand("spawnodds", "Sets new spawn odds [PRE-GAME]")]
+        class spawnodds : Command
+        {
+            [CommandParameter("odds 0-1")]
+            public int odds;
+            public override ConsoleOutput Logic()
+            {
+                base.Logic();
+                Core.Instance.SpawnOdds = odds;
+                Core.Instance.MCreateLoot();
+                return new ConsoleOutput($"Itemlist refreshed with new odds: {odds}", ConsoleOutput.OutputType.Log);
+            }
+        }
 
         #endregion
     }

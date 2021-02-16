@@ -25,7 +25,7 @@ public class PlayerSync : MonoBehaviourPun
             if (PhotonNetwork.OfflineMode) PhotonNetwork.NickName = Game.Instance.Skin;
         }
         //place the other avatars
-
+        GetComponent<CharacterController>().radius = 0.27f;
         InvokeRepeating("SetSkin", 0f, 1f);
         Destroy(this, 10f);
     }

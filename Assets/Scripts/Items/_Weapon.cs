@@ -30,7 +30,17 @@ public class _Weapon : Item
     /// <summary>
     /// Wether the weapon is on cooldown or not
     /// </summary>
-    public bool hasShot;
+    public bool canShoot;
+
+    /// <summary>
+    /// Whether the weapon is reloading or not
+    /// </summary>
+    public bool isReloading;
+
+    /// <summary>
+    /// How long it needs to reload
+    /// </summary>
+    public float reloadTime;
 
     /// <summary>
     /// Size of the weapon clip
@@ -41,4 +51,9 @@ public class _Weapon : Item
     /// Played every time the weapon is shot
     /// </summary>
     public AudioClip shootSFX;
+
+    /// <summary>
+    /// Played every time the weapon is reloading
+    /// </summary>
+    public AudioClip reloadSFX;
 }

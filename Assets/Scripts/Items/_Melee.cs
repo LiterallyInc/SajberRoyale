@@ -13,6 +13,11 @@ public class _Melee : Item
     public float minDamage, maxDamage;
 
     /// <summary>
+    /// The effective range for applaying damage to the target
+    /// </summary>
+    public float range;
+
+    /// <summary>
     /// Wether the weapon in an animation or not
     /// </summary>
     public bool onCooldown;
@@ -26,6 +31,4 @@ public class _Melee : Item
     /// Played every time the weapon swings
     /// </summary>
     public AudioClip swingSFW;
-
-
 }

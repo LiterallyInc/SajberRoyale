@@ -132,11 +132,11 @@ public class UseItem : MonoBehaviour
     }
     IEnumerator ShootDelay(float delay)
     {
-        Debug.Log(Time.time);
+        //Debug.Log(Time.time);
         weapon_stats.canShoot = false;
         yield return new WaitForSeconds(delay);
         weapon_stats.canShoot = true;
-        Debug.Log(Time.time);
+        //Debug.Log(Time.time);
     }
     IEnumerator ReloadTimer(float reloading)
     {

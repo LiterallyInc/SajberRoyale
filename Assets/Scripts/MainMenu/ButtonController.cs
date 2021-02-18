@@ -10,7 +10,8 @@ public class ButtonController : MonoBehaviour
     public InputField IF_Name;
     public InputField IF_Server;
     public Button B_Connect;
-
+    public AudioSource ClickSound;
+    
     private void Start()
     {
         IF_Name.text = PlayerPrefs.GetString("username", "");
@@ -32,6 +33,10 @@ public class ButtonController : MonoBehaviour
     {
         PlayerPrefs.SetString("username", IF_Name.text);
         GetComponent<NetConnector>().Connect(IF_Name.text, IF_Server.text);
+    }
+    public void Click()
+    {
+        ClickSound.Play();
     }
 
     public void Exit()

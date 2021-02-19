@@ -1,148 +1,151 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class UseItem : MonoBehaviour
+namespace SajberRoyale.Items
 {
-    [SerializeField] _Weapon weapon_stats;
-    [SerializeField] _Melee melee_stats;
-    [SerializeField] _Healing healing_stats;
-
-    public Camera fpsCam;
-
-    private int tempClipSize;
-
-    private void Start()
+    [System.Obsolete]
+    public class UseItem : MonoBehaviour
     {
-        tempClipSize = weapon_stats.clipSize;
-        weapon_stats.canShoot = true;
-        melee_stats.onCooldown = false;
-    }
+        [SerializeField] private _Weapon weapon_stats;
+        [SerializeField] private _Melee melee_stats;
+        [SerializeField] private _Healing healing_stats;
 
-    // Update is called once per frame
-    void Update()
-    {
-        // Checking if _Weapon script is available, shoot cooldown is off, and its not reloading
-        if (weapon_stats != null && weapon_stats.canShoot && weapon_stats.isReloading == false)
+        public Camera fpsCam;
+
+        private int tempClipSize;
+
+        private void Start()
         {
-            if (weapon_stats.isAuto == true)
+            tempClipSize = weapon_stats.clipSize;
+            weapon_stats.canShoot = true;
+            melee_stats.onCooldown = false;
+        }
+
+        // Update is called once per frame
+        private void Update()
+        {
+            // Checking if _Weapon script is available, shoot cooldown is off, and its not reloading
+            if (weapon_stats != null && weapon_stats.canShoot && weapon_stats.isReloading == false)
             {
-                if (Input.GetButton("Fire1"))
+                if (weapon_stats.isAuto == true)
                 {
-                    StartCoroutine(ShootDelay(weapon_stats.shootingDelay));
-                    Shoot();
+                    if (Input.GetButton("Fire1"))
+                    {
+                        StartCoroutine(ShootDelay(weapon_stats.shootingDelay));
+                        Shoot();
+                    }
+                }
+                else if (weapon_stats.isAuto == false)
+                {
+                    if (Input.GetButtonDown("Fire1"))
+                    {
+                        StartCoroutine(ShootDelay(weapon_stats.shootingDelay));
+                        Shoot();
+                    }
                 }
             }
-            else if (weapon_stats.isAuto == false)
+
+            if (Input.GetButtonDown("Fire1"))
             {
-                if (Input.GetButtonDown("Fire1"))
+                if (melee_stats != null && melee_stats.onCooldown == false)
                 {
-                    StartCoroutine(ShootDelay(weapon_stats.shootingDelay));
-                    Shoot();
+                    Slash();
                 }
+                else if (healing_stats != null)
+                    Heal();
             }
         }
 
-        if (Input.GetButtonDown("Fire1"))
+        private void Shoot()
         {
-            if (melee_stats != null && melee_stats.onCooldown == false)
+            if (tempClipSize <= 0)
             {
-                Slash();
+                weapon_stats.isReloading = true;
+                StartCoroutine(ReloadTimer(weapon_stats.reloadTime));
             }
-                
-            else if (healing_stats != null)
-                Heal();
-        }
-    }
+            else tempClipSize -= 1;
 
-    void Shoot()
-    {
-        if (tempClipSize <= 0)
-        {
-            weapon_stats.isReloading = true;
-            StartCoroutine(ReloadTimer(weapon_stats.reloadTime));
-        }
-        else tempClipSize -= 1;
+            AudioSource.PlayClipAtPoint(weapon_stats.shootSFX, gameObject.transform.position);
 
-
-        AudioSource.PlayClipAtPoint(weapon_stats.shootSFX, gameObject.transform.position);
-
-        RaycastHit hit;
-        if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, weapon_stats.range))        
-        {
-            Debug.Log(hit.transform.name);
-
-            EnemyTarget target = hit.transform.GetComponent<EnemyTarget>();
-            if (target != null)
+            RaycastHit hit;
+            if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, weapon_stats.range))
             {
-                float result = weapon_stats.maxDamage - ((weapon_stats.maxDamage - weapon_stats.minDamage) / (weapon_stats.range - 1)) * (hit.distance - 1);
-                result = Mathf.Round(result);
-                
-                HitMeDaddy(target.name, result, weapon_stats.name);
+                Debug.Log(hit.transform.name);
+
+                /*EnemyTarget target = hit.transform.GetComponent<EnemyTarget>();
+                if (target != null)
+                {
+                    float result = weapon_stats.maxDamage - ((weapon_stats.maxDamage - weapon_stats.minDamage) / (weapon_stats.range - 1)) * (hit.distance - 1);
+                    result = Mathf.Round(result);
+
+                    HitMeDaddy(target.name, result, weapon_stats.name);
+                }*/
             }
         }
-    }
-    void Slash()
-    {
-        melee_stats.onCooldown = true;
 
-        AudioSource.PlayClipAtPoint(melee_stats.swingSFW, gameObject.transform.position);
-
-        StartCoroutine(SlashCooldown());
-
-        RaycastHit hit;
-        if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, melee_stats.range))
+        private void Slash()
         {
-            Debug.Log(hit.transform.name);
+            melee_stats.onCooldown = true;
 
-            EnemyTarget target = hit.transform.GetComponent<EnemyTarget>();
-            if (target != null)
+            AudioSource.PlayClipAtPoint(melee_stats.swingSFW, gameObject.transform.position);
+
+            StartCoroutine(SlashCooldown());
+
+            RaycastHit hit;
+            if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, melee_stats.range))
             {
-                AudioSource.PlayClipAtPoint(melee_stats.hitSFX, gameObject.transform.position);
+                Debug.Log(hit.transform.name);
 
-                float result = UnityEngine.Random.Range(melee_stats.minDamage, melee_stats.maxDamage);
-                result = Mathf.Round(result);
+                /*EnemyTarget target = hit.transform.GetComponent<EnemyTarget>();
+                if (target != null)
+                {
+                    AudioSource.PlayClipAtPoint(melee_stats.hitSFX, gameObject.transform.position);
 
-                StabMeDaddy(target.name, result, melee_stats.name);
+                    float result = UnityEngine.Random.Range(melee_stats.minDamage, melee_stats.maxDamage);
+                    result = Mathf.Round(result);
+
+                    StabMeDaddy(target.name, result, melee_stats.name);
+                }*/
             }
         }
-    }
-    void Heal()
-    {
 
-    }
+        private void Heal()
+        {
+        }
 
-    public static void HitMeDaddy(string player, float dmg, string weapon)
-    {
-        Debug.Log($"UwU!!! Daddy shot {player} for {dmg}hp with {weapon}!");
-    }
-    public static void StabMeDaddy(string player, float dmg, string weapon)
-    {
-        Debug.Log($"UWU I stabbed {player} for {dmg}hp with {weapon}!");
-    }
+        public static void HitMeDaddy(string player, float dmg, string weapon)
+        {
+            Debug.Log($"UwU!!! Daddy shot {player} for {dmg}hp with {weapon}!");
+        }
 
+        public static void StabMeDaddy(string player, float dmg, string weapon)
+        {
+            Debug.Log($"UWU I stabbed {player} for {dmg}hp with {weapon}!");
+        }
 
-    IEnumerator SlashCooldown()
-    {
-        // 1 sec cooldown for test
-        yield return new WaitForSeconds(1);
-        melee_stats.onCooldown = false;
-    }
-    IEnumerator ShootDelay(float delay)
-    {
-        //Debug.Log(Time.time);
-        weapon_stats.canShoot = false;
-        yield return new WaitForSeconds(delay);
-        weapon_stats.canShoot = true;
-        //Debug.Log(Time.time);
-    }
-    IEnumerator ReloadTimer(float reloading)
-    {
-        Debug.Log(Time.time);
-        yield return new WaitForSeconds(reloading);
-        tempClipSize = weapon_stats.clipSize;
-        weapon_stats.isReloading = false;
-        Debug.Log(Time.time);
+        private IEnumerator SlashCooldown()
+        {
+            // 1 sec cooldown for test
+            yield return new WaitForSeconds(1);
+            melee_stats.onCooldown = false;
+        }
+
+        private IEnumerator ShootDelay(float delay)
+        {
+            //Debug.Log(Time.time);
+            weapon_stats.canShoot = false;
+            yield return new WaitForSeconds(delay);
+            weapon_stats.canShoot = true;
+            //Debug.Log(Time.time);
+        }
+
+        private IEnumerator ReloadTimer(float reloading)
+        {
+            Debug.Log(Time.time);
+            yield return new WaitForSeconds(reloading);
+            tempClipSize = weapon_stats.clipSize;
+            weapon_stats.isReloading = false;
+            Debug.Log(Time.time);
+        }
     }
 }

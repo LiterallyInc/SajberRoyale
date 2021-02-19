@@ -1,34 +1,34 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-
-[CreateAssetMenu(fileName = "Melee", menuName = "SajberRoyale/Melee", order = 1)]
-[System.Serializable]
-public class _Melee : Item
+namespace SajberRoyale.Items
 {
-    /// <summary>
-    /// Damage output from weapon is randomized between these two values
-    /// </summary>
-    public float minDamage, maxDamage;
+    [CreateAssetMenu(fileName = "Melee", menuName = "SajberRoyale/Melee", order = 1)]
+    [System.Serializable]
+    public class _Melee : Item
+    {
+        /// <summary>
+        /// Damage output from weapon is randomized between these two values
+        /// </summary>
+        public float minDamage, maxDamage;
 
-    /// <summary>
-    /// The effective range for applaying damage to the target
-    /// </summary>
-    public float range;
+        /// <summary>
+        /// The effective range for applaying damage to the target
+        /// </summary>
+        public float range;
 
-    /// <summary>
-    /// Wether the weapon in an animation or not
-    /// </summary>
-    public bool onCooldown;
+        /// <summary>
+        /// Wether the weapon in an animation or not
+        /// </summary>
+        public bool onCooldown;
 
-    /// <summary>
-    /// Played every time the weapon hits
-    /// </summary>
-    public AudioClip hitSFX;
+        /// <summary>
+        /// Played every time the weapon hits
+        /// </summary>
+        public AudioClip hitSFX;
 
-    /// <summary>
-    /// Played every time the weapon swings
-    /// </summary>
-    public AudioClip swingSFW;
+        /// <summary>
+        /// Played every time the weapon swings
+        /// </summary>
+        public AudioClip swingSFW;
+    }
 }

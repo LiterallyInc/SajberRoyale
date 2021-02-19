@@ -1,52 +1,56 @@
 using Photon.Pun;
+using SajberRoyale.Game;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class RoomNode : MonoBehaviour
+namespace SajberRoyale.Map
 {
-    public string roomName;
-    public bool isActivated = true;
-    public Light[] Lights;
-    private string id; //gameobject name
-
-    private void Start()
+    public class RoomNode : MonoBehaviour
     {
-        id = name.ToLower();
-        Destroy(GetComponent<MeshRenderer>());
-    }
+        public string roomName;
+        public bool isActivated = true;
+        public Light[] Lights;
+        private string id; //gameobject name
 
-    private void OnTriggerEnter(Collider c)
-    {
-        if (!c.GetComponent<PhotonView>()) return;
-        else if (c.GetComponent<PhotonView>().IsMine)
+        private void Start()
         {
-            Debug.Log($"Entered room {roomName}");
-            Game.Instance.CurrentRoom = roomName;
+            id = name.ToLower();
+            Destroy(GetComponent<MeshRenderer>());
         }
-    }
 
-    private void OnTriggerExit(Collider other)
-    {
-        //Debug.Log($"Exited room {roomName}");
-    }
-
-    public static RoomNode Get(string id)
-    {
-        RoomNode[] nodes = FindObjectsOfType<RoomNode>();
-        foreach (RoomNode node in nodes)
+        private void OnTriggerEnter(Collider c)
         {
-            if (node.id == id) return node;
+            if (!c.GetComponent<PhotonView>()) return;
+            else if (c.GetComponent<PhotonView>().IsMine)
+            {
+                Debug.Log($"Entered room {roomName}");
+                Game.Game.Instance.CurrentRoom = roomName;
+            }
         }
-        return null;
-    }
 
-    public void Deactivate()
-    {
-        isActivated = false;
-        foreach (Light l in Lights)
+        private void OnTriggerExit(Collider other)
         {
-            l.color = Color.red;
-            l.intensity = 0.1f;
+            //Debug.Log($"Exited room {roomName}");
+        }
+
+        public static RoomNode Get(string id)
+        {
+            RoomNode[] nodes = FindObjectsOfType<RoomNode>();
+            foreach (RoomNode node in nodes)
+            {
+                if (node.id == id) return node;
+            }
+            return null;
+        }
+
+        public void Deactivate()
+        {
+            isActivated = false;
+            foreach (Light l in Lights)
+            {
+                l.color = Color.red;
+                l.intensity = 0.1f;
+            }
         }
     }
 }

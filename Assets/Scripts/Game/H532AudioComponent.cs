@@ -1,36 +1,39 @@
 using UnityEngine;
 
-public class H532AudioComponent : MonoBehaviour
+namespace SajberRoyale.Map
 {
-    private GameObject[] points = new GameObject[3];
-    private float speed;
-    private bool locked = false;
-    private int current = 0;
-
-    private void Start()
+    public class H532AudioComponent : MonoBehaviour
     {
-        Destroy(GetComponent<MeshRenderer>());
-        points[0] = CursedH532.AudioNodes[Random.Range(0, CursedH532.AudioNodes.Count)].gameObject;
-        points[1] = CursedH532.AudioNodes[Random.Range(0, CursedH532.AudioNodes.Count)].gameObject;
-        points[2] = CursedH532.AudioNodes[Random.Range(0, CursedH532.AudioNodes.Count)].gameObject;
-    }
+        private GameObject[] points = new GameObject[3];
+        private float speed;
+        private bool locked = false;
+        private int current = 0;
 
-    public void Start(AudioClip clip, bool locked, Vector3 pos)
-    {
-        this.locked = locked;
-        transform.localPosition = pos;
-        GetComponent<AudioSource>().clip = clip;
-        GetComponent<AudioSource>().Play();
-        name = clip.name;
-    }
-
-    private void FixedUpdate()
-    {
-        if (locked) return;
-        if (Vector3.Distance(points[current].transform.position, transform.position) < 1)
+        private void Start()
         {
-            current = Random.Range(0, points.Length - 1);
+            Destroy(GetComponent<MeshRenderer>());
+            points[0] = CursedH532.AudioNodes[Random.Range(0, CursedH532.AudioNodes.Count)].gameObject;
+            points[1] = CursedH532.AudioNodes[Random.Range(0, CursedH532.AudioNodes.Count)].gameObject;
+            points[2] = CursedH532.AudioNodes[Random.Range(0, CursedH532.AudioNodes.Count)].gameObject;
         }
-        transform.position = Vector3.MoveTowards(transform.position, points[current].transform.position, Time.deltaTime/3);
+
+        public void Start(AudioClip clip, bool locked, Vector3 pos)
+        {
+            this.locked = locked;
+            transform.localPosition = pos;
+            GetComponent<AudioSource>().clip = clip;
+            GetComponent<AudioSource>().Play();
+            name = clip.name;
+        }
+
+        private void FixedUpdate()
+        {
+            if (locked) return;
+            if (Vector3.Distance(points[current].transform.position, transform.position) < 1)
+            {
+                current = Random.Range(0, points.Length - 1);
+            }
+            transform.position = Vector3.MoveTowards(transform.position, points[current].transform.position, Time.deltaTime / 3);
+        }
     }
 }

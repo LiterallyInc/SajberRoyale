@@ -2,6 +2,7 @@
 using UnityEngine.SceneManagement;
 using Photon;
 using Photon.Pun;
+using SajberRoyale.Game;
 
 [System.Serializable]
 public class DiscordJoinEvent : UnityEngine.Events.UnityEvent<string> { }

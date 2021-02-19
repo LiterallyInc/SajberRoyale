@@ -1,39 +1,42 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-
-public class ItemDatabase : MonoBehaviour
+namespace SajberRoyale.Items
 {
-    public static ItemDatabase Instance;
-    [SerializeField]
-    public List<Item> Items;
-    [HideInInspector]
-    public List<Item> weightedItems = new List<Item>();
-
-    private void Awake()
+    public class ItemDatabase : MonoBehaviour
     {
-        Instance = this;
-        //weights all items
-        foreach(Item item in Items)
+        public static ItemDatabase Instance;
+
+        [SerializeField]
+        public List<Item> Items;
+
+        [HideInInspector]
+        public List<Item> weightedItems = new List<Item>();
+
+        private void Awake()
         {
-            for (int i = 0; i < item.spawnWeight; i++)
+            Instance = this;
+            //weights all items
+            foreach (Item item in Items)
             {
-                weightedItems.Add(item);
+                for (int i = 0; i < item.spawnWeight; i++)
+                {
+                    weightedItems.Add(item);
+                }
             }
         }
 
-    }
-    /// <summary>
-    /// Gets an item object by its ID
-    /// </summary>
-    public Item GetItem(string id)
-    {
-        foreach(Item item in Items)
+        /// <summary>
+        /// Gets an item object by its ID
+        /// </summary>
+        public Item GetItem(string id)
         {
-            if (item.ID == id) return item;
+            foreach (Item item in Items)
+            {
+                if (item.ID == id) return item;
+            }
+            Debug.LogWarning($"ItemDB: Tried getting invalid weapon: {id}");
+            return null;
         }
-        Debug.LogWarning($"ItemDB: Tried getting invalid weapon: {id}");
-        return null;
     }
 }

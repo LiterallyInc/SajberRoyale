@@ -3,96 +3,98 @@ using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-
-public class NetConnector : MonoBehaviourPunCallbacks
+namespace SajberRoyale.MainMenu
 {
-    private string srv;
-    private static bool isConnected = false;
-    public Text Status;
-    private void Start()
+    public class NetConnector : MonoBehaviourPunCallbacks
     {
-        Game.ResetGame();
-    }
-    public void PlayOffline()
-    {
-        PhotonNetwork.OfflineMode = true;
-        PhotonNetwork.NickName = "Player";
-    }
-
-    public void Connect(string name, string server)
-    {
-        if (server.SHA512() == Helper.devhash) //make user developer
+        private string srv;
+        private static bool isConnected = false;
+        public Text Status;
+        private void Start()
         {
-            if (!Helper.IsDev)
+            Game.Game.ResetGame();
+        }
+        public void PlayOffline()
+        {
+            PhotonNetwork.OfflineMode = true;
+            PhotonNetwork.NickName = "Player";
+        }
+
+        public void Connect(string name, string server)
+        {
+            if (server.SHA512() == Helper.devhash) //make user developer
             {
-                PlayerPrefs.SetInt(Helper.Settings.isDev.ToString(), 1);
-                Status.text = "Welcome, fellow LiterallyInc. member!";
-                Helper.IsDev = true;
+                if (!Helper.IsDev)
+                {
+                    PlayerPrefs.SetInt(Helper.Settings.isDev.ToString(), 1);
+                    Status.text = "Welcome, fellow LiterallyInc. member!";
+                    Helper.IsDev = true;
+                }
+                else
+                {
+                    Status.text = "You are already a member of LiterallyInc.!";
+                }
+                return;
             }
-            else
+            srv = server;
+            PhotonNetwork.NickName = name;
+            PhotonNetwork.GameVersion = Application.version;
+            if (!isConnected)
             {
-                Status.text = "You are already a member of LiterallyInc.!";
+                if (PlayerPrefs.GetInt(Helper.Settings.altServer.ToString(), 0) == 1) PhotonNetwork.ConnectToRegion("ru");
+                else PhotonNetwork.ConnectUsingSettings();
+                Debug.Log($"SRNet: Connecting to server...");
             }
-            return;
+            else SetRoom();
         }
-        srv = server;
-        PhotonNetwork.NickName = name;
-        PhotonNetwork.GameVersion = Application.version;
-        if (!isConnected)
+
+        public override void OnConnectedToMaster()
         {
-            if (PlayerPrefs.GetInt(Helper.Settings.altServer.ToString(), 0) == 1) PhotonNetwork.ConnectToRegion("ru");
-            else PhotonNetwork.ConnectUsingSettings();
-            Debug.Log($"SRNet: Connecting to server...");
+            if (!PhotonNetwork.OfflineMode)
+            {
+                isConnected = true;
+                Debug.Log($"SRNet: Connected to server. Region: {PhotonNetwork.ServerAddress}");
+            }
+            SetRoom();
         }
-        else SetRoom();
-    }
 
-    public override void OnConnectedToMaster()
-    {
-        if (!PhotonNetwork.OfflineMode)
+        public void SetRoom()
         {
-            isConnected = true;
-            Debug.Log($"SRNet: Connected to server. Region: {PhotonNetwork.ServerAddress}");
+            if (PhotonNetwork.OfflineMode) PhotonNetwork.CreateRoom($"offline{Random.Range(0, 10000)}");
+            else if (srv[0] == '@') PhotonNetwork.CreateRoom(srv.Substring(1).Trim());
+            else if (srv[0] == '%' && Helper.IsDev)
+            {
+                Game.Game.Instance.IsTournament = true;
+                PhotonNetwork.CreateRoom(srv.Substring(1).Trim());
+            }
+            else PhotonNetwork.JoinRoom(srv.Trim());
         }
-        SetRoom();
-    }
 
-    public void SetRoom()
-    {
-        if (PhotonNetwork.OfflineMode) PhotonNetwork.CreateRoom($"offline{Random.Range(0, 10000)}");
-        else if (srv[0] == '@') PhotonNetwork.CreateRoom(srv.Substring(1).Trim());
-        else if (srv[0] == '%' && Helper.IsDev)
+        public override void OnDisconnected(DisconnectCause cause)
         {
-            Game.Instance.IsTournament = true;
-            PhotonNetwork.CreateRoom(srv.Substring(1).Trim());
+            isConnected = false;
+            Debug.Log($"SRNet: Disconned from server: {cause}");
+            Status.text = cause.ToString();
         }
-        else PhotonNetwork.JoinRoom(srv.Trim());
-    }
 
-    public override void OnDisconnected(DisconnectCause cause)
-    {
-        isConnected = false;
-        Debug.Log($"SRNet: Disconned from server: {cause}");
-        Status.text = cause.ToString();
-    }
-
-    public override void OnJoinedRoom()
-    {
-        Debug.Log($"Joined room {PhotonNetwork.CurrentRoom}");
-        Debug.Log(PhotonNetwork.CurrentRoom.Players[1]);
-        base.OnJoinedRoom();
-        if (SceneManager.GetActiveScene().name != "game") SceneManager.LoadScene("game");
-    }
-
-    public override void OnJoinRoomFailed(short returnCode, string message)
-    {
-        Debug.Log(message);
-        Status.text = returnCode switch
+        public override void OnJoinedRoom()
         {
-            32758 => $"Error {returnCode}: This server does not exist.",
-            32764 => $"Error {returnCode}: This server have already started.",
-            _ => $"Error {returnCode}: {message}",
-        };
-        base.OnJoinRoomFailed(returnCode, message);
+            Debug.Log($"Joined room {PhotonNetwork.CurrentRoom}");
+            Debug.Log(PhotonNetwork.CurrentRoom.Players[1]);
+            base.OnJoinedRoom();
+            if (SceneManager.GetActiveScene().name != "game") SceneManager.LoadScene("game");
+        }
+
+        public override void OnJoinRoomFailed(short returnCode, string message)
+        {
+            Debug.Log(message);
+            Status.text = returnCode switch
+            {
+                32758 => $"Error {returnCode}: This server does not exist.",
+                32764 => $"Error {returnCode}: This server have already started.",
+                _ => $"Error {returnCode}: {message}",
+            };
+            base.OnJoinRoomFailed(returnCode, message);
+        }
     }
 }

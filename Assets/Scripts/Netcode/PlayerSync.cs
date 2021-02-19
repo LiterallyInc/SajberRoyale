@@ -1,45 +1,49 @@
 using Photon.Pun;
+using SajberRoyale.Game;
 using UnityEngine;
 
-public class PlayerSync : MonoBehaviourPun
+namespace SajberRoyale.Player
 {
-    public GameObject PlayerCam;
-    public Component[] LocalScripts;
-    private GameObject Player;
-
-    private void Start()
+    public class PlayerSync : MonoBehaviourPun
     {
-        if (!PhotonNetwork.IsConnected) return;
+        public GameObject PlayerCam;
+        public Component[] LocalScripts;
+        private GameObject Player;
 
-        //delete local comps if it's another user
-        if (!photonView.IsMine)
+        private void Start()
         {
-            Destroy(PlayerCam);
-            foreach (Component c in LocalScripts) Destroy(c);
-        }
-        else //else instansiate the avatar and set the animator
-        {
-            Player = PhotonNetwork.Instantiate($"CharMeshes/{Game.Instance.Skin}", Vector3.zero, Quaternion.identity);
-            Core.Instance.Player = Player.transform;
-            //PlayerMovement.CharacterAnimator = Player.GetComponent<Animator>();
-            if (PhotonNetwork.OfflineMode) PhotonNetwork.NickName = Game.Instance.Skin;
-        }
-        //place the other avatars
-        GetComponent<CharacterController>().radius = 0.27f;
-        InvokeRepeating("SetSkin", 0f, 1f);
-        Destroy(this, 10f);
-    }
+            if (!PhotonNetwork.IsConnected) return;
 
-    private void SetSkin()
-    {
-        foreach (GameObject g in GameObject.FindGameObjectsWithTag("Avatar"))
-        {
-            if (g.GetComponent<PhotonView>().ControllerActorNr == photonView.ControllerActorNr)
+            //delete local comps if it's another user
+            if (!photonView.IsMine)
             {
-                g.transform.parent = gameObject.transform;
-                g.transform.localPosition = Vector3.zero;
-                g.tag = "Untagged";
-                if (g.GetComponent<PhotonView>().ControllerActorNr != PhotonNetwork.LocalPlayer.ActorNumber && g.GetComponent<vp_FPBodyAnimator>()) Destroy(g.GetComponent<vp_FPBodyAnimator>());
+                Destroy(PlayerCam);
+                foreach (Component c in LocalScripts) Destroy(c);
+            }
+            else //else instansiate the avatar and set the animator
+            {
+                Player = PhotonNetwork.Instantiate($"CharMeshes/{Game.Game.Instance.Skin}", Vector3.zero, Quaternion.identity);
+                Core.Instance.Player = Player.transform;
+                //PlayerMovement.CharacterAnimator = Player.GetComponent<Animator>();
+                if (PhotonNetwork.OfflineMode) PhotonNetwork.NickName = Game.Game.Instance.Skin;
+            }
+            //place the other avatars
+            GetComponent<CharacterController>().radius = 0.27f;
+            InvokeRepeating("SetSkin", 0f, 1f);
+            Destroy(this, 10f);
+        }
+
+        private void SetSkin()
+        {
+            foreach (GameObject g in GameObject.FindGameObjectsWithTag("Avatar"))
+            {
+                if (g.GetComponent<PhotonView>().ControllerActorNr == photonView.ControllerActorNr)
+                {
+                    g.transform.parent = gameObject.transform;
+                    g.transform.localPosition = Vector3.zero;
+                    g.tag = "Untagged";
+                    if (g.GetComponent<PhotonView>().ControllerActorNr != PhotonNetwork.LocalPlayer.ActorNumber && g.GetComponent<vp_FPBodyAnimator>()) Destroy(g.GetComponent<vp_FPBodyAnimator>());
+                }
             }
         }
     }

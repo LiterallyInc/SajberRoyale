@@ -1,16 +1,20 @@
+using SajberRoyale.Items;
 using UnityEngine;
 
-public class Locker : ItemNode
+namespace SajberRoyale.Map
 {
-    public GameObject Door;
-    public bool isOpen = false;
-
-    public void Open()
+    public class Locker : ItemNode
     {
-        Door.transform.localRotation = Quaternion.Euler(0, -120, 0);
-        if (hasItem) ShowItem();
-        isOpen = true;
-        GetComponent<AudioSource>().Play();
-        GetComponent<Animator>().Play("OpenLocker");
+        public GameObject Door;
+        public bool isOpen = false;
+
+        public void Open()
+        {
+            Door.transform.localRotation = Quaternion.Euler(0, -120, 0);
+            if (hasItem) ShowItem();
+            isOpen = true;
+            GetComponent<AudioSource>().Play();
+            GetComponent<Animator>().Play("OpenLocker");
+        }
     }
 }

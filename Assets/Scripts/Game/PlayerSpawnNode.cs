@@ -1,11 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerSpawnNode : MonoBehaviour
+namespace SajberRoyale.Map
 {
-    private void Start()
+    public class PlayerSpawnNode : MonoBehaviour
     {
-        Destroy(GetComponent<MeshRenderer>());
+        private void Start()
+        {
+            Destroy(GetComponent<MeshRenderer>());
+        }
     }
 }

@@ -1,22 +1,21 @@
-﻿using System;
-using System.Collections;
+﻿using Photon.Pun;
+using SajberRoyale.Game;
+using SajberRoyale.Map;
+using SajberRoyale.Items;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
-using System.Threading;
-using UnityEngine.Analytics;
-using Photon.Pun;
 
 namespace Console
 {
     public class Commands
     {
-
         #region variables
-        private static Commands instance = null;
 
+        private static Commands instance = null;
 
         private List<Command> _commands = new List<Command>();
         private List<Command> _commandsSingle;
@@ -33,7 +32,7 @@ namespace Console
             }
         }
 
-        #endregion
+        #endregion variables
 
         #region Initialization
 
@@ -42,12 +41,11 @@ namespace Console
             RegisterCommands();
         }
 
-
         public List<Command> GetCommands()
         {
-
             return _commands.ToList();
         }
+
         public List<Command> GetCommandsSingle()
         {
             if (_commandsSingle == null)
@@ -94,7 +92,6 @@ namespace Console
                 _commands.Add(command);
             }
 
-
             foreach (Command command in _commands.ToList())
             {
                 if (String.IsNullOrEmpty(((ConsoleCommandAttribute)Attribute.GetCustomAttribute(command.GetType(), typeof(ConsoleCommandAttribute))).queryIdentity))
@@ -107,7 +104,6 @@ namespace Console
                 if (((ConsoleCommandAttribute)Attribute.GetCustomAttribute(command.GetType(), typeof(ConsoleCommandAttribute))).onlyAllowedOnDeveloperVersion && !Debug.isDebugBuild)
                 {
                     _commands.Remove(command);
-
                 }
 
                 if (_commands.ToList().Exists(x => x.GetQueryIdentity() == command.GetQueryIdentity() && x != command))//Check multiple stocking with query identity
@@ -117,7 +113,6 @@ namespace Console
                     foreach (CommandParameter value in command.commandParameters.Values)
                     {
                         commandParamTypes.Add(value.genericType);
-
                     }
 
                     foreach (Command overStockedCommand in stockingCommands)//Check does overstocked commands have the same invoke definition
@@ -137,24 +132,21 @@ namespace Console
                             _commands.Remove(command);
 
                             continue;
-
                         }
                     }
-
                 }
             }
         }
 
-        #endregion
+        #endregion Initialization
 
         #region commands
-        [ConsoleCommand("help", "List all available commands.")]
-        class Help : Command
-        {
 
+        [ConsoleCommand("help", "List all available commands.")]
+        private class Help : Command
+        {
             public Help()
             {
-
             }
 
             public override ConsoleOutput Logic()
@@ -180,7 +172,7 @@ namespace Console
 
                     for (int i = 40 - lineLength; i > 0; i--)
                     {
-                        line += " ";//Set orientation of command description 
+                        line += " ";//Set orientation of command description
                     }
 
                     line += command.GetDescription();
@@ -189,18 +181,18 @@ namespace Console
                 }
                 return new ConsoleOutput("Available commands are " + commandList, ConsoleOutput.OutputType.System);
             }
-
         }
 
         [ConsoleCommand("help", "Provide help information for commands.")]
-        class HelpCommand : Command
+        private class HelpCommand : Command
         {
             [CommandParameter("command")]
             public string queryIdentity;
+
             public HelpCommand()
             {
-
             }
+
             public override ConsoleOutput Logic()
             {
                 var commands = Commands.Instance.GetCommands().FindAll(x => x.GetQueryIdentity() == queryIdentity);
@@ -208,16 +200,13 @@ namespace Console
                 if (commands.Count == 0)
                 {
                     return new ConsoleOutput("'" + queryIdentity + "' is not supported by help utility.", ConsoleOutput.OutputType.System);
-
                 }
 
                 string helpInformationText = "";
 
-
                 int lineLength;
                 foreach (Command command in commands)
                 {
-
                     var line = "-" + command.GetQueryIdentity().ToLower();
                     lineLength = command.GetQueryIdentity().Length + 1;
 
@@ -232,7 +221,7 @@ namespace Console
 
                     for (int i = 40 - lineLength; i > 0; i--)
                     {
-                        line += " ";//Set orientation of command description 
+                        line += " ";//Set orientation of command description
                     }
 
                     line += command.GetDescription() + "\n";
@@ -241,19 +230,19 @@ namespace Console
                 }
                 return new ConsoleOutput(helpInformationText, ConsoleOutput.OutputType.System, false);
             }
-
         }
 
         [ConsoleCommand("move", "Translate a game object's transform to a world point.")]
-        class Move : Command
+        private class Move : Command
         {
             [CommandParameter("transform")]
             public Transform transform;
+
             [CommandParameter("position")]
             public Vector3 position;
+
             public Move()
             {
-
             }
 
             public override ConsoleOutput Logic()
@@ -262,20 +251,19 @@ namespace Console
                 transform.position = position;
                 return new ConsoleOutput(((Transform)transform).name + " moved to " + position.ToString(), ConsoleOutput.OutputType.Log);
             }
-
         }
 
-
         [ConsoleCommand("rotate", "Rotate a game object.")]
-        class Rotate : Command
+        private class Rotate : Command
         {
             [CommandParameter("transform")]
             public Transform transform;
+
             [CommandParameter("rotation")]
             public Quaternion rotation;
+
             public Rotate()
             {
-
             }
 
             public override ConsoleOutput Logic()
@@ -284,15 +272,14 @@ namespace Console
                 transform.rotation = rotation;
                 return new ConsoleOutput(((Transform)transform).name + " rotated to " + rotation.ToString(), ConsoleOutput.OutputType.Log);
             }
-
         }
+
         /*
         [ConsoleCommand("sphere", "Instantiate a physical sphere.")]
         class Sphere : Command
         {
             public Sphere()
             {
-
             }
 
             public override ConsoleOutput Logic()
@@ -309,20 +296,16 @@ namespace Console
                 else
                 {
                     sphere.transform.position = Camera.main.transform.position + Camera.main.transform.forward * 5f;
-
                 }
 
                 return new ConsoleOutput("Sphere created at " + sphere.transform.position.ToString(), ConsoleOutput.OutputType.Log);
             }
-
         }
         */
 
-
         [ConsoleCommand("export", "Export console logs to a text file.")]
-        class Export : Command
+        private class Export : Command
         {
-
             public override ConsoleOutput Logic()
             {
                 base.Logic();
@@ -340,23 +323,17 @@ namespace Console
                 string filePath = Directory.GetParent(Application.dataPath) + "/Logs/" + fileName;
                 var output = File.CreateText(filePath);
 
-
-
-
                 output.Write(fileContent);
 
                 output.Close();
-
 
                 return new ConsoleOutput("Log file created at '" + filePath + "'", ConsoleOutput.OutputType.Log);
             }
         }
 
-
         [ConsoleCommand("quit", "Exit the application")]
-        class Quit : Command
+        private class Quit : Command
         {
-
             public override ConsoleOutput Logic()
             {
                 base.Logic();
@@ -366,10 +343,11 @@ namespace Console
         }
 
         [ConsoleCommand("fps", "Limit the frame rate. Set 0 for unlimited.")]
-        class Fps_max : Command
+        private class Fps_max : Command
         {
             [CommandParameter("maxFPS")]
             public int maxFPS;
+
             public override ConsoleOutput Logic()
             {
                 base.Logic();
@@ -378,9 +356,8 @@ namespace Console
             }
         }
 
-
         [ConsoleCommand("load", "Load a scene by given name or id.")]
-        class LoadLevel : Command
+        private class LoadLevel : Command
         {
             [CommandParameter("level")]
             public string targetLevel;
@@ -393,17 +370,15 @@ namespace Console
                 {
                     UnityEngine.SceneManagement.SceneManager.LoadScene(levelId);
                     return new ConsoleOutput("Loading level with id " + levelId + ".", ConsoleOutput.OutputType.Log);
-
                 }
 
                 UnityEngine.SceneManagement.SceneManager.LoadScene(targetLevel);
                 return new ConsoleOutput("Loading level " + targetLevel + ".", ConsoleOutput.OutputType.Log);
-
             }
         }
 
         [ConsoleCommand("ping", "Get current match ping")]
-        class ping : Command
+        private class ping : Command
         {
             public override ConsoleOutput Logic()
             {
@@ -413,30 +388,28 @@ namespace Console
         }
 
         [ConsoleCommand("clear", "Clear all console output")]
-        class Clear : Command
+        private class Clear : Command
         {
             public override ConsoleOutput Logic()
             {
                 base.Logic();
                 DeveloperConsole.Instance.consoleOutputs.Clear();
                 return new ConsoleOutput("How empty!", ConsoleOutput.OutputType.Log);
-
             }
         }
 
         [ConsoleCommand("uptime", "Print the time since startup.")]
-        class Hourglass : Command
+        private class Hourglass : Command
         {
             public override ConsoleOutput Logic()
             {
                 base.Logic();
                 return new ConsoleOutput("Engine is running for " + (int)Time.realtimeSinceStartup + " seconds.", ConsoleOutput.OutputType.Log);
-
             }
         }
 
         [ConsoleCommand("flush", "Clear cache memory.")]
-        class Flush : Command
+        private class Flush : Command
         {
             public override ConsoleOutput Logic()
             {
@@ -444,15 +417,12 @@ namespace Console
                 var cacheCount = Caching.cacheCount;
                 Caching.ClearCache();
                 return new ConsoleOutput("Cleared " + cacheCount + " cache(s).", ConsoleOutput.OutputType.Log);
-
             }
         }
 
-
         [ConsoleCommand("path", "Print the engine filesystem path.")]
-        class Path : Command
+        private class Path : Command
         {
-
             public override ConsoleOutput Logic()
             {
                 base.Logic();
@@ -463,9 +433,8 @@ namespace Console
         }
 
         [ConsoleCommand("restart", "Restart the scene.")]
-        class Restart : Command
+        private class Restart : Command
         {
-
             public override ConsoleOutput Logic()
             {
                 base.Logic();
@@ -473,30 +442,31 @@ namespace Console
                 UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
 
                 return new ConsoleOutput("", ConsoleOutput.OutputType.Log, false);
-
             }
         }
 
         [ConsoleCommand("volume", "Set volume from 0-1.")]
-        class Au_Volume : Command
+        private class Au_Volume : Command
         {
             [CommandParameter("float")]
             public float value;
+
             public override ConsoleOutput Logic()
             {
                 base.Logic();
                 AudioListener.volume = value;
                 PlayerPrefs.SetFloat(Helper.Settings.volumeMaster.ToString(), value);
 
-                return new ConsoleOutput($"Volume set to {value*100}%.", ConsoleOutput.OutputType.Log, false);
-
+                return new ConsoleOutput($"Volume set to {value * 100}%.", ConsoleOutput.OutputType.Log, false);
             }
         }
+
         [ConsoleCommand("get", "Get an item.")]
-        class giveitem : Command
+        private class giveitem : Command
         {
             [CommandParameter("itemID")]
             public string item;
+
             public override ConsoleOutput Logic()
             {
                 base.Logic();
@@ -513,31 +483,33 @@ namespace Console
                 }
             }
         }
+
         [ConsoleCommand("tp", "Teleport a player to a room")]
-        class tp : Command
+        private class tp : Command
         {
             [CommandParameter("userID")]
             public int id;
+
             [CommandParameter("room")]
             public string room;
+
             public override ConsoleOutput Logic()
             {
                 base.Logic();
                 Webhook.Log($"tp {id} {room}");
                 if (Core.Instance.GetPlayer(id) == null) return new ConsoleOutput($"Could not find a player with ID \"{id}\"", ConsoleOutput.OutputType.Error);
-                if(RoomNode.Get(room) == null) return new ConsoleOutput($"Could not find a room with ID \"{room}\"", ConsoleOutput.OutputType.Error);
+                if (RoomNode.Get(room) == null) return new ConsoleOutput($"Could not find a room with ID \"{room}\"", ConsoleOutput.OutputType.Error);
                 else
                 {
                     if (PhotonNetwork.LocalPlayer.ActorNumber == id) Core.Instance.TeleportTo(id, room);
                     else Core.Instance.photonView.RPC("TeleportTo", RpcTarget.Others, id, room);
                     return new ConsoleOutput($"Teleported player {id} to room \"{room}\"", ConsoleOutput.OutputType.Log);
                 }
-                
-                    
             }
         }
+
         [ConsoleCommand("rooms", "Lists all room IDs")]
-        class rooms : Command
+        private class rooms : Command
         {
             public override ConsoleOutput Logic()
             {
@@ -549,21 +521,23 @@ namespace Console
             }
         }
 
-        [ConsoleCommand("light", "Creates a light source")]
-        class Light : Command
+        [ConsoleCommand("light", "Creates a light source on the player")]
+        private class Light : Command
         {
             public override ConsoleOutput Logic()
             {
                 base.Logic();
                 Webhook.Log("light");
-                GameObject g = GameObject.Instantiate(new GameObject("s"));
+                GameObject g = GameObject.Instantiate(new GameObject());
                 g.AddComponent<UnityEngine.Light>();
-                g.transform.position = Core.Instance.Player.position;
+                g.transform.parent = Core.Instance.Player;
+                g.transform.position = Vector3.zero;
                 return new ConsoleOutput($"Created a light source.", ConsoleOutput.OutputType.Log);
             }
         }
+
         [ConsoleCommand("pos", "Gets your global position")]
-        class position : Command
+        private class position : Command
         {
             public override ConsoleOutput Logic()
             {
@@ -571,11 +545,13 @@ namespace Console
                 return new ConsoleOutput($"You are at {Core.Instance.Player.position}", ConsoleOutput.OutputType.Log);
             }
         }
+
         [ConsoleCommand("skin", "Changes your skin [PRE-GAME]")]
-        class Skin : Command
+        private class Skin : Command
         {
             [CommandParameter("skinID")]
             public string skin;
+
             public override ConsoleOutput Logic()
             {
                 base.Logic();
@@ -583,11 +559,13 @@ namespace Console
                 return new ConsoleOutput($"Your skin got changed to {skin}", ConsoleOutput.OutputType.Log);
             }
         }
+
         [ConsoleCommand("spawnodds", "Sets new spawn odds [PRE-GAME]")]
-        class spawnodds : Command
+        private class spawnodds : Command
         {
             [CommandParameter("odds 0-1")]
             public int odds;
+
             public override ConsoleOutput Logic()
             {
                 base.Logic();
@@ -597,7 +575,6 @@ namespace Console
             }
         }
 
-        #endregion
+        #endregion commands
     }
-
 }

@@ -1,12 +1,15 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CompassHandler : MonoBehaviour
+namespace SajberRoyale.Game
 {
-    public RawImage Compass;
-
-    private void Update()
+    public class CompassHandler : MonoBehaviour
     {
-        if(Camera.main) Compass.uvRect = new Rect((Camera.main.gameObject.transform.parent.localEulerAngles.y-90) / 360, 0, 1, 1);
+        public RawImage Compass;
+
+        private void Update()
+        {
+            if (Camera.main) Compass.uvRect = new Rect((Camera.main.gameObject.transform.parent.localEulerAngles.y - 90) / 360, 0, 1, 1);
+        }
     }
 }

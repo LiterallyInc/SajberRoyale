@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace SajberRoyale.UI
+namespace SajberRoyale.MainMenu
 {
     [System.Obsolete]
     public class NetworkAdmin : MonoBehaviour

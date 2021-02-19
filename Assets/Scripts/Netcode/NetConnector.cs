@@ -3,6 +3,7 @@ using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+
 namespace SajberRoyale.MainMenu
 {
     public class NetConnector : MonoBehaviourPunCallbacks
@@ -10,10 +11,12 @@ namespace SajberRoyale.MainMenu
         private string srv;
         private static bool isConnected = false;
         public Text Status;
+
         private void Start()
         {
             Game.Game.ResetGame();
         }
+
         public void PlayOffline()
         {
             PhotonNetwork.OfflineMode = true;

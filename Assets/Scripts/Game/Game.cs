@@ -7,6 +7,7 @@ namespace SajberRoyale.Game
     {
         public static Game Instance;
         public bool IsActive = false;
+        public bool GracePeriod = true;
         public int TotalPlayers = 0;
         public int AlivePlayers = 0;
         public long StartEpoch = 0;

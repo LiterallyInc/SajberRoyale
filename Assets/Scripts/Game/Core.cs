@@ -174,6 +174,7 @@ namespace SajberRoyale.Game
             Button_Start.gameObject.SetActive(false);
             AudioSync.RestartAll();
             Game.Instance.StartGame();
+            Instantiate(new GameObject()).AddComponent<GracePeriod>();
         }
 
         /// <summary>

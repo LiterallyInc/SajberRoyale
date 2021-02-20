@@ -48,7 +48,7 @@ namespace SajberRoyale.Player
                 ScreenCapture.CaptureScreenshot(filename);
             }
             //use item
-            if (Input.GetMouseButtonDown(0) && Core.Instance.Inventory.CurrentWeapon != null && vp_Utility.LockCursor)
+            if (Input.GetMouseButtonDown(0) && Core.Instance.Inventory.CurrentWeapon != null && vp_Utility.LockCursor && !Game.Game.Instance.GracePeriod)
             {
                 Item item = Core.Instance.Inventory.CurrentWeapon;
                 if (item.type == Item.Type.Weapon)

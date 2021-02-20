@@ -35,7 +35,7 @@ namespace SajberRoyale.Player
 
                 LocalHolder = Instantiate(new GameObject());
                 LocalHolder.transform.parent = Player.transform;
-                LocalHolder.transform.localPosition = new Vector3(0.35f, 1.1f, 0.16f);
+                LocalHolder.transform.localPosition = new Vector3(0.40f, 1f, 0.16f);
                 LocalHolder.transform.localRotation = Quaternion.Euler(90f, -90f, 0);
             }
             //place the other avatars

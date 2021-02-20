@@ -11,11 +11,14 @@ namespace SajberRoyale.Game
         public int AlivePlayers = 0;
         public long StartEpoch = 0;
 
+        //Player data
+        public int Kills = 0;
+        public int HP = 100;
+
         /// <summary> Last physical in-game room player entered  </summary>
         public string CurrentRoom = "Unknown";
 
         public string Skin = "Unknown";
-        public int Kills;
         public bool IsTournament = false;
 
         /// <summary>

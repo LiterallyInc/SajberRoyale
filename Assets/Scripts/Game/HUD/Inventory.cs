@@ -55,7 +55,12 @@ namespace SajberRoyale.Player
             icons[slotIndex].texture = item.icon.texture;
             GetComponent<AudioSource>().clip = Pickup;
             GetComponent<AudioSource>().Play();
-            SummonItem();
+
+            if (slotIndex == currentSelected)
+            {
+                CurrentWeapon = item;
+                SummonItem();
+            }
         }
 
         private void Update()
@@ -88,10 +93,12 @@ namespace SajberRoyale.Player
 
         private void SetSlot(int slot)
         {
+            Item prevSelected = CurrentWeapon;
             currentSelected = slot;
             CurrentWeapon = items[slot];
             selectedOverlay.transform.localPosition = new Vector3(-91.52f + slot * 46.5f, -0.5f, 0);
-            SummonItem();
+            if (CurrentWeapon != prevSelected)
+                SummonItem();
         }
 
         private void DropItem()
@@ -118,7 +125,7 @@ namespace SajberRoyale.Player
 
         private void SummonItem()
         {
-            if(CurrentWeapon == null)
+            if (CurrentWeapon == null)
             {
                 Destroy(PlayerSync.Me.LocallyHeld);
                 photonView.RPC("SummonItemOther", RpcTarget.Others, "NONE");
@@ -140,7 +147,7 @@ namespace SajberRoyale.Player
             Debug.Log(info);
             Debug.Log(player.name);
             Debug.Log(info.Sender.ActorNumber);
-            if(weaponID == "NONE")
+            if (weaponID == "NONE")
             {
                 Destroy(player.GetComponent<PlayerSync>().PubliclyHeld);
             }
@@ -152,6 +159,7 @@ namespace SajberRoyale.Player
                 player.GetComponent<PlayerSync>().PubliclyHeld.transform.localRotation = Quaternion.identity;
             }
         }
+
         #endregion Hotbar control
     }
 }

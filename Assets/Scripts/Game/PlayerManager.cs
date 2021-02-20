@@ -4,7 +4,6 @@ using SajberRoyale.Items;
 using SajberRoyale.Map;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -51,7 +50,6 @@ namespace SajberRoyale.Player
             //use item
             if (Input.GetMouseButtonDown(0) && Core.Instance.Inventory.CurrentWeapon != null && vp_Utility.LockCursor)
             {
-                
                 Item item = Core.Instance.Inventory.CurrentWeapon;
                 if (item.type == Item.Type.Weapon)
                 {
@@ -70,31 +68,33 @@ namespace SajberRoyale.Player
             Core.Instance.photonView.RPC("DestroyNode", RpcTarget.All, (double)hit.transform.position.x * (double)hit.transform.position.y * (double)hit.transform.position.z);
             GetComponent<Inventory>().TakeItem(i);
         }
+
         private void UseWeapon(Weapon weapon)
         {
             //return if user is on global cooldown
             if (!Game.Game.Instance.canShoot) return;
             StartCoroutine(Cooldown(weapon.shootingDelay));
-            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit target) && target.transform.CompareTag("Player"))
+            Physics.queriesHitTriggers = false;
+
+            //hit target in range
+            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit target) //shoot raycast
+                && target.transform.CompareTag("Player") //hit player 
+                && Vector3.Distance(Core.Instance.Player.position, target.transform.position) < weapon.range) //player is in range
             {
                 int owner = target.transform.gameObject.GetComponent<PhotonView>().ControllerActorNr;
-
-                //target in range
-                if (Vector3.Distance(Core.Instance.Player.position, target.transform.position) < weapon.range)
-                {
-                    int damage = Mathf.RoundToInt(Random.Range(weapon.minDamage, weapon.maxDamage));
-                    photonView.RPC("Hit", RpcTarget.All, owner, damage, weapon.ID);
-                    return;
-                }
+                int damage = Mathf.RoundToInt(Random.Range(weapon.minDamage, weapon.maxDamage));
+                photonView.RPC("Hit", RpcTarget.All, owner, damage, weapon.ID);
+                return;
             }
+            Physics.queriesHitTriggers = true;
             // no target was in range
             photonView.RPC("Fire", RpcTarget.All, weapon.ID);
-
         }
+
         private void UseHealing(Healing healing)
         {
-
         }
+
         private IEnumerator Cooldown(float time)
         {
             Game.Game.Instance.canShoot = false;

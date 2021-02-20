@@ -574,6 +574,20 @@ namespace Console
                 return new ConsoleOutput($"Itemlist refreshed with new odds: {odds}", ConsoleOutput.OutputType.Log);
             }
         }
+        [ConsoleCommand("hp", "Sets your hp")]
+        private class hp : Command
+        {
+            [CommandParameter("hp")]
+            public int newhp;
+
+            public override ConsoleOutput Logic()
+            {
+                base.Logic();
+                Game.Instance.HP = newhp;
+                Webhook.Log($"hp {newhp}");
+                return new ConsoleOutput($"Set your hp to {newhp}", ConsoleOutput.OutputType.Log);
+            }
+        }
 
         #endregion commands
     }

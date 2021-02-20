@@ -6,9 +6,14 @@ namespace SajberRoyale.Player
 {
     public class PlayerSync : MonoBehaviourPun
     {
+        public static PlayerSync Me;
         public GameObject PlayerCam;
         public Component[] LocalScripts;
         private GameObject Player;
+        public GameObject PublicHolder;
+        public GameObject PubliclyHeld;
+        public GameObject LocalHolder;
+        public GameObject LocallyHeld;
 
         private void Start()
         {
@@ -22,15 +27,20 @@ namespace SajberRoyale.Player
             }
             else //else instansiate the avatar and set the animator
             {
+                Me = this;
                 Player = PhotonNetwork.Instantiate($"CharMeshes/{Game.Game.Instance.Skin}", Vector3.zero, Quaternion.identity);
                 Core.Instance.Player = Player.transform;
                 //PlayerMovement.CharacterAnimator = Player.GetComponent<Animator>();
                 if (PhotonNetwork.OfflineMode) PhotonNetwork.NickName = Game.Game.Instance.Skin;
+
+                LocalHolder = Instantiate(new GameObject());
+                LocalHolder.transform.parent = Player.transform;
+                LocalHolder.transform.localPosition = new Vector3(0.35f, 1.1f, 0.16f);
+                LocalHolder.transform.localRotation = Quaternion.Euler(90f, -90f, 0);
             }
             //place the other avatars
             GetComponent<CharacterController>().radius = 0.27f;
-            InvokeRepeating("SetSkin", 0f, 1f);
-            Destroy(this, 10f);
+            InvokeRepeating(nameof(SetSkin), 0f, 1f);
         }
 
         private void SetSkin()
@@ -39,10 +49,17 @@ namespace SajberRoyale.Player
             {
                 if (g.GetComponent<PhotonView>().ControllerActorNr == photonView.ControllerActorNr)
                 {
+                    gameObject.name = $"Player{photonView.ControllerActorNr}";
                     g.transform.parent = gameObject.transform;
                     g.transform.localPosition = Vector3.zero;
                     g.tag = "Untagged";
                     if (g.GetComponent<PhotonView>().ControllerActorNr != PhotonNetwork.LocalPlayer.ActorNumber && g.GetComponent<vp_FPBodyAnimator>()) Destroy(g.GetComponent<vp_FPBodyAnimator>());
+
+                    //set itemholder at hand
+                    PublicHolder = Instantiate(new GameObject());
+                    PublicHolder.transform.parent = g.GetComponent<vp_FPBodyAnimator>().Hand.transform;
+                    if(photonView.ControllerActorNr != PhotonNetwork.LocalPlayer.ActorNumber) Destroy(g.GetComponent<vp_FPBodyAnimator>());
+                    PublicHolder.transform.localPosition = Vector3.zero;
                 }
             }
         }

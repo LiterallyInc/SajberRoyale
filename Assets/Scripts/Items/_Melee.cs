@@ -4,6 +4,7 @@ namespace SajberRoyale.Items
 {
     [CreateAssetMenu(fileName = "Melee", menuName = "SajberRoyale/Melee", order = 1)]
     [System.Serializable]
+    [System.Obsolete]
     public class _Melee : Item
     {
         /// <summary>

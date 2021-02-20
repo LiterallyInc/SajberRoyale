@@ -55,6 +55,7 @@ namespace SajberRoyale.Player
             icons[slotIndex].texture = item.icon.texture;
             GetComponent<AudioSource>().clip = Pickup;
             GetComponent<AudioSource>().Play();
+            SummonItem();
         }
 
         private void Update()
@@ -90,6 +91,7 @@ namespace SajberRoyale.Player
             currentSelected = slot;
             CurrentWeapon = items[slot];
             selectedOverlay.transform.localPosition = new Vector3(-91.52f + slot * 46.5f, -0.5f, 0);
+            SummonItem();
         }
 
         private void DropItem()
@@ -111,8 +113,45 @@ namespace SajberRoyale.Player
         {
             items[currentSelected] = null;
             icons[currentSelected].texture = baseTexture.texture;
+            SummonItem();
         }
 
+        private void SummonItem()
+        {
+            if(CurrentWeapon == null)
+            {
+                Destroy(PlayerSync.Me.LocallyHeld);
+                photonView.RPC("SummonItemOther", RpcTarget.Others, "NONE");
+            }
+            else
+            {
+                PlayerSync.Me.LocallyHeld = Instantiate(CurrentWeapon.item);
+                PlayerSync.Me.LocallyHeld.transform.parent = PlayerSync.Me.LocalHolder.transform;
+                PlayerSync.Me.LocallyHeld.transform.localPosition = Vector3.zero;
+                PlayerSync.Me.LocallyHeld.transform.localRotation = Quaternion.identity;
+                photonView.RPC("SummonItemOther", RpcTarget.Others, CurrentWeapon.ID);
+            }
+        }
+
+        [PunRPC]
+        private void SummonItemOther(string weaponID, PhotonMessageInfo info)
+        {
+            GameObject player = GameObject.Find($"Player{info.Sender.ActorNumber}");
+            Debug.Log(info);
+            Debug.Log(player.name);
+            Debug.Log(info.Sender.ActorNumber);
+            if(weaponID == "NONE")
+            {
+                Destroy(player.GetComponent<PlayerSync>().PubliclyHeld);
+            }
+            else
+            {
+                player.GetComponent<PlayerSync>().PubliclyHeld = Instantiate(ItemDatabase.Instance.GetItem(weaponID).item);
+                player.GetComponent<PlayerSync>().PubliclyHeld.transform.parent = player.GetComponent<PlayerSync>().PublicHolder.transform;
+                player.GetComponent<PlayerSync>().PubliclyHeld.transform.localPosition = Vector3.zero;
+                player.GetComponent<PlayerSync>().PubliclyHeld.transform.localRotation = Quaternion.identity;
+            }
+        }
         #endregion Hotbar control
     }
 }

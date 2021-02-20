@@ -40,7 +40,8 @@ public class vp_BodyAnimator : MonoBehaviour
 
 	// head look rotation
 	public GameObject HeadBone;			// the bone closest to the center of the head should be assigned here. all bones between this and 'LowestSpineBone' will be used for headlook
-	public GameObject LowestSpineBone;	// the lowest spine bone above the hip should be assigned here. all bones between this and 'HeadBone' will be used for headlook 
+	public GameObject LowestSpineBone;  // the lowest spine bone above the hip should be assigned here. all bones between this and 'HeadBone' will be used for headlook 
+	public GameObject Hand;
 	[Range(0, 90)]
 	public float HeadPitchCap = 45.0f;	// how far up and down can the character bend its head. too high values may have the character bend over backwards or put its chin through its chest
 

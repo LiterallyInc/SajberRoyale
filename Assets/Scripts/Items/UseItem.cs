@@ -6,9 +6,9 @@ namespace SajberRoyale.Items
     [System.Obsolete]
     public class UseItem : MonoBehaviour
     {
-        [SerializeField] private _Weapon weapon_stats;
+        [SerializeField] private Weapon weapon_stats;
         [SerializeField] private _Melee melee_stats;
-        [SerializeField] private _Healing healing_stats;
+        [SerializeField] private Healing healing_stats;
 
         public Camera fpsCam;
 

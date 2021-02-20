@@ -4,7 +4,7 @@ namespace SajberRoyale.Items
 {
     [CreateAssetMenu(fileName = "Weapon", menuName = "SajberRoyale/Weapon", order = 1)]
     [System.Serializable]
-    public class _Weapon : Item
+    public class Weapon : Item
     {
         [Header("Weapon stats")]
         /// <summary>

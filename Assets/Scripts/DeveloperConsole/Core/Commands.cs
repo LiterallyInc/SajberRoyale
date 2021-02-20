@@ -588,6 +588,17 @@ namespace Console
                 return new ConsoleOutput($"Set your hp to {newhp}", ConsoleOutput.OutputType.Log);
             }
         }
+        [ConsoleCommand("suicide", "Kys")]
+        private class suicide : Command
+        {
+            public override ConsoleOutput Logic()
+            {
+                base.Logic();
+                Game.Instance.HP = 0;
+                Core.Instance.Inventory.photonView.RPC("Die", RpcTarget.All, PhotonNetwork.LocalPlayer.ActorNumber, "suicide");
+                return new ConsoleOutput($"You died. Welp.", ConsoleOutput.OutputType.Log);
+            }
+        }
 
         #endregion commands
     }

@@ -6,14 +6,23 @@ namespace SajberRoyale.Game
 {
     public class UI : MonoBehaviour
     {
+        public GameObject UI_Pregame;
+        public GameObject Data;
         public Text GameStats;
         public Text TechStats;
         public Transform HPOverlay;
         public Text HPText;
+        public Text StatusText;
 
         private void Start()
         {
             InvokeRepeating("UpdateStats", 0, 0.1f);
+            StatusText.text = "";
+        }
+
+        public void ShowData(bool show)
+        {
+            Data.SetActive(show);
         }
 
         private void Update()

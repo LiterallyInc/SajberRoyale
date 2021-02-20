@@ -37,7 +37,7 @@ namespace SajberRoyale.Player
             }
 
             //toggle UI
-            if (Input.GetKeyDown(KeyCode.F1) && !Core.Instance.H532.isCursed) Core.Instance.UI_Data.SetActive(!Core.Instance.UI_Data.activeSelf);
+            if (Input.GetKeyDown(KeyCode.F1) && !Core.Instance.H532.isCursed) Core.Instance.UI.ShowData(!Core.Instance.UI.Data.activeSelf);
 
             //take screenshot
             if (Input.GetKeyDown(KeyCode.F2) && !Application.isEditor)

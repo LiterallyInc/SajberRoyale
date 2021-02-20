@@ -15,10 +15,7 @@ namespace SajberRoyale.Game
     public class Core : MonoBehaviourPun
     {
         [Header("Objects")]
-        public GameObject UI_Pregame;
-
-        public GameObject UI_Gameplay;
-        public GameObject UI_Data;
+        public UI UI;
         public Button Button_Start;
         public GameObject Camera;
         public Inventory Inventory;
@@ -173,7 +170,7 @@ namespace SajberRoyale.Game
             yield return new WaitForSeconds(3.3f);
             Club.StartAudio();
             Summon();
-            UI_Gameplay.SetActive(true);
+            UI.gameObject.SetActive(true);
             Button_Start.gameObject.SetActive(false);
             AudioSync.RestartAll();
             Game.Instance.StartGame();

@@ -149,7 +149,7 @@ namespace SajberRoyale.Map
             if (isMe) StartCoroutine(Queue(39f, () => FindObjectOfType<vp_FPCamera>().ShakeSpeed = 0f));
             if (isMe) StartCoroutine(Queue(39.2f, () => SetSpace(true)));
             if (isMe) StartCoroutine(Queue(39.2f, () => Overlay.Play("HideOverlay")));
-            if (isMe) StartCoroutine(Queue(39.2f, () => Core.Instance.UI_Data.SetActive(false)));
+            if (isMe) StartCoroutine(Queue(39.2f, () => Core.Instance.UI.ShowData(false)));
             if (isMe) StartCoroutine(Queue(39.4f, () => c.transform.position = new Vector3(0, -211, 1233)));
             if (isMe) StartCoroutine(Queue(39.5f, () => Credits.Play("CreditsAnim")));
             if (isMe) StartCoroutine(Queue(77.5f, () => StartCoroutine(LerpCamera(0f, 10f, 2))));
@@ -158,7 +158,7 @@ namespace SajberRoyale.Map
             if (isMe) StartCoroutine(Queue(80f, () => SetSpace(false)));
             if (isMe) StartCoroutine(Queue(80f, () => GoToNode(c)));
             if (isMe) StartCoroutine(Queue(80f, () => Credits.gameObject.SetActive(false)));
-            if (isMe) StartCoroutine(Queue(80f, () => Core.Instance.UI_Data.SetActive(true)));
+            if (isMe) StartCoroutine(Queue(80f, () => Core.Instance.UI.ShowData(true)));
             if (isMe) StartCoroutine(Queue(80f, () => Overlay.Play("HideOverlay")));
             if (isMe) StartCoroutine(Queue(80f, () => isCursed = false));
         }

@@ -24,7 +24,7 @@ namespace SajberRoyale.Game
         public Inventory Inventory;
         public AnimeClub Club;
         public CursedH532 H532;
-        [HideInInspector] public Transform Player; //reference to player gameobject
+        public Transform Player; //reference to player gameobject
 
         [Header("Values")]
         public bool GameStarted = false;

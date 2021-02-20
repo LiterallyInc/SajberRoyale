@@ -15,6 +15,7 @@ namespace SajberRoyale.Game
         public int Kills = 0;
         public int HP = 100;
         public bool canShoot = true;
+        public bool IsAlive = true;
         /// <summary> Last physical in-game room player entered  </summary>
         public string CurrentRoom = "Unknown";
 

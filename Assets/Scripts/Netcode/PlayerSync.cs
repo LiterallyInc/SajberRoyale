@@ -15,6 +15,8 @@ namespace SajberRoyale.Player
         public GameObject LocalHolder;
         public GameObject LocallyHeld;
 
+        public ParticleSystem DeathParticles;
+
         private void Start()
         {
             if (!PhotonNetwork.IsConnected) return;

@@ -15,28 +15,29 @@ namespace SajberRoyale.Player
         /// <summary>
         /// Runs for everyone when someone gets hit
         /// </summary>
-        /// <param name="player">Actor ID of player who got hit</param>
+        /// <param name="actorID">Actor ID of player who got hit</param>
         /// <param name="damage">How much damage the hit did</param>
-        /// <param name="weapon">Weapon ID of weapon that hit player</param>
+        /// <param name="weaponID">Weapon ID of weapon that hit player</param>
         /// <param name="info">Info about the player who hit</param>
         [PunRPC]
-        private void Hit(int player, int damage, string weapon, PhotonMessageInfo info)
+        private void Hit(int actorID, int damage, string weaponID, PhotonMessageInfo info)
         {
-            if (PhotonNetwork.LocalPlayer.ActorNumber == player) //i got hit
+            if (PhotonNetwork.LocalPlayer.ActorNumber == actorID) //i got hit
             {
                 Game.Game.Instance.HP -= damage;
-                GetComponent<AudioSource>().clip = damageSounds[Random.Range(0, damageSounds.Length)];
-                GetComponent<AudioSource>().Play();
                 if (Game.Game.Instance.HP <= 0)
                 {
                     Game.Game.Instance.IsAlive = false;
                     PhotonNetwork.Destroy(Core.Instance.Player.gameObject); //destroy avatar
-                    photonView.RPC("Die", RpcTarget.All, info.Sender.ActorNumber, weapon);
+                    photonView.RPC("Die", RpcTarget.All, info.Sender.ActorNumber, weaponID);
                 }
             }
             else //someone else got hit
             {
+
             }
+
+            PlayAudioAtPlayer(actorID, 5, damageSounds[Random.Range(0, damageSounds.Length)]);
         }
 
         /// <summary>
@@ -47,11 +48,8 @@ namespace SajberRoyale.Player
         [PunRPC]
         private void Fire(string weaponID, PhotonMessageInfo info)
         {
-            GameObject player = GameObject.Find($"Player{info.Sender.ActorNumber}");
             Weapon weapon = (Weapon)ItemDatabase.Instance.GetItem(weaponID);
-            player.GetComponent<AudioSource>().maxDistance = weapon.range * 1.25f;
-            player.GetComponent<AudioSource>().clip = weapon.shootSFX;
-            player.GetComponent<AudioSource>().Play();
+            PlayAudioAtPlayer(info.Sender.ActorNumber, weapon.range * 1.25f, weapon.shootSFX);
         }
 
         /// <summary>
@@ -69,6 +67,18 @@ namespace SajberRoyale.Player
             if (info.Sender.ActorNumber != PhotonNetwork.LocalPlayer.ActorNumber) Destroy(dead.GetComponent<CharacterController>());
             if (PhotonNetwork.LocalPlayer.ActorNumber == killer) Game.Game.Instance.Kills++;
             Game.Game.Instance.AlivePlayers--;
+        }
+
+        /// <summary>
+        /// Plays an audio clip at the players position
+        /// </summary>
+        /// <param name="actorID">Actor ID of player to play audio at</param>
+        private void PlayAudioAtPlayer(int actorID, float range, AudioClip audio)
+        {
+            GameObject player = GameObject.Find($"Player{actorID}");
+            player.GetComponent<AudioSource>().maxDistance = range;
+            player.GetComponent<AudioSource>().clip = audio;
+            player.GetComponent<AudioSource>().Play();
         }
     }
 }

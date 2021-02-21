@@ -1,3 +1,4 @@
+/*
 using System.Collections;
 using UnityEngine;
 
@@ -72,14 +73,14 @@ namespace SajberRoyale.Items
             {
                 Debug.Log(hit.transform.name);
 
-                /*EnemyTarget target = hit.transform.GetComponent<EnemyTarget>();
+                EnemyTarget target = hit.transform.GetComponent<EnemyTarget>();
                 if (target != null)
                 {
                     float result = weapon_stats.maxDamage - ((weapon_stats.maxDamage - weapon_stats.minDamage) / (weapon_stats.range - 1)) * (hit.distance - 1);
                     result = Mathf.Round(result);
 
                     HitMeDaddy(target.name, result, weapon_stats.name);
-                }*/
+                }
             }
         }
 
@@ -96,7 +97,7 @@ namespace SajberRoyale.Items
             {
                 Debug.Log(hit.transform.name);
 
-                /*EnemyTarget target = hit.transform.GetComponent<EnemyTarget>();
+                EnemyTarget target = hit.transform.GetComponent<EnemyTarget>();
                 if (target != null)
                 {
                     AudioSource.PlayClipAtPoint(melee_stats.hitSFX, gameObject.transform.position);
@@ -105,7 +106,7 @@ namespace SajberRoyale.Items
                     result = Mathf.Round(result);
 
                     StabMeDaddy(target.name, result, melee_stats.name);
-                }*/
+                }
             }
         }
 
@@ -148,4 +149,4 @@ namespace SajberRoyale.Items
             Debug.Log(Time.time);
         }
     }
-}
+}*/

@@ -52,7 +52,7 @@ namespace SajberRoyale.Items
         /// <summary>
         /// Played every time the weapon is shot
         /// </summary>
-        public AudioClip shootSFX;
+        public AudioClip[] shootSFX;
 
         /// <summary>
         /// Played every time the weapon is reloading

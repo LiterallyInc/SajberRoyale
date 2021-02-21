@@ -49,7 +49,7 @@ namespace SajberRoyale.Player
         private void Fire(string weaponID, PhotonMessageInfo info)
         {
             Weapon weapon = (Weapon)ItemDatabase.Instance.GetItem(weaponID);
-            PlayAudioAtPlayer(info.Sender.ActorNumber, weapon.range * 1.25f, weapon.shootSFX);
+            PlayAudioAtPlayer(info.Sender.ActorNumber, weapon.range * 1.25f, weapon.shootSFX[Random.Range(0, weapon.shootSFX.Length)]);
         }
 
         /// <summary>

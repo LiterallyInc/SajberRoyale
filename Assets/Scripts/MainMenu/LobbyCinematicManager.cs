@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace SajberRoyale.MainMenu
 {
@@ -9,12 +10,16 @@ namespace SajberRoyale.MainMenu
         public Animator BackFade;
         public Animator Camera;
         public List<string> PathNames = new List<string>();
+        public List<Sprite> Characters = new List<Sprite>();
+        public Image Character;
         private int currentPath;
+        private int currentChar;
         private bool resetQueued = false;
 
         private void Start()
         {
             currentPath = Random.Range(0, PathNames.Count);
+            currentChar = Random.Range(0, Characters.Count);
             SetRandomAnimation();
 
             foreach (AudioSource audio in FindObjectsOfType<AudioSource>())
@@ -37,7 +42,7 @@ namespace SajberRoyale.MainMenu
         {
             resetQueued = true;
             BackFade.Play("Fadeout");
-            yield return new WaitForSeconds(2);
+            yield return new WaitForSeconds(2.33f);
             SetRandomAnimation();
             BackFade.Play("Fadein");
         }
@@ -54,8 +59,19 @@ namespace SajberRoyale.MainMenu
                 }
                 i++;
             }
+            i = 0;
+            while (i < 5)
+            {
+                int newChar = Random.Range(0, PathNames.Count);
+                if (newChar != currentChar)
+                {
+                    currentChar = newChar; break;
+                }
+                i++;
+            }
             Debug.Log($"LobbyCinematicManager/SetRandom: Path set to {PathNames[currentPath]}");
 
+            Character.sprite = Characters[currentChar];
             Camera.Play(PathNames[currentPath], 0, 0);
             resetQueued = false;
         }

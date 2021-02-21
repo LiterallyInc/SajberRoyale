@@ -62,7 +62,7 @@ namespace SajberRoyale.MainMenu
             i = 0;
             while (i < 5)
             {
-                int newChar = Random.Range(0, PathNames.Count);
+                int newChar = Random.Range(0, Characters.Count);
                 if (newChar != currentChar)
                 {
                     currentChar = newChar; break;

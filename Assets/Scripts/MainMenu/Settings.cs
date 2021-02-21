@@ -37,14 +37,13 @@ namespace SajberRoyale.MainMenu
             InputIntro.SetIsOnWithoutNotify(PlayerPrefs.GetInt(KeyIntro, 1) == 1);
             InputDiscord.SetIsOnWithoutNotify(PlayerPrefs.GetInt(KeyDiscord, 1) == 1);
             InputTheme.SetIsOnWithoutNotify(PlayerPrefs.GetInt(KeyTheme, 1) == 1);
-            InputServer.SetIsOnWithoutNotify(PlayerPrefs.GetInt(KeyServer, 0) == 1);
             InputVolume.SetValueWithoutNotify(PlayerPrefs.GetFloat(KeyVolume, 0.5f));
             InputFOV.SetValueWithoutNotify(PlayerPrefs.GetFloat(KeyFOV, 80));
 
             AudioListener.volume = InputVolume.value;
             SetVolume(InputVolume.value);
             SetFOV(InputFOV.value);
-            ToggleServer(InputServer.isOn);
+            ToggleServer(false);
         }
 
         private void Update()

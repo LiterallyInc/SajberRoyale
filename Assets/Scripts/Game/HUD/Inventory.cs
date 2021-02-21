@@ -125,9 +125,9 @@ namespace SajberRoyale.Player
 
         private void SummonItem()
         {
+            Destroy(PlayerSync.Me.LocallyHeld);
             if (CurrentWeapon == null)
             {
-                Destroy(PlayerSync.Me.LocallyHeld);
                 photonView.RPC("SummonItemOther", RpcTarget.Others, "NONE");
             }
             else
@@ -144,14 +144,8 @@ namespace SajberRoyale.Player
         private void SummonItemOther(string weaponID, PhotonMessageInfo info)
         {
             GameObject player = GameObject.Find($"Player{info.Sender.ActorNumber}");
-            Debug.Log(info);
-            Debug.Log(player.name);
-            Debug.Log(info.Sender.ActorNumber);
-            if (weaponID == "NONE")
-            {
-                Destroy(player.GetComponent<PlayerSync>().PubliclyHeld);
-            }
-            else
+            Destroy(player.GetComponent<PlayerSync>().PubliclyHeld);
+            if (weaponID != "NONE")
             {
                 player.GetComponent<PlayerSync>().PubliclyHeld = Instantiate(ItemDatabase.Instance.GetItem(weaponID).item);
                 player.GetComponent<PlayerSync>().PubliclyHeld.transform.parent = player.GetComponent<PlayerSync>().PublicHolder.transform;

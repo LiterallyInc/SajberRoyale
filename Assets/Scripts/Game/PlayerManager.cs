@@ -51,7 +51,7 @@ namespace SajberRoyale.Player
             if (Input.GetMouseButtonDown(0) && Core.Instance.Inventory.CurrentWeapon != null && vp_Utility.LockCursor && !Game.Game.Instance.GracePeriod)
             {
                 Item item = Core.Instance.Inventory.CurrentWeapon;
-                if (item.type == Item.Type.Weapon)
+                if (item.type == Item.Type.Weapon || item.type == Item.Type.Melee)
                 {
                     UseWeapon((Weapon)item);
                 }

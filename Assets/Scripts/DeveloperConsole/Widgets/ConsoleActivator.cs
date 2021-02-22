@@ -18,6 +18,7 @@ public class ConsoleActivator : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F4) && Helper.IsDev)
         {
             Console.DeveloperConsole.active = !Console.DeveloperConsole.active;
+            vp_Utility.LockCursor = !Console.DeveloperConsole.active;
         }
     }
 }

@@ -33,7 +33,7 @@ namespace SajberRoyale.Game
 
         private void UpdateStats()
         {
-            GameStats.text = $@"{(Helper.IsDev ? "<color=#FFB4C0>[DEV]</color> " : "")}{(Game.Instance.IsAlive ? "" : "<color=#FD6F77>[DEAD]</color>")}{PhotonNetwork.NickName}
+            GameStats.text = $@"{(Helper.IsDev ? "<color=#FFB4C0>[DEV]</color> " : "")}{(Game.Instance.IsAlive ? "" : "<color=#FD6F77>[DEAD]</color> ")}{PhotonNetwork.NickName}
 <size=10><i>Playing as {Game.Instance.Skin}</i></size>
 
 Room: {Game.Instance.CurrentRoom}

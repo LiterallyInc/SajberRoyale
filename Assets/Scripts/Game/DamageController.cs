@@ -24,6 +24,7 @@ namespace SajberRoyale.Player
         {
             if (PhotonNetwork.LocalPlayer.ActorNumber == actorID) //i got hit
             {
+
                 Game.Game.Instance.HP -= damage;
                 if (Game.Game.Instance.HP <= 0)
                 {
@@ -34,9 +35,8 @@ namespace SajberRoyale.Player
             }
             else //someone else got hit
             {
-
             }
-
+            AnimateWeapon(weaponID, info.Sender.ActorNumber);
             PlayAudioAtPlayer(actorID, 5, damageSounds[Random.Range(0, damageSounds.Length)]);
         }
 
@@ -48,6 +48,7 @@ namespace SajberRoyale.Player
         [PunRPC]
         private void Fire(string weaponID, PhotonMessageInfo info)
         {
+            AnimateWeapon(weaponID, info.Sender.ActorNumber);
             Weapon weapon = (Weapon)ItemDatabase.Instance.GetItem(weaponID);
             PlayAudioAtPlayer(info.Sender.ActorNumber, weapon.range * 1.25f, weapon.shootSFX[Random.Range(0, weapon.shootSFX.Length)]);
         }
@@ -79,6 +80,20 @@ namespace SajberRoyale.Player
             player.GetComponent<AudioSource>().maxDistance = range;
             player.GetComponent<AudioSource>().clip = audio;
             player.GetComponent<AudioSource>().Play();
+        }
+        private void AnimateWeapon(string weaponID, int actorID)
+        {
+            string animation = ItemDatabase.Instance.GetItem(weaponID).type == Item.Type.Weapon ? "Shoot" : "Swing";
+            if (actorID == PhotonNetwork.LocalPlayer.ActorNumber)
+            {
+                Animator weaponAnim = Core.Instance.Sync.LocallyHeld.GetComponent<Animator>();
+                weaponAnim.Play(animation, -1, 0);
+            }
+            else
+            {
+                PlayerSync sync = Core.Instance.GetPlayer(actorID).GetComponent<PlayerSync>();
+                sync.PubliclyHeld.GetComponent<Animator>().Play(animation, -1, 0);
+            }
         }
     }
 }

@@ -32,13 +32,14 @@ namespace SajberRoyale.Player
                 Me = this;
                 Player = PhotonNetwork.Instantiate($"CharMeshes/{Game.Game.Instance.Skin}", Vector3.zero, Quaternion.identity);
                 Core.Instance.Player = Player.transform;
+                Core.Instance.Sync = this;
                 //PlayerMovement.CharacterAnimator = Player.GetComponent<Animator>();
                 if (PhotonNetwork.OfflineMode) PhotonNetwork.NickName = Game.Game.Instance.Skin;
 
                 LocalHolder = Instantiate(new GameObject());
                 LocalHolder.transform.parent = Player.transform;
-                LocalHolder.transform.localPosition = new Vector3(0.40f, 1f, 0.16f);
-                LocalHolder.transform.localRotation = Quaternion.Euler(90f, -90f, 0);
+                LocalHolder.transform.localPosition = new Vector3(0.33f, 0.88f, 0f);
+                LocalHolder.transform.localRotation = Quaternion.Euler(1f, -65f, 8f);
             }
             //place the other avatars
             GetComponent<CharacterController>().radius = 0.27f;
@@ -54,14 +55,17 @@ namespace SajberRoyale.Player
                     gameObject.name = $"Player{photonView.ControllerActorNr}";
                     g.transform.parent = gameObject.transform;
                     g.transform.localPosition = Vector3.zero;
+                    g.transform.localRotation = Quaternion.identity;
                     g.tag = "Untagged";
                     if (g.GetComponent<PhotonView>().ControllerActorNr != PhotonNetwork.LocalPlayer.ActorNumber && g.GetComponent<vp_FPBodyAnimator>()) Destroy(g.GetComponent<vp_FPBodyAnimator>());
 
                     //set itemholder at hand
                     PublicHolder = Instantiate(new GameObject());
+                    PublicHolder.name = "Holder";
                     PublicHolder.transform.parent = g.GetComponent<vp_FPBodyAnimator>().Hand.transform;
                     if(photonView.ControllerActorNr != PhotonNetwork.LocalPlayer.ActorNumber) Destroy(g.GetComponent<vp_FPBodyAnimator>());
                     PublicHolder.transform.localPosition = Vector3.zero;
+                    PublicHolder.transform.localRotation = Quaternion.Euler(-181f, 4f, -14f);
                 }
             }
         }

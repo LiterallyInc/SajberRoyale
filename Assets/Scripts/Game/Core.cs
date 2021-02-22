@@ -22,6 +22,7 @@ namespace SajberRoyale.Game
         public AnimeClub Club;
         public CursedH532 H532;
         public Transform Player; //reference to player gameobject
+        public PlayerSync Sync;
 
         [Header("Values")]
         public bool GameStarted = false;

@@ -16,6 +16,7 @@ namespace SajberRoyale.Game
     {
         [Header("Objects")]
         public UI UI;
+
         public Button Button_Start;
         public GameObject Camera;
         public Inventory Inventory;
@@ -153,15 +154,19 @@ namespace SajberRoyale.Game
         {
             StartCoroutine(StartVictory());
         }
+
         private IEnumerator StartVictory()
         {
             VictoryTheme.Play();
-            Time.timeScale = 0.5f;
+            Time.timeScale = 0.2f;
             UI.WinEffect();
             yield return new WaitForSecondsRealtime(2);
             Time.timeScale = 1f;
 
-            yield return new WaitForSecondsRealtime(2);
+            yield return new WaitForSecondsRealtime(5);
+
+            foreach (Component c in Sync.LocalScripts) if (typeof(AudioListener) != c.GetType()) Destroy(c);
+            PhotonNetwork.Destroy(Player.gameObject);
         }
 
         #region Ran by master client only

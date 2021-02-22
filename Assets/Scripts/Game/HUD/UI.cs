@@ -14,6 +14,8 @@ namespace SajberRoyale.Game
         public Text HPText;
         public Text StatusText;
 
+        public Animator WinLogo;
+
         private void Start()
         {
             InvokeRepeating("UpdateStats", 0, 0.1f);
@@ -44,5 +46,12 @@ Left: {Game.Instance.AlivePlayers}/{Game.Instance.TotalPlayers}
             if (PhotonNetwork.OfflineMode) ping = "Offline";
             TechStats.text = $"{Mathf.Round(1.0f / Time.deltaTime)} fps\n{ping}";
         }
+
+        public void WinEffect()
+        {
+            WinLogo.gameObject.SetActive(true);
+            WinLogo.PlayInFixedTime("VictoryAnimation");
+        }
+        
     }
 }

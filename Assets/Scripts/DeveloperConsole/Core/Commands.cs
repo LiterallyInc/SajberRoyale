@@ -600,6 +600,17 @@ namespace Console
             }
         }
 
+        [ConsoleCommand("win", "Play the victory effects.")]
+        private class win : Command
+        {
+            public override ConsoleOutput Logic()
+            {
+                base.Logic();
+                Core.Instance.Win();
+                return new ConsoleOutput($"You won. Well, locally at least.", ConsoleOutput.OutputType.Log);
+            }
+        }
+
         #endregion commands
     }
 }

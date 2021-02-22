@@ -23,6 +23,7 @@ namespace SajberRoyale.Game
         public CursedH532 H532;
         public Transform Player; //reference to player gameobject
         public PlayerSync Sync;
+        public AudioSource VictoryTheme;
 
         [Header("Values")]
         public bool GameStarted = false;
@@ -75,6 +76,7 @@ namespace SajberRoyale.Game
                     MStartGame();
                 }
             }
+            if (Input.GetKeyDown(KeyCode.L)) Win();
         }
 
         [PunRPC]
@@ -141,6 +143,24 @@ namespace SajberRoyale.Game
         private void StartGame()
         {
             StartCoroutine(StartIn());
+        }
+
+        /// <summary>
+        /// Plays win effect when a player wins.
+        /// </summary>
+        public void Win()
+        {
+            StartCoroutine(StartVictory());
+        }
+        private IEnumerator StartVictory()
+        {
+            VictoryTheme.Play();
+            Time.timeScale = 0.5f;
+            UI.WinEffect();
+            yield return new WaitForSecondsRealtime(2);
+            Time.timeScale = 1f;
+
+            yield return new WaitForSecondsRealtime(2);
         }
 
         #region Ran by master client only

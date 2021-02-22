@@ -68,6 +68,9 @@ namespace SajberRoyale.Player
             if (info.Sender.ActorNumber != PhotonNetwork.LocalPlayer.ActorNumber) Destroy(dead.GetComponent<CharacterController>());
             if (PhotonNetwork.LocalPlayer.ActorNumber == killer) Game.Game.Instance.Kills++;
             Game.Game.Instance.AlivePlayers--;
+
+            if (Game.Game.Instance.AlivePlayers == 1)
+                Core.Instance.Win();
         }
 
         /// <summary>

@@ -22,6 +22,7 @@ namespace SajberRoyale.Game
         public AnimeClub Club;
         public CursedH532 H532;
         public Transform Player; //reference to player gameobject
+        public Transform PlayerController;
         public PlayerSync Sync;
         public AudioSource VictoryTheme;
 
@@ -136,7 +137,7 @@ namespace SajberRoyale.Game
             GameObject[] SpawnNodes = GameObject.FindGameObjectsWithTag("PlayerSpawn");
             Vector3 SpawnPos = SpawnNodes[Random.Range(0, SpawnNodes.Length - 1)].transform.position;
             SpawnPos.y++;
-            PhotonNetwork.Instantiate("UFPS_Player", SpawnPos, Quaternion.identity);
+            PlayerController = PhotonNetwork.Instantiate("UFPS_Player", SpawnPos, Quaternion.identity).transform;
         }
 
         [PunRPC]
@@ -234,7 +235,7 @@ namespace SajberRoyale.Game
             if (PhotonNetwork.LocalPlayer.ActorNumber != id) return false;
             if (RoomNode.Get(room.ToLower()) != null)
             {
-                Player.parent.position = RoomNode.Get(room.ToLower()).transform.position;
+                PlayerController.position = RoomNode.Get(room.ToLower()).transform.position;
                 return true;
             }
             return false;

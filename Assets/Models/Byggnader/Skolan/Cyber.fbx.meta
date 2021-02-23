@@ -20,8 +20,18 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: asphalt
+    second: {fileID: 2100000, guid: 45caf3475fe858d4dadc61f9244c4bce, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: cottonwall
     second: {fileID: 2100000, guid: 4ec72f4b51b6ace49a8fc78e62f66223, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: fencewood
+    second: {instanceID: 0}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -37,6 +47,21 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: "f\xF6nsterkarm"
     second: {fileID: 2100000, guid: 08f86c9b07b73214c94ac038428fc4bf, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: grass
+    second: {fileID: 2100000, guid: 4bc40864fd16b3e499613321f651d862, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: hissgolv
+    second: {fileID: 2100000, guid: 17de8917cc7eb224497dfba5590e9d93, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: hissmetal
+    second: {fileID: 2100000, guid: aedd3d6ea7b6cd3449b31fcb8f15a249, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -62,6 +87,11 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: stakettextur
     second: {fileID: 2100000, guid: 17de8917cc7eb224497dfba5590e9d93, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: utomhus_brickfloor
+    second: {fileID: 2100000, guid: ebd776c1133742b499d34cd60b09193c, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule

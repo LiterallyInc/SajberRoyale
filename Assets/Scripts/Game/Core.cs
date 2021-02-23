@@ -33,6 +33,7 @@ namespace SajberRoyale.Game
         public static Core Instance;
         public float SpawnOdds = 0.4f;
         public int seed = 0;
+        public int localSeed = 0;
 
         [Header("Data")]
         public ItemDatabase ItemDatabase;
@@ -43,6 +44,7 @@ namespace SajberRoyale.Game
         // Start is called before the first frame update
         private void Awake()
         {
+            localSeed = Random.Range(0, 100000);
             Instance = this;
             if (PhotonNetwork.IsMasterClient)
             {
@@ -136,7 +138,9 @@ namespace SajberRoyale.Game
         {
             Destroy(Camera);
             GameObject[] SpawnNodes = GameObject.FindGameObjectsWithTag("PlayerSpawn");
+            Random.InitState(localSeed);
             Vector3 SpawnPos = SpawnNodes[Random.Range(0, SpawnNodes.Length - 1)].transform.position;
+            Random.InitState(seed);
             SpawnPos.y++;
             PlayerController = PhotonNetwork.Instantiate("UFPS_Player", SpawnPos, Quaternion.identity).transform;
         }

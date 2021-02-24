@@ -1,20 +1,33 @@
+using Photon.Pun;
 using UnityEngine;
 namespace SajberRoyale.Map
 {
     public class PanoramaHandler : MonoBehaviour
     {
-        [Header("Colliders")]
-        public BoxCollider Haga;
-        public BoxCollider Vanadis;
+        public GameObject[] disableInZone;
+        public GameObject[] enableInZone;
 
-        [Header("Panoramas")]
-        public GameObject V_W;
-        public GameObject V_S;
-        public GameObject H_N;
-        public GameObject H_S;
-        void Update()
+        public GameObject[] disableOnExit;
+        public GameObject[] enableOnExit;
+
+
+
+        private void OnTriggerEnter(Collider c)
         {
+            if (!c.GetComponent<PhotonView>()) return;
+            if (!c.GetComponent<PhotonView>().IsMine) return;
 
+            foreach (GameObject g in disableInZone) g.SetActive(false);
+            foreach (GameObject g in enableInZone) g.SetActive(true);
+        }
+
+        private void OnTriggerExit(Collider c)
+        {
+            if (!c.GetComponent<PhotonView>()) return;
+            if (!c.GetComponent<PhotonView>().IsMine) return;
+
+            foreach (GameObject g in disableOnExit) g.SetActive(false);
+            foreach (GameObject g in enableOnExit) g.SetActive(true);
         }
     }
 }

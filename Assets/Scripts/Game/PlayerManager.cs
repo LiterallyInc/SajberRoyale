@@ -18,10 +18,9 @@ namespace SajberRoyale.Player
         private void Update()
         {
             //pickup item
-            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit) && hit.transform.CompareTag("ItemNode") && Input.GetKeyDown(KeyCode.F))
+            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit) && hit.transform.CompareTag("ItemNode") && (Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.E)) && Game.Game.Instance.IsAlive && hit.distance < 2.5f)
             {
                 ItemNode node = hit.transform.gameObject.GetComponent<ItemNode>();
-
                 if (hit.transform.gameObject.GetComponent<Locker>()) //locker
                 {
                     Locker locker = hit.transform.gameObject.GetComponent<Locker>();

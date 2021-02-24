@@ -24,6 +24,7 @@ namespace SajberRoyale.Game
         public CursedH532 H532;
         public Transform Player; //reference to player gameobject
         public Transform PlayerController;
+        public vp_FPInput PlayerInput;
         public PlayerSync Sync;
         public AudioSource VictoryTheme;
 
@@ -81,6 +82,8 @@ namespace SajberRoyale.Game
                 }
             }
             if (Input.GetKeyDown(KeyCode.L)) Win();
+
+            if (PlayerInput != null) if (!PlayerInput.MouseLookAcceleration) PlayerInput.MouseLookSensitivity = new Vector2(Helper.sens, Helper.sens);
         }
 
         [PunRPC]
@@ -143,6 +146,7 @@ namespace SajberRoyale.Game
             Random.InitState(seed);
             SpawnPos.y++;
             PlayerController = PhotonNetwork.Instantiate("UFPS_Player", SpawnPos, Quaternion.identity).transform;
+            PlayerInput = PlayerController.GetComponent<vp_FPInput>();
         }
 
         [PunRPC]

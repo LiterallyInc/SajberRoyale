@@ -611,6 +611,22 @@ namespace Console
             }
         }
 
+        [ConsoleCommand("sens", "Set your mouse sensivity.")]
+        private class sens : Command
+        {
+            [CommandParameter("sens")]
+            public float value;
+
+            public override ConsoleOutput Logic()
+            {
+                base.Logic();
+
+                Helper.sens = value;
+                PlayerPrefs.SetFloat(Helper.Settings.sens.ToString(), value);
+                return new ConsoleOutput($"Mouse sensivity set to {value}.", ConsoleOutput.OutputType.Log, false);
+            }
+        }
+
         #endregion commands
     }
 }

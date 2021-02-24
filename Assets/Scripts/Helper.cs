@@ -1,5 +1,6 @@
 public class Helper
 {
+    public static float sens = 5;
     private static bool isDev = false;
     public static bool IsDev
     {
@@ -26,7 +27,9 @@ public class Helper
         /// <summary> (0/1) Whether or not the user got access to developer tools </summary>
         isDev,
         /// <summary> (0/1) Whether or not the game should connect to an alternate server </summary>
-        altServer
+        altServer,
+        /// <summary> (0.0-20.0) Mouse sensivity modifier </summary>
+        sens
 
     }
 }

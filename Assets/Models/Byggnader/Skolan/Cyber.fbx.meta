@@ -70,6 +70,16 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: lambert1
+    second: {fileID: 2100000, guid: d38e8b149dffe5846a8dee14ec9db53a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lambert20
+    second: {fileID: 2100000, guid: f329b04dcf91ade4694d5a36050696d3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: lightwood
     second: {fileID: 2100000, guid: 158f56987dcbb4e4baec55129a4cef60, type: 2}
   - first:

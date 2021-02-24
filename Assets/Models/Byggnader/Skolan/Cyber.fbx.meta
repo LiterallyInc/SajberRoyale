@@ -90,6 +90,11 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: net_fence
+    second: {fileID: 2100000, guid: 8b8ace1338a9f9f428b8ceb67458c70d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: "pasted__f\xF6nsterkarm"
     second: {fileID: 2100000, guid: 08f86c9b07b73214c94ac038428fc4bf, type: 2}
   - first:

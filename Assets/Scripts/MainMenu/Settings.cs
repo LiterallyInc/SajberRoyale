@@ -9,10 +9,9 @@ namespace SajberRoyale.MainMenu
     {
         private bool isOpen = false;
 
-        public Toggle InputIntro;
-        public Toggle InputDiscord;
-        public Toggle InputTheme;
-        public Toggle InputServer;
+        public Slider InputDiscord;
+        public Slider InputTheme;
+        public Slider InputServer;
         public Slider InputVolume;
         public Slider InputFOV;
         public Slider InputSens;
@@ -21,7 +20,6 @@ namespace SajberRoyale.MainMenu
         public Text TextSens;
         public Text TextServer;
 
-        private string KeyIntro;
         private string KeyDiscord;
         private string KeyTheme;
         private string KeyVolume;
@@ -31,7 +29,6 @@ namespace SajberRoyale.MainMenu
 
         private void Start()
         {
-            KeyIntro = Helper.Settings.playIntro.ToString();
             KeyDiscord = Helper.Settings.discordRpc.ToString();
             KeyTheme = Helper.Settings.musicTheme.ToString();
             KeyVolume = Helper.Settings.volumeMaster.ToString();
@@ -39,11 +36,11 @@ namespace SajberRoyale.MainMenu
             KeyServer = Helper.Settings.altServer.ToString();
             KeySens = Helper.Settings.sens.ToString();
 
-            InputIntro.SetIsOnWithoutNotify(PlayerPrefs.GetInt(KeyIntro, 1) == 1);
-            InputDiscord.SetIsOnWithoutNotify(PlayerPrefs.GetInt(KeyDiscord, 1) == 1);
-            InputTheme.SetIsOnWithoutNotify(PlayerPrefs.GetInt(KeyTheme, 1) == 1);
+            InputDiscord.SetValueWithoutNotify(PlayerPrefs.GetInt(KeyDiscord, 1));
+            InputTheme.SetValueWithoutNotify(PlayerPrefs.GetInt(KeyTheme, 1));
             InputVolume.SetValueWithoutNotify(PlayerPrefs.GetFloat(KeyVolume, 0.5f));
             InputFOV.SetValueWithoutNotify(PlayerPrefs.GetFloat(KeyFOV, 80));
+            InputSens.SetValueWithoutNotify(PlayerPrefs.GetFloat(KeySens, 5));
             InputSens.SetValueWithoutNotify(PlayerPrefs.GetFloat(KeySens, 5));
 
             AudioListener.volume = InputVolume.value;
@@ -51,7 +48,7 @@ namespace SajberRoyale.MainMenu
             SetFOV(InputFOV.value);
             SetSens(InputSens.value);
             Helper.sens = InputSens.value;
-            ToggleServer(false);
+            ToggleServer(0);
         }
 
         private void Update()
@@ -59,26 +56,21 @@ namespace SajberRoyale.MainMenu
             if (isOpen && Input.GetKeyDown(KeyCode.Escape)) OpenMenu(false);
         }
 
-        public void ToggleIntro(bool n)
+        public void ToggleDiscord(float n)
         {
-            PlayerPrefs.SetInt(KeyIntro, n ? 1 : 0);
+            PlayerPrefs.SetInt(KeyDiscord, Mathf.RoundToInt(n));
+            if (n == 1) DiscordController.Instance.StartRPC();
         }
 
-        public void ToggleDiscord(bool n)
+        public void ToggleServer(float n)
         {
-            PlayerPrefs.SetInt(KeyDiscord, n ? 1 : 0);
-            if (n) DiscordController.Instance.StartRPC();
+            PlayerPrefs.SetInt(KeyServer, Mathf.RoundToInt(n));
+            TextServer.gameObject.SetActive(n == 1);
         }
 
-        public void ToggleServer(bool n)
+        public void ToggleTheme(float n)
         {
-            PlayerPrefs.SetInt(KeyServer, n ? 1 : 0);
-            TextServer.gameObject.SetActive(n);
-        }
-
-        public void ToggleTheme(bool n)
-        {
-            PlayerPrefs.SetInt(KeyTheme, n ? 1 : 0);
+            PlayerPrefs.SetInt(KeyTheme, Mathf.RoundToInt(n));
         }
 
         public void SetVolume(float n)

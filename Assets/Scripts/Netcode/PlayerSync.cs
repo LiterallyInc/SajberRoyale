@@ -36,9 +36,9 @@ namespace SajberRoyale.Player
                 //PlayerMovement.CharacterAnimator = Player.GetComponent<Animator>();
 
                 LocalHolder = Instantiate(new GameObject());
-                LocalHolder.transform.parent = Player.transform;
-                LocalHolder.transform.localPosition = new Vector3(0.33f, 0.88f, 0f);
-                LocalHolder.transform.localRotation = Quaternion.Euler(1f, -65f, 8f);
+                LocalHolder.transform.parent = Camera.main.transform;
+                LocalHolder.transform.localPosition = new Vector3(0.24f, -0.35f, .16f);
+                LocalHolder.transform.localRotation = Quaternion.Euler(3f, -90f, 8f);
             }
             //place the other avatars
             GetComponent<CharacterController>().radius = 0.27f;

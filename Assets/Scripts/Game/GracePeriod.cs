@@ -1,32 +1,35 @@
-using SajberRoyale.Game;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class GracePeriod : MonoBehaviour
+namespace SajberRoyale.Game
 {
-    public int TimeLeft = 30;
-    
-    private void Start()
+    public class GracePeriod : MonoBehaviour
     {
-        InvokeRepeating(nameof(UpdateTimer), 0, 1);
-        Game.Instance.GracePeriod = true;
-    }
-    private void UpdateTimer()
-    {
-        TimeLeft--;
-        if(TimeLeft > 0) Core.Instance.UI.StatusText.text = $"Föremål kommer aktiveras om {TimeLeft}s!";
-        if (TimeLeft == 0)
+        public int TimeLeft = 30;
+
+        private void Start()
         {
-            Game.Instance.GracePeriod = false;
-            StartCoroutine(Status());
+            InvokeRepeating(nameof(UpdateTimer), 0, 1);
+            Game.Instance.GracePeriod = true;
         }
-    }
-    IEnumerator Status()
-    {
-        Core.Instance.UI.StatusText.text = "Föremål aktiverade!";
-        yield return new WaitForSeconds(5);
-        Core.Instance.UI.StatusText.text = "";
-        Destroy(gameObject);
+
+        private void UpdateTimer()
+        {
+            TimeLeft--;
+            if (TimeLeft > 0) Core.Instance.UI.StatusText.text = $"Föremål kommer aktiveras om {TimeLeft}s!";
+            if (TimeLeft == 0)
+            {
+                Game.Instance.GracePeriod = false;
+                StartCoroutine(Status());
+            }
+        }
+
+        private IEnumerator Status()
+        {
+            Core.Instance.UI.StatusText.text = "Föremål aktiverade!";
+            yield return new WaitForSeconds(5);
+            Core.Instance.UI.StatusText.text = "";
+            Destroy(gameObject);
+        }
     }
 }

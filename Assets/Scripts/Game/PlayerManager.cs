@@ -59,6 +59,14 @@ namespace SajberRoyale.Player
                     UseHealing((Healing)item);
                 }
             }
+            if (Input.GetMouseButton(0) && Core.Instance.Inventory.CurrentWeapon != null && vp_Utility.LockCursor && !Game.Game.Instance.GracePeriod)
+            {
+                Weapon item = (Weapon)Core.Instance.Inventory.CurrentWeapon;
+                if ((item.type == Item.Type.Weapon || item.type == Item.Type.Melee) && item.isAuto)
+                {
+                    UseWeapon(item);
+                }
+            }
         }
 
         private void TakeItem(ItemNode node, RaycastHit hit)
@@ -77,7 +85,7 @@ namespace SajberRoyale.Player
 
             //hit target in range
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit target) //shoot raycast
-                && target.transform.CompareTag("Player") //hit player 
+                && target.transform.CompareTag("Player") //hit player
                 && Vector3.Distance(Core.Instance.Player.position, target.transform.position) < weapon.range) //player is in range
             {
                 int owner = target.transform.gameObject.GetComponent<PhotonView>().ControllerActorNr;

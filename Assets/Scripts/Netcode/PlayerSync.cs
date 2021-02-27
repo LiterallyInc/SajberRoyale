@@ -34,7 +34,6 @@ namespace SajberRoyale.Player
                 Core.Instance.Player = Player.transform;
                 Core.Instance.Sync = this;
                 //PlayerMovement.CharacterAnimator = Player.GetComponent<Animator>();
-                if (PhotonNetwork.OfflineMode) PhotonNetwork.NickName = Game.Game.Instance.Skin;
 
                 LocalHolder = Instantiate(new GameObject());
                 LocalHolder.transform.parent = Player.transform;

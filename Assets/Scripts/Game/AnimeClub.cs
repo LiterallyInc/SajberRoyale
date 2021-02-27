@@ -17,6 +17,7 @@ namespace SajberRoyale.Map
 
         private void Update()
         {
+            if (Game.Game.Instance == null) return;
             if (!Audio.isPlaying && Game.Game.Instance.IsActive) NextSong();
         }
 

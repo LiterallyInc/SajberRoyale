@@ -1,15 +1,21 @@
 using Photon.Pun;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace SajberRoyale.Game
 {
     public class PregameCore : MonoBehaviourPun
     {
         public Vector3[] PortraitPositions;
+        public Text Room;
 
         // Start is called before the first frame update
         private void Start()
         {
+            Room.text = $"Room: <b>{PhotonNetwork.CurrentRoom.Name}</b>";
+            if (PhotonNetwork.OfflineMode) Room.text = "OFFLINE";
+
+
             if (PhotonNetwork.LocalPlayer.ActorNumber == -1) return;
             foreach (Photon.Realtime.Player p in PhotonNetwork.PlayerList)
             {
@@ -37,6 +43,7 @@ namespace SajberRoyale.Game
         // Update is called once per frame
         private void Update()
         {
+            if (Game.Instance.IsTournament) Room.text = "[TOURNAMENT]";
         }
     }
 }

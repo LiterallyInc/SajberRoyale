@@ -15,6 +15,7 @@ namespace SajberRoyale.Player
     /// </summary>
     public class PlayerManager : MonoBehaviourPun
     {
+        private Weapon QueuedShot;
         private void Update()
         {
             //pickup item
@@ -79,7 +80,11 @@ namespace SajberRoyale.Player
         private void UseWeapon(Weapon weapon)
         {
             //return if user is on global cooldown
-            if (!Game.Game.Instance.canShoot) return;
+            if (!Game.Game.Instance.canShoot)
+            {
+                QueuedShot = weapon;
+                return;
+            }
             StartCoroutine(Cooldown(weapon.shootingDelay));
             Physics.queriesHitTriggers = false;
 
@@ -107,6 +112,11 @@ namespace SajberRoyale.Player
             Game.Game.Instance.canShoot = false;
             yield return new WaitForSeconds(time);
             Game.Game.Instance.canShoot = true;
+            if (QueuedShot != null)
+            {
+                UseWeapon(QueuedShot);
+                QueuedShot = null;
+            }
         }
     }
 }

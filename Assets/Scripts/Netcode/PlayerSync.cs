@@ -15,6 +15,9 @@ namespace SajberRoyale.Player
         public GameObject LocalHolder;
         public GameObject LocallyHeld;
 
+        public Light LocalLight;
+        public Light PublicLight;
+
         public ParticleSystem DeathParticles;
 
         private void Start()
@@ -24,11 +27,15 @@ namespace SajberRoyale.Player
             //delete local comps if it's another user
             if (!photonView.IsMine)
             {
+                PublicLight.enabled = true;
                 Destroy(PlayerCam);
                 foreach (Component c in LocalScripts) Destroy(c);
             }
             else //else instansiate the avatar and set the animator
             {
+                LocalLight.enabled = true;
+                LocalLight.spotAngle = PlayerPrefs.GetFloat(Helper.Settings.fov.ToString(), 90) + 30;
+
                 Me = this;
                 Player = PhotonNetwork.Instantiate($"CharMeshes/{Game.Game.Instance.Skin}", Vector3.zero, Quaternion.identity);
                 Core.Instance.Player = Player.transform;
@@ -62,7 +69,7 @@ namespace SajberRoyale.Player
                     PublicHolder = Instantiate(new GameObject());
                     PublicHolder.name = "Holder";
                     PublicHolder.transform.parent = g.GetComponent<vp_FPBodyAnimator>().Hand.transform;
-                    if(photonView.ControllerActorNr != PhotonNetwork.LocalPlayer.ActorNumber) Destroy(g.GetComponent<vp_FPBodyAnimator>());
+                    if (photonView.ControllerActorNr != PhotonNetwork.LocalPlayer.ActorNumber) Destroy(g.GetComponent<vp_FPBodyAnimator>());
                     PublicHolder.transform.localPosition = Vector3.zero;
                     PublicHolder.transform.localRotation = Quaternion.Euler(-181f, 4f, -14f);
                 }

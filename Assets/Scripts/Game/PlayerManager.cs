@@ -16,10 +16,12 @@ namespace SajberRoyale.Player
     public class PlayerManager : MonoBehaviourPun
     {
         private Weapon QueuedShot;
+        public AudioClip flashlight;
+
         private void Update()
         {
             //pickup item
-            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit) && hit.transform.CompareTag("ItemNode") && (Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.E)) && Game.Game.Instance.IsAlive && hit.distance < 2.5f)
+            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit) && hit.transform.CompareTag("ItemNode") && Input.GetKeyDown(KeyCode.E) && Game.Game.Instance.IsAlive && hit.distance < 2.5f)
             {
                 ItemNode node = hit.transform.gameObject.GetComponent<ItemNode>();
                 if (hit.transform.gameObject.GetComponent<Locker>()) //locker
@@ -48,7 +50,7 @@ namespace SajberRoyale.Player
                 ScreenCapture.CaptureScreenshot(filename);
             }
             //use item
-            if (Input.GetMouseButtonDown(0) && Core.Instance.Inventory.CurrentWeapon != null && vp_Utility.LockCursor && !Game.Game.Instance.GracePeriod)
+            if (Input.GetMouseButtonDown(0) && Core.Instance.Inventory.CurrentWeapon != null && vp_Utility.LockCursor && !Game.Game.Instance.GracePeriod && Game.Game.Instance.IsAlive)
             {
                 Item item = Core.Instance.Inventory.CurrentWeapon;
                 if (item.type == Item.Type.Weapon || item.type == Item.Type.Melee)
@@ -60,13 +62,24 @@ namespace SajberRoyale.Player
                     UseHealing((Healing)item);
                 }
             }
-            if (Input.GetMouseButton(0) && Core.Instance.Inventory.CurrentWeapon != null && vp_Utility.LockCursor && !Game.Game.Instance.GracePeriod)
+
+            //use auto weapon
+            if (Input.GetMouseButton(0) && Core.Instance.Inventory.CurrentWeapon != null && vp_Utility.LockCursor && !Game.Game.Instance.GracePeriod && Game.Game.Instance.IsAlive)
             {
                 Weapon item = (Weapon)Core.Instance.Inventory.CurrentWeapon;
                 if ((item.type == Item.Type.Weapon || item.type == Item.Type.Melee) && item.isAuto)
                 {
                     UseWeapon(item);
                 }
+            }
+
+            if (Input.GetKeyDown(KeyCode.F) && Game.Game.Instance.IsAlive)
+            {
+                Core.Instance.Sync.LocalLight.enabled = !Core.Instance.Sync.LocalLight.enabled;
+                Core.Instance.PlayerController.GetComponent<AudioSource>().clip = flashlight;
+                Core.Instance.PlayerController.GetComponent<AudioSource>().maxDistance = 3;
+                Core.Instance.PlayerController.GetComponent<AudioSource>().Play();
+                photonView.RPC(nameof(ToggleFlashlight), RpcTarget.Others, Core.Instance.Sync.LocalLight.enabled);
             }
         }
 
@@ -117,6 +130,16 @@ namespace SajberRoyale.Player
                 UseWeapon(QueuedShot);
                 QueuedShot = null;
             }
+        }
+
+        [PunRPC]
+        private void ToggleFlashlight(bool enable, PhotonMessageInfo info)
+        {
+            Transform player = Core.Instance.GetPlayer(info.Sender.ActorNumber);
+            player.GetComponent<PlayerSync>().PublicLight.enabled = enable;
+            player.GetComponent<AudioSource>().clip = flashlight;
+            player.GetComponent<AudioSource>().maxDistance = 3;
+            player.GetComponent<AudioSource>().Play();
         }
     }
 }

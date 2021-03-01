@@ -10,6 +10,7 @@ namespace SajberRoyale.Player
 {
     public class DamageController : MonoBehaviourPun
     {
+        public GameObject AudioContainer;
         public AudioClip[] damageSounds;
 
         /// <summary>
@@ -82,9 +83,9 @@ namespace SajberRoyale.Player
         private void PlayAudioAtPlayer(int actorID, float range, AudioClip audio)
         {
             GameObject player = GameObject.Find($"Player{actorID}");
-            player.GetComponent<AudioSource>().maxDistance = range;
-            player.GetComponent<AudioSource>().clip = audio;
-            player.GetComponent<AudioSource>().Play();
+            GameObject audioContainer = Instantiate(AudioContainer, player.transform);
+            audioContainer.GetComponent<AudioSource>().clip = audio;
+            audioContainer.GetComponent<AudioSource>().maxDistance = range;
         }
         private void AnimateWeapon(string weaponID, int actorID)
         {

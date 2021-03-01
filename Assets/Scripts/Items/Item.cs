@@ -51,6 +51,12 @@ namespace SajberRoyale.Items
         /// </summary>
         public Type type;
 
+
+        /// <summary>
+        /// Modifier to walking speed when holding weapon
+        /// </summary>
+        public float speedMultiplier = 1;
+
         #endregion Local variables
 
         public enum Type
@@ -60,5 +66,6 @@ namespace SajberRoyale.Items
             Ammo = 2,
             Healing = 3
         }
+
     }
 }

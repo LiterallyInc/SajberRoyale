@@ -100,13 +100,20 @@ namespace SajberRoyale.Player
             currentSelected = slot;
             CurrentWeapon = items[slot];
             selectedOverlay.transform.localPosition = new Vector3(-48f + slot * 48, 0, 0);
+
             if (CurrentWeapon != prevSelected)
                 SummonItem();
-            if (CurrentWeapon != null)
+
+            if (CurrentWeapon != null) //got item
             {
+                Core.Instance.PlayerController.GetComponent<vp_FPController>().MotorAcceleration = 0.088f * CurrentWeapon.speedMultiplier;
                 if (CurrentWeapon.type == Item.Type.Weapon) SetDesc((Weapon)CurrentWeapon);
             }
-            else UIInfo.GetComponent<Text>().text = "";
+            else
+            {
+                Core.Instance.PlayerController.GetComponent<vp_FPController>().MotorAcceleration = 0.088f;
+                UIInfo.GetComponent<Text>().text = "";
+            }
         }
 
         private void DropItem()

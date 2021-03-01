@@ -93,7 +93,7 @@ namespace SajberRoyale.Player
         private void UseWeapon(Weapon weapon)
         {
             //return if user is on global cooldown
-            if (!Game.Game.Instance.canShoot)
+            if (!Game.Game.Instance.canShoot && weapon.shootingDelay < 0.3f)
             {
                 QueuedShot = weapon;
                 return;

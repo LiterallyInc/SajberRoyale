@@ -193,10 +193,10 @@ namespace SajberRoyale.Game
                 items.Add(nodeSpawns[i].itemID);
                 nodes.Add(nodeSpawns[i].nodeIndex);
             }
-            this.photonView.RPC("PlaceLoot", RpcTarget.All, (object)items.ToArray(), (object)nodes.ToArray());
+            this.photonView.RPC(nameof(PlaceLoot), RpcTarget.All, (object)items.ToArray(), (object)nodes.ToArray());
 
             PhotonNetwork.CurrentRoom.IsOpen = false;
-            this.photonView.RPC("StartGame", RpcTarget.All);
+            this.photonView.RPC(nameof(StartGame), RpcTarget.All);
         }
 
         private IEnumerator StartIn()

@@ -111,7 +111,7 @@ namespace SajberRoyale.Player
                 CurrentWeapon = null;
                 Item item = items[currentSelected];
                 Debug.Log($"Dropped {item.name} (id: {item.ID})");
-                Core.Instance.photonView.RPC("PlaceItem", RpcTarget.All, item.ID, $"{Core.Instance.Player.position.x}|{Core.Instance.Player.position.y}|{Core.Instance.Player.position.z}");
+                Core.Instance.photonView.RPC(nameof(Core.PlaceItem), RpcTarget.All, item.ID, $"{Core.Instance.Player.position.x}|{Core.Instance.Player.position.y}|{Core.Instance.Player.position.z}");
                 RemoveItem();
                 GetComponent<AudioSource>().clip = Drop;
                 GetComponent<AudioSource>().Play();

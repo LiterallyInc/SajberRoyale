@@ -28,7 +28,7 @@ namespace SajberRoyale.Player
                 {
                     Locker locker = hit.transform.gameObject.GetComponent<Locker>();
                     if (!locker.isOpen)
-                        Core.Instance.photonView.RPC("OpenLocker", RpcTarget.All, (double)hit.transform.position.x * (double)hit.transform.position.y * (double)hit.transform.position.z);
+                        Core.Instance.photonView.RPC(nameof(Core.OpenLocker), RpcTarget.All, (double)hit.transform.position.x * (double)hit.transform.position.y * (double)hit.transform.position.z);
                     else
                         TakeItem(node, hit);
                 }
@@ -86,7 +86,7 @@ namespace SajberRoyale.Player
         private void TakeItem(ItemNode node, RaycastHit hit)
         {
             Item i = node.item;
-            Core.Instance.photonView.RPC("DestroyNode", RpcTarget.All, (double)hit.transform.position.x * (double)hit.transform.position.y * (double)hit.transform.position.z);
+            Core.Instance.photonView.RPC(nameof(Core.DestroyNode), RpcTarget.All, (double)hit.transform.position.x * (double)hit.transform.position.y * (double)hit.transform.position.z);
             GetComponent<Inventory>().TakeItem(i);
         }
 
@@ -108,12 +108,12 @@ namespace SajberRoyale.Player
             {
                 int owner = target.transform.gameObject.GetComponent<PhotonView>().ControllerActorNr;
                 int damage = Mathf.RoundToInt(Random.Range(weapon.minDamage, weapon.maxDamage));
-                photonView.RPC("Hit", RpcTarget.All, owner, damage, weapon.ID);
+                photonView.RPC(nameof(DamageController.Hit), RpcTarget.All, owner, damage, weapon.ID);
                 return;
             }
             Physics.queriesHitTriggers = true;
             // no target was in range
-            photonView.RPC("Fire", RpcTarget.All, weapon.ID);
+            photonView.RPC(nameof(DamageController.Fire), RpcTarget.All, weapon.ID);
         }
 
         private void UseHealing(Healing healing)

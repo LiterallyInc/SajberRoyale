@@ -20,7 +20,7 @@ namespace SajberRoyale.Player
         /// <param name="weaponID">Weapon ID of weapon that hit player</param>
         /// <param name="info">Info about the player who hit</param>
         [PunRPC]
-        private void Hit(int actorID, int damage, string weaponID, PhotonMessageInfo info)
+        public void Hit(int actorID, int damage, string weaponID, PhotonMessageInfo info)
         {
             if (PhotonNetwork.LocalPlayer.ActorNumber == actorID) //i got hit
             {
@@ -30,7 +30,7 @@ namespace SajberRoyale.Player
                 {
                     Game.Game.Instance.IsAlive = false;
                     PhotonNetwork.Destroy(Core.Instance.Player.gameObject); //destroy avatar
-                    photonView.RPC("Die", RpcTarget.All, info.Sender.ActorNumber, weaponID);
+                    photonView.RPC(nameof(Die), RpcTarget.All, info.Sender.ActorNumber, weaponID);
                 }
             }
             else //someone else got hit
@@ -48,7 +48,7 @@ namespace SajberRoyale.Player
         /// <param name="weaponID">Weapon ID of weapon that shot</param>
         /// <param name="info">Info about the player who shot</param>
         [PunRPC]
-        private void Fire(string weaponID, PhotonMessageInfo info)
+        public void Fire(string weaponID, PhotonMessageInfo info)
         {
             AnimateWeapon(weaponID, info.Sender.ActorNumber);
             Weapon weapon = (Weapon)ItemDatabase.Instance.GetItem(weaponID);

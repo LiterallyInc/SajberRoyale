@@ -16,7 +16,7 @@ namespace SajberRoyale.Game
         private void UpdateTimer()
         {
             TimeLeft--;
-            if (TimeLeft > 0) Core.Instance.UI.StatusText.text = $"Föremål kommer aktiveras om {TimeLeft}s!";
+            if (TimeLeft > 0) Core.Instance.UI.StatusText.text = $"Items will be activated in {TimeLeft}s!";
             if (TimeLeft == 0)
             {
                 Game.Instance.GracePeriod = false;
@@ -26,7 +26,7 @@ namespace SajberRoyale.Game
 
         private IEnumerator Status()
         {
-            Core.Instance.UI.StatusText.text = "Föremål aktiverade!";
+            Core.Instance.UI.StatusText.text = "Items activated!";
             yield return new WaitForSeconds(5);
             Core.Instance.UI.StatusText.text = "";
             Destroy(gameObject);

@@ -76,17 +76,15 @@ namespace SajberRoyale.Player
             if (Input.GetKeyDown(KeyCode.Alpha1)) SetSlot(0);
             if (Input.GetKeyDown(KeyCode.Alpha2)) SetSlot(1);
             if (Input.GetKeyDown(KeyCode.Alpha3)) SetSlot(2);
-            if (Input.GetKeyDown(KeyCode.Alpha4)) SetSlot(3);
-            if (Input.GetKeyDown(KeyCode.Alpha5)) SetSlot(4);
 
             if (Input.GetAxis("Mouse ScrollWheel") > 0f)
             {
-                if (currentSelected == 0) SetSlot(4);
+                if (currentSelected == 0) SetSlot(2);
                 else SetSlot(currentSelected - 1);
             }
             else if (Input.GetAxis("Mouse ScrollWheel") < 0f)
             {
-                if (currentSelected == 4) SetSlot(0);
+                if (currentSelected == 2) SetSlot(0);
                 else SetSlot(currentSelected + 1);
             }
         }
@@ -96,7 +94,7 @@ namespace SajberRoyale.Player
             Item prevSelected = CurrentWeapon;
             currentSelected = slot;
             CurrentWeapon = items[slot];
-            selectedOverlay.transform.localPosition = new Vector3(-91.52f + slot * 46.5f, -0.5f, 0);
+            selectedOverlay.transform.localPosition = new Vector3(-48f + slot * 48, 0, 0);
             if (CurrentWeapon != prevSelected)
                 SummonItem();
         }

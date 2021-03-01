@@ -9,7 +9,7 @@ namespace SajberRoyale.Game
 
         private void Start()
         {
-            InvokeRepeating(nameof(UpdateTimer), 0, 1);
+            InvokeRepeating(nameof(UpdateTimer), 0, Application.isEditor ? 0.1f : 1);
             Game.Instance.GracePeriod = true;
         }
 

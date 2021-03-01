@@ -50,7 +50,11 @@ namespace SajberRoyale.Player
                     break;
                 }
             }
-            if (slotIndex == -1) slotIndex = currentSelected;
+            if (slotIndex == -1)
+            {
+                slotIndex = currentSelected;
+                DropItem();
+            }
             items[slotIndex] = item;
             icons[slotIndex].texture = item.icon.texture;
             GetComponent<AudioSource>().clip = Pickup;

@@ -35,6 +35,8 @@ namespace SajberRoyale.Player
 
         public Item CurrentWeapon;
 
+        public GameObject UIInfo;
+
         /// <summary>
         /// inserts item in players inventory
         /// </summary>
@@ -62,8 +64,7 @@ namespace SajberRoyale.Player
 
             if (slotIndex == currentSelected)
             {
-                CurrentWeapon = item;
-                SummonItem();
+                SetSlot(currentSelected);
             }
         }
 
@@ -101,6 +102,11 @@ namespace SajberRoyale.Player
             selectedOverlay.transform.localPosition = new Vector3(-48f + slot * 48, 0, 0);
             if (CurrentWeapon != prevSelected)
                 SummonItem();
+            if (CurrentWeapon != null)
+            {
+                if (CurrentWeapon.type == Item.Type.Weapon) SetDesc((Weapon)CurrentWeapon);
+            }
+            else UIInfo.GetComponent<Text>().text = "";
         }
 
         private void DropItem()
@@ -140,6 +146,23 @@ namespace SajberRoyale.Player
                 PlayerSync.Me.LocallyHeld.transform.localRotation = Quaternion.identity;
                 photonView.RPC("SummonItemOther", RpcTarget.Others, CurrentWeapon.ID);
             }
+        }
+
+        /// <summary>
+        /// Sets item description in inventory
+        /// </summary>
+        private void SetDesc(Weapon w)
+        {
+            string range = "Short";
+            if (w.range > 7.5f) range = "Medium";
+            else if (w.range > 15) range = "Long";
+
+            UIInfo.GetComponent<Text>().text = $@"<size=20>{w.name}</size>
+<size=10><i>{w.description}</i>
+➤ {range} ❤ {w.maxDamage} ✱ {60 / w.shootingDelay}rpm</size>
+";
+
+            UIInfo.GetComponent<Animator>().Play("InventoryItemInfo", 0, 0);
         }
 
         [PunRPC]

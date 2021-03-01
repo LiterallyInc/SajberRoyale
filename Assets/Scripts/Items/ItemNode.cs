@@ -108,7 +108,7 @@ namespace SajberRoyale.Items
         {
             hasItem = true;
             GameObject itemobject = Instantiate(item.item);
-            itemobject.transform.SetParent(itemHolder.transform);
+            itemobject.transform.parent = itemHolder.transform;
             itemobject.transform.localPosition = Vector3.zero;
             if(itemobject.transform.childCount > 0)itemobject.transform.GetChild(0).transform.localPosition = Vector3.zero;
             if (isLocker) itemHolder.transform.localScale = new Vector3(0.06f, 0.06f, 0.06f);

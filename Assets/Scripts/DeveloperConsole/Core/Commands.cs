@@ -595,7 +595,7 @@ namespace Console
             {
                 base.Logic();
                 Game.Instance.HP = 0;
-                Core.Instance.Inventory.photonView.RPC("Die", RpcTarget.All, PhotonNetwork.LocalPlayer.ActorNumber, "suicide");
+                Core.Instance.Inventory.photonView.RPC("Die", RpcTarget.All, PhotonNetwork.LocalPlayer.ActorNumber, "suicide", Game.Instance.Skin, Game.Instance.Skin);
                 return new ConsoleOutput($"You died. Welp.", ConsoleOutput.OutputType.Log);
             }
         }

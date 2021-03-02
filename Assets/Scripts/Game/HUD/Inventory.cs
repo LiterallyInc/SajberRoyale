@@ -168,7 +168,7 @@ namespace SajberRoyale.Player
 
             UIInfo.GetComponent<Text>().text = $@"<size=20>{w.name}</size>
 <size=10><i>{w.description}</i>
-➤ {range} ❤ {w.maxDamage} ✱ {60 / w.shootingDelay}rpm</size>";
+➤ {range} ❤ {w.maxDamage} ✱ {Mathf.RoundToInt(60 / w.shootingDelay)}rpm</size>";
 
             UIInfo.GetComponent<Animator>().Play("InventoryItemInfo", 0, 0);
         }
@@ -177,7 +177,7 @@ namespace SajberRoyale.Player
         {
             UIInfo.GetComponent<Text>().text = $@"<size=20>{h.name}</size>
 <size=10><i>{h.description}</i>
-❤ {h.health} ✱ {h.useTime}</size>";
+❤ {h.health} ✱ {h.useTime}s</size>";
 
             UIInfo.GetComponent<Animator>().Play("InventoryItemInfo", 0, 0);
         }

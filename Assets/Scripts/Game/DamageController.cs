@@ -11,6 +11,8 @@ namespace SajberRoyale.Player
     public class DamageController : MonoBehaviourPun
     {
         public GameObject AudioContainer;
+        public GameObject KillfeedEntryTemplate;
+        public GameObject KillfeedEntry;
         public AudioClip[] damageSounds;
 
         /// <summary>
@@ -21,7 +23,7 @@ namespace SajberRoyale.Player
         /// <param name="weaponID">Weapon ID of weapon that hit player</param>
         /// <param name="info">Info about the player who hit</param>
         [PunRPC]
-        public void Hit(int actorID, int damage, string weaponID, PhotonMessageInfo info)
+        public void Hit(int actorID, int damage, string weaponID, string skin, PhotonMessageInfo info)
         {
             if (PhotonNetwork.LocalPlayer.ActorNumber == actorID) //i got hit
             {
@@ -31,7 +33,7 @@ namespace SajberRoyale.Player
                 {
                     Game.Game.Instance.IsAlive = false;
                     PhotonNetwork.Destroy(Core.Instance.Player.gameObject); //destroy avatar
-                    photonView.RPC(nameof(Die), RpcTarget.All, info.Sender.ActorNumber, weaponID);
+                    photonView.RPC(nameof(Die), RpcTarget.All, info.Sender.ActorNumber, weaponID, skin, Game.Game.Instance.Skin);
                 }
             }
             else //someone else got hit
@@ -63,9 +65,13 @@ namespace SajberRoyale.Player
         /// <param name="weaponID">Weapon ID that killed player</param>
         /// <param name="info">Player who dies</param>
         [PunRPC]
-        private void Die(int killer, string weaponID, PhotonMessageInfo info)
+        public void Die(int killer, string weaponID, string killerSkin, string mySkin, PhotonMessageInfo info)
         {
-            Debug.Log($"{info.Sender.NickName} got killed by {PhotonNetwork.CurrentRoom.GetPlayer(killer).NickName} using {ItemDatabase.Instance.GetItem(weaponID).name}");
+            Weapon w = (Weapon)ItemDatabase.Instance.GetItem(weaponID);
+
+            AddKillfeedEntry(killer, info.Sender.ActorNumber, killerSkin, mySkin, w);
+            Debug.Log($"{info.Sender.NickName} got killed by {PhotonNetwork.CurrentRoom.GetPlayer(killer).NickName} using {w.name}");
+
             Transform dead = Core.Instance.GetPlayer(info.Sender.ActorNumber);
             dead.GetComponent<PlayerSync>().DeathParticles.Play();
             if (info.Sender.ActorNumber != PhotonNetwork.LocalPlayer.ActorNumber) Destroy(dead.GetComponent<CharacterController>());
@@ -99,6 +105,21 @@ namespace SajberRoyale.Player
             {
                 PlayerSync sync = Core.Instance.GetPlayer(actorID).GetComponent<PlayerSync>();
                 sync.PubliclyHeld.GetComponent<Animator>().Play(animation, -1, 0);
+            }
+        }
+        public void AddKillfeedEntry(int killer, int killed, string killerSkin, string killedSkin, Weapon weapon)
+        {
+            if (KillfeedEntry != null) KillfeedEntry.GetComponent<KillfeedEntry>().Close();
+            KillfeedEntry = Instantiate(KillfeedEntryTemplate, Core.Instance.UI.Data.transform);
+            KillfeedEntry feed = KillfeedEntry.GetComponent<KillfeedEntry>();
+            Debug.Log(killedSkin);
+            feed.IconKiller.sprite = Resources.Load<Sprite>($"CharPortraits/{killerSkin}");
+            feed.IconKilled.sprite = Resources.Load<Sprite>($"CharPortraits/Dead{killedSkin}");
+            feed.IconWeapon.sprite = weapon.icon;
+            foreach (Photon.Realtime.Player player in PhotonNetwork.PlayerList)
+            {
+                if (player.ActorNumber == killed) feed.TextKilled.text = player.NickName;
+                if (player.ActorNumber == killer) feed.TextKiller.text = player.NickName;
             }
         }
     }

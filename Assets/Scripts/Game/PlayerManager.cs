@@ -108,7 +108,7 @@ namespace SajberRoyale.Player
             {
                 int owner = target.transform.gameObject.GetComponent<PhotonView>().ControllerActorNr;
                 int damage = Mathf.RoundToInt(Random.Range(weapon.minDamage, weapon.maxDamage));
-                photonView.RPC(nameof(DamageController.Hit), RpcTarget.All, owner, damage, weapon.ID);
+                photonView.RPC(nameof(DamageController.Hit), RpcTarget.All, owner, damage, weapon.ID, Game.Game.Instance.Skin);
                 return;
             }
             Physics.queriesHitTriggers = true;

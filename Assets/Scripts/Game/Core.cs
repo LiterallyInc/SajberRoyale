@@ -27,6 +27,7 @@ namespace SajberRoyale.Game
         public vp_FPInput PlayerInput;
         public PlayerSync Sync;
         public AudioSource VictoryTheme;
+        public DamageController DamageController;
 
         [Header("Values")]
         public bool GameStarted = false;
@@ -81,7 +82,6 @@ namespace SajberRoyale.Game
                     MStartGame();
                 }
             }
-            if (Input.GetKeyDown(KeyCode.L)) Win();
 
             if (PlayerInput != null) if (!PlayerInput.MouseLookAcceleration) PlayerInput.MouseLookSensitivity = new Vector2(Helper.sens, Helper.sens);
         }

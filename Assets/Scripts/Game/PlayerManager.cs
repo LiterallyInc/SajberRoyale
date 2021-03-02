@@ -16,7 +16,11 @@ namespace SajberRoyale.Player
     public class PlayerManager : MonoBehaviourPun
     {
         private Weapon QueuedShot;
+        private bool isHealing = false;
+        public AudioClip DanceMoves;
         public AudioClip flashlight;
+
+        private int emoteid;
 
         private void Update()
         {
@@ -66,13 +70,23 @@ namespace SajberRoyale.Player
             //use auto weapon
             if (Input.GetMouseButton(0) && Core.Instance.Inventory.CurrentWeapon != null && vp_Utility.LockCursor && !Game.Game.Instance.GracePeriod && Game.Game.Instance.IsAlive)
             {
-                Weapon item = (Weapon)Core.Instance.Inventory.CurrentWeapon;
-                if ((item.type == Item.Type.Weapon || item.type == Item.Type.Melee) && item.isAuto)
+                if (Core.Instance.Inventory.CurrentWeapon.type == Item.Type.Weapon || Core.Instance.Inventory.CurrentWeapon.type == Item.Type.Melee)
                 {
-                    UseWeapon(item);
+                    Weapon item = (Weapon)Core.Instance.Inventory.CurrentWeapon;
+                    if (item.isAuto)
+                    {
+                        UseWeapon(item);
+                    }
                 }
             }
 
+            //emote
+            if (Input.GetKeyDown(KeyCode.B) && !Core.Instance.Sync.isDancing)
+            {
+                StartCoroutine(Emote());
+            }
+
+            //toggle flashlight
             if (Input.GetKeyDown(KeyCode.F) && Game.Game.Instance.IsAlive)
             {
                 Core.Instance.Sync.LocalLight.enabled = !Core.Instance.Sync.LocalLight.enabled;
@@ -80,6 +94,18 @@ namespace SajberRoyale.Player
                 Core.Instance.PlayerController.GetComponent<AudioSource>().maxDistance = 3;
                 Core.Instance.PlayerController.GetComponent<AudioSource>().Play();
                 photonView.RPC(nameof(ToggleFlashlight), RpcTarget.Others, Core.Instance.Sync.LocalLight.enabled);
+            }
+
+            //cancel healing
+            if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.D))
+            {
+                Core.Instance.UI.FillPercentage = -1;
+            }
+
+            //cancel dancing
+            if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.C))
+            {
+                StopEmote();
             }
         }
 
@@ -92,6 +118,7 @@ namespace SajberRoyale.Player
 
         private void UseWeapon(Weapon weapon)
         {
+            if (Core.Instance.Sync.isDancing) return;
             //return if user is on global cooldown
             if (!Game.Game.Instance.canShoot)
             {
@@ -118,6 +145,8 @@ namespace SajberRoyale.Player
 
         private void UseHealing(Healing healing)
         {
+            if (!isHealing && !Core.Instance.Sync.isDancing)
+                StartCoroutine(Heal(healing.useTime, healing.health));
         }
 
         private IEnumerator Cooldown(float time)
@@ -129,6 +158,78 @@ namespace SajberRoyale.Player
             {
                 UseWeapon(QueuedShot);
                 QueuedShot = null;
+            }
+        }
+
+        private IEnumerator Heal(float time, int hp)
+        {
+            Item h = Core.Instance.Inventory.CurrentWeapon;
+            isHealing = true;
+            Core.Instance.UI.FillPercentage = 0.01f;
+            int i = 1;
+            while (i < 100)
+            {
+                if (Core.Instance.UI.FillPercentage == -1 || Core.Instance.Inventory.CurrentWeapon != h)
+                {
+                    Core.Instance.UI.FillPercentage = -1;
+                    isHealing = false;
+                    yield break;
+                }
+                else
+                {
+                    Core.Instance.UI.FillPercentage = i * 0.01f;
+                }
+                yield return new WaitForSeconds(time / 100);
+                i++;
+                Debug.Log(time / 100);
+            }
+            Game.Game.Instance.HP += hp;
+            if (Game.Game.Instance.HP > 100) Game.Game.Instance.HP = 100;
+            isHealing = false;
+            Core.Instance.UI.FillPercentage = 0;
+            Core.Instance.Inventory.RemoveItem();
+        }
+
+        private IEnumerator Emote()
+        {
+            photonView.RPC(nameof(ToggleEmote), RpcTarget.All, true);
+            Core.Instance.Sync.isDancing = true;
+            Core.Instance.Sync.LocalHolder.SetActive(false);
+            emoteid = Random.Range(0, 10000);
+            int hash = emoteid;
+            Core.Instance.Player.GetComponent<Animator>().Play("Dance Moves", 1, 0);
+            Core.Instance.Player.GetComponent<Animator>().Play("Dance Moves", 2, 0);
+            yield return new WaitForSeconds(6.9f);
+            if(hash == emoteid) StopEmote();
+        }
+
+        private void StopEmote()
+        {
+            if (Core.Instance.Sync.isDancing)
+            {
+                Core.Instance.Sync.isDancing = false;
+                Core.Instance.Sync.LocalHolder.SetActive(true);
+                Core.Instance.Player.GetComponent<Animator>().Play("Idle", 1, 0);
+                Core.Instance.Player.GetComponent<Animator>().Play("Idle", 2, 0);
+                photonView.RPC(nameof(ToggleEmote), RpcTarget.All, false);
+            }
+        }
+
+        [PunRPC]
+        private void ToggleEmote(bool emote, PhotonMessageInfo info)
+        {
+            Animator anim = Core.Instance.GetPlayer(info.Sender.ActorNumber).GetComponent<PlayerSync>().Player.GetComponent<Animator>();
+            if (emote)
+            {
+                anim.Play("Dance Moves", 1, 0);
+                anim.Play("Dance Moves", 2, 0);
+                Core.Instance.DamageController.PlayAudioAtPlayer(info.Sender.ActorNumber, 7, DanceMoves, "emote");
+            }
+            else
+            {
+                anim.Play("Idle", 1, 0);
+                anim.Play("Idle", 2, 0);
+                Destroy(GameObject.Find($"Player{info.Sender.ActorNumber}/emote"));
             }
         }
 

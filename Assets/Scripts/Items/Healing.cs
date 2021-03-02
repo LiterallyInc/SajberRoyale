@@ -9,6 +9,11 @@ namespace SajberRoyale.Items
         /// <summary>
         /// Health restored from this item
         /// </summary>
-        public float health;
+        public int health;
+
+        /// <summary>
+        /// Time to consume item
+        /// </summary>
+        public float useTime;
     }
 }

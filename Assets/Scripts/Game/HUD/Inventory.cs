@@ -108,6 +108,7 @@ namespace SajberRoyale.Player
             {
                 Core.Instance.PlayerController.GetComponent<vp_FPController>().MotorAcceleration = 0.088f * CurrentWeapon.speedMultiplier;
                 if (CurrentWeapon.type == Item.Type.Weapon) SetDesc((Weapon)CurrentWeapon);
+                if (CurrentWeapon.type == Item.Type.Healing) SetDesc((Healing)CurrentWeapon);
             }
             else
             {
@@ -131,9 +132,10 @@ namespace SajberRoyale.Player
             }
         }
 
-        private void RemoveItem()
+        public void RemoveItem()
         {
             items[currentSelected] = null;
+            CurrentWeapon = null;
             icons[currentSelected].texture = baseTexture.texture;
             SummonItem();
         }
@@ -166,8 +168,16 @@ namespace SajberRoyale.Player
 
             UIInfo.GetComponent<Text>().text = $@"<size=20>{w.name}</size>
 <size=10><i>{w.description}</i>
-➤ {range} ❤ {w.maxDamage} ✱ {60 / w.shootingDelay}rpm</size>
-";
+➤ {range} ❤ {w.maxDamage} ✱ {60 / w.shootingDelay}rpm</size>";
+
+            UIInfo.GetComponent<Animator>().Play("InventoryItemInfo", 0, 0);
+        }
+
+        private void SetDesc(Healing h)
+        {
+            UIInfo.GetComponent<Text>().text = $@"<size=20>{h.name}</size>
+<size=10><i>{h.description}</i>
+❤ {h.health} ✱ {h.useTime}</size>";
 
             UIInfo.GetComponent<Animator>().Play("InventoryItemInfo", 0, 0);
         }

@@ -9,7 +9,7 @@ namespace SajberRoyale.Player
         public static PlayerSync Me;
         public GameObject PlayerCam;
         public Component[] LocalScripts;
-        private GameObject Player;
+        public GameObject Player;
         public GameObject PublicHolder;
         public GameObject PubliclyHeld;
         public GameObject LocalHolder;
@@ -19,6 +19,8 @@ namespace SajberRoyale.Player
         public Light PublicLight;
 
         public ParticleSystem DeathParticles;
+
+        public bool isDancing = false;
 
         private void Start()
         {
@@ -72,6 +74,8 @@ namespace SajberRoyale.Player
                     if (photonView.ControllerActorNr != PhotonNetwork.LocalPlayer.ActorNumber) Destroy(g.GetComponent<vp_FPBodyAnimator>());
                     PublicHolder.transform.localPosition = Vector3.zero;
                     PublicHolder.transform.localRotation = Quaternion.Euler(-181f, 4f, -14f);
+
+                    Player = g;
                 }
             }
         }

@@ -16,7 +16,6 @@ namespace SajberRoyale.Game
     {
         [Header("Objects")]
         public UI UI;
-
         public Button Button_Start;
         public GameObject Camera;
         public Inventory Inventory;
@@ -85,6 +84,7 @@ namespace SajberRoyale.Game
 
             if (PlayerInput != null) if (!PlayerInput.MouseLookAcceleration) PlayerInput.MouseLookSensitivity = new Vector2(Helper.sens, Helper.sens);
         }
+        
 
         [PunRPC]
         private void PlaceLoot(string[] itemIDs, int[] nodes)

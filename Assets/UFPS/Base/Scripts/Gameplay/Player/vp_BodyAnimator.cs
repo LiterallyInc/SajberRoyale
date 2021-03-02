@@ -27,6 +27,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using SajberRoyale.Game;
 
 [RequireComponent(typeof(Animator))]
 
@@ -439,7 +440,7 @@ public class vp_BodyAnimator : MonoBehaviour
 		Animator.SetBool(IsClimbing, Player.Climb.Active);
 		Animator.SetBool(IsZooming, Player.Zoom.Active);
 		Animator.SetBool(IsGrounded, m_Grounded);
-		Animator.SetBool(IsMoving, GetIsMoving());
+		Animator.SetBool(IsMoving, GetIsMoving() && !Core.Instance.Sync.isDancing);
 		Animator.SetBool(IsFirstPerson, Player.IsFirstPerson.Get());
 
 		// --- floats used inside blend states to blend between animations ---

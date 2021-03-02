@@ -86,10 +86,11 @@ namespace SajberRoyale.Player
         /// Plays an audio clip at the players position
         /// </summary>
         /// <param name="actorID">Actor ID of player to play audio at</param>
-        private void PlayAudioAtPlayer(int actorID, float range, AudioClip audio)
+        public void PlayAudioAtPlayer(int actorID, float range, AudioClip audio, string objname = "Audio")
         {
             GameObject player = GameObject.Find($"Player{actorID}");
             GameObject audioContainer = Instantiate(AudioContainer, player.transform);
+            audioContainer.name = objname;
             audioContainer.GetComponent<AudioSource>().clip = audio;
             audioContainer.GetComponent<AudioSource>().maxDistance = range;
         }

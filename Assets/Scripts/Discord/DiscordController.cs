@@ -87,6 +87,7 @@ public class DiscordController : MonoBehaviour
 
     private void Start()
     {
+        if (Instance != null) Destroy(this);
         Instance = this;
         DontDestroyOnLoad(this.gameObject);
         if (PlayerPrefs.GetInt(Helper.Settings.discordRpc.ToString(), 1) == 1)

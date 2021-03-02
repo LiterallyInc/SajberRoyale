@@ -1,6 +1,9 @@
 // this is NOT how to do settings menus do not take inspiration from me this is bad practice and i'll rewrite this someday. yikes
+using Photon.Pun;
+using SajberRoyale.Game;
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace SajberRoyale.MainMenu
@@ -20,6 +23,8 @@ namespace SajberRoyale.MainMenu
         public Text TextSens;
         public Text TextServer;
 
+        public Button LeaveGame;
+
         private string KeyDiscord;
         private string KeyTheme;
         private string KeyVolume;
@@ -27,8 +32,12 @@ namespace SajberRoyale.MainMenu
         private string KeyServer;
         private string KeySens;
 
+        private bool isGame;
+
         private void Start()
         {
+            isGame = SceneManager.GetActiveScene().name == "game";
+            LeaveGame.gameObject.SetActive(isGame);
             KeyDiscord = Helper.Settings.discordRpc.ToString();
             KeyTheme = Helper.Settings.musicTheme.ToString();
             KeyVolume = Helper.Settings.volumeMaster.ToString();
@@ -53,7 +62,15 @@ namespace SajberRoyale.MainMenu
 
         private void Update()
         {
-            if (isOpen && Input.GetKeyDown(KeyCode.Escape)) OpenMenu(false);
+            if (isGame)
+            {
+                if (isOpen)
+                {
+                    vp_Utility.LockCursor = false;
+                    if (Input.GetKeyDown(KeyCode.Escape)) OpenMenu(false);
+                }
+                else if (Input.GetKeyDown(KeyCode.Escape)) OpenMenu(true);
+            }
         }
 
         public void ToggleDiscord(float n)
@@ -86,6 +103,7 @@ namespace SajberRoyale.MainMenu
             if (n >= 61) TextFOV.text = $"{Mathf.RoundToInt(InputFOV.value)}°";
             else TextFOV.text = "headache";
         }
+
         public void SetSens(float n)
         {
             PlayerPrefs.SetFloat(KeySens, n);
@@ -97,6 +115,13 @@ namespace SajberRoyale.MainMenu
         {
             transform.localScale = open ? Vector3.one : Vector3.zero;
             isOpen = open;
+        }
+
+        public void Leave()
+        {
+            if (Game.Game.Instance.IsActive && Game.Game.Instance.IsAlive) Core.Instance.Inventory.photonView.RPC("Die", RpcTarget.All, PhotonNetwork.LocalPlayer.ActorNumber, "suicide", Game.Game.Instance.Skin, Game.Game.Instance.Skin);
+            PhotonNetwork.LeaveRoom();
+            SceneManager.LoadScene("main");
         }
     }
 }

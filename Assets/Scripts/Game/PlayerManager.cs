@@ -19,6 +19,7 @@ namespace SajberRoyale.Player
         private bool isHealing = false;
         public AudioClip DanceMoves;
         public AudioClip flashlight;
+        public AudioClip Health;
 
         private int emoteid;
 
@@ -96,16 +97,11 @@ namespace SajberRoyale.Player
                 photonView.RPC(nameof(ToggleFlashlight), RpcTarget.Others, Core.Instance.Sync.LocalLight.enabled);
             }
 
-            //cancel healing
-            if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.D))
-            {
-                Core.Instance.UI.FillPercentage = -1;
-            }
-
-            //cancel dancing
+            //cancel dancing & healing
             if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.C))
             {
                 StopEmote();
+                if (!Input.GetKey(KeyCode.C)) Core.Instance.UI.FillPercentage = -1;
             }
         }
 
@@ -146,7 +142,7 @@ namespace SajberRoyale.Player
         private void UseHealing(Healing healing)
         {
             if (!isHealing && !Core.Instance.Sync.isDancing)
-                StartCoroutine(Heal(healing.useTime, healing.health));
+                StartCoroutine(Heal(healing));
         }
 
         private IEnumerator Cooldown(float time)
@@ -161,11 +157,14 @@ namespace SajberRoyale.Player
             }
         }
 
-        private IEnumerator Heal(float time, int hp)
+        private IEnumerator Heal(Healing healing)
         {
+            AudioSource source = Core.Instance.PlayerController.GetComponent<AudioSource>();
             Item h = Core.Instance.Inventory.CurrentWeapon;
             isHealing = true;
             Core.Instance.UI.FillPercentage = 0.01f;
+            source.clip = healing.useSfx;
+            source.Play();
             int i = 1;
             while (i < 100)
             {
@@ -173,21 +172,23 @@ namespace SajberRoyale.Player
                 {
                     Core.Instance.UI.FillPercentage = -1;
                     isHealing = false;
+                    source.Stop();
                     yield break;
                 }
                 else
                 {
                     Core.Instance.UI.FillPercentage = i * 0.01f;
                 }
-                yield return new WaitForSeconds(time / 100);
+                yield return new WaitForSeconds(healing.useTime / 100);
                 i++;
-                Debug.Log(time / 100);
             }
-            Game.Game.Instance.HP += hp;
+            Game.Game.Instance.HP += healing.health;
             if (Game.Game.Instance.HP > 100) Game.Game.Instance.HP = 100;
             isHealing = false;
             Core.Instance.UI.FillPercentage = 0;
             Core.Instance.Inventory.RemoveItem();
+            source.clip = Health;
+            source.Play();
         }
 
         private IEnumerator Emote()
@@ -200,7 +201,7 @@ namespace SajberRoyale.Player
             Core.Instance.Player.GetComponent<Animator>().Play("Dance Moves", 1, 0);
             Core.Instance.Player.GetComponent<Animator>().Play("Dance Moves", 2, 0);
             yield return new WaitForSeconds(6.9f);
-            if(hash == emoteid) StopEmote();
+            if (hash == emoteid) StopEmote();
         }
 
         private void StopEmote()

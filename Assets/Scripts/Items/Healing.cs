@@ -15,5 +15,10 @@ namespace SajberRoyale.Items
         /// Time to consume item
         /// </summary>
         public float useTime;
+
+        /// <summary>
+        /// Sound effect to play when healing
+        /// </summary>
+        public AudioClip useSfx;
     }
 }

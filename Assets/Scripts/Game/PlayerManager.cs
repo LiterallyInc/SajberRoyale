@@ -17,9 +17,12 @@ namespace SajberRoyale.Player
     {
         private Weapon QueuedShot;
         private bool isHealing = false;
-        public AudioClip DanceMoves;
+
         public AudioClip flashlight;
         public AudioClip Health;
+
+        public string[] EmoteNames;
+        public AudioClip[] EmoteSfx;
 
         private int emoteid;
 
@@ -193,15 +196,21 @@ namespace SajberRoyale.Player
 
         private IEnumerator Emote()
         {
-            photonView.RPC(nameof(ToggleEmote), RpcTarget.All, true);
+            int emoteIndex = Random.Range(0, EmoteNames.Length);
+            photonView.RPC(nameof(ToggleEmote), RpcTarget.All, true, emoteIndex);
             Core.Instance.Sync.isDancing = true;
             Core.Instance.Sync.LocalHolder.SetActive(false);
             emoteid = Random.Range(0, 10000);
             int hash = emoteid;
-            Core.Instance.Player.GetComponent<Animator>().Play("Dance Moves", 1, 0);
-            Core.Instance.Player.GetComponent<Animator>().Play("Dance Moves", 2, 0);
-            yield return new WaitForSeconds(6.9f);
-            if (hash == emoteid) StopEmote();
+            Core.Instance.Player.GetComponent<Animator>().Play(EmoteNames[emoteIndex], 1, 0);
+            Core.Instance.Player.GetComponent<Animator>().Play(EmoteNames[emoteIndex], 2, 0);
+
+            //cancel if emote is non-looping
+            if (EmoteNames[emoteIndex] == "Dance Moves")
+            {
+                yield return new WaitForSeconds(6.9f);
+                if (hash == emoteid) StopEmote();
+            }
         }
 
         private void StopEmote()
@@ -212,19 +221,19 @@ namespace SajberRoyale.Player
                 Core.Instance.Sync.LocalHolder.SetActive(true);
                 Core.Instance.Player.GetComponent<Animator>().Play("Idle", 1, 0);
                 Core.Instance.Player.GetComponent<Animator>().Play("Idle", 2, 0);
-                photonView.RPC(nameof(ToggleEmote), RpcTarget.All, false);
+                photonView.RPC(nameof(ToggleEmote), RpcTarget.All, false, 0);
             }
         }
 
         [PunRPC]
-        private void ToggleEmote(bool emote, PhotonMessageInfo info)
+        private void ToggleEmote(bool enable, int emoteIndex, PhotonMessageInfo info)
         {
             Animator anim = Core.Instance.GetPlayer(info.Sender.ActorNumber).GetComponent<PlayerSync>().Player.GetComponent<Animator>();
-            if (emote)
+            if (enable)
             {
-                anim.Play("Dance Moves", 1, 0);
-                anim.Play("Dance Moves", 2, 0);
-                Core.Instance.DamageController.PlayAudioAtPlayer(info.Sender.ActorNumber, 7, DanceMoves, "emote");
+                anim.Play(EmoteNames[emoteIndex], 1, 0);
+                anim.Play(EmoteNames[emoteIndex], 2, 0);
+                Core.Instance.DamageController.PlayAudioAtPlayer(info.Sender.ActorNumber, 7, EmoteSfx[emoteIndex], "emote", emoteIndex != 0);
             }
             else
             {

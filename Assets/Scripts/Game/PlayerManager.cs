@@ -72,7 +72,7 @@ namespace SajberRoyale.Player
             }
 
             //use auto weapon
-            if (Input.GetMouseButton(0) && Core.Instance.Inventory.CurrentWeapon != null && vp_Utility.LockCursor && !Game.Game.Instance.GracePeriod && Game.Game.Instance.IsAlive)
+            if (Input.GetMouseButton(0) && Core.Instance.Inventory.CurrentWeapon != null && vp_Utility.LockCursor && !Game.Game.Instance.GracePeriod && Game.Game.Instance.IsAlive && Game.Game.Instance.IsActive)
             {
                 if (Core.Instance.Inventory.CurrentWeapon.type == Item.Type.Weapon || Core.Instance.Inventory.CurrentWeapon.type == Item.Type.Melee)
                 {
@@ -85,19 +85,19 @@ namespace SajberRoyale.Player
             }
 
             //emote
-            if (Input.GetKeyDown(KeyCode.B) && !Core.Instance.Sync.isDancing)
+            if (Input.GetKeyDown(KeyCode.B) && !Core.Instance.Sync.isDancing && Game.Game.Instance.IsActive)
             {
                 StartCoroutine(Emote());
             }
 
             //toggle flashlight
-            if (Input.GetKeyDown(KeyCode.F) && Game.Game.Instance.IsAlive)
+            if (Input.GetKeyDown(KeyCode.F) && Game.Game.Instance.IsActive)
             {
                 Core.Instance.Sync.LocalLight.enabled = !Core.Instance.Sync.LocalLight.enabled;
                 Core.Instance.PlayerController.GetComponent<AudioSource>().clip = flashlight;
                 Core.Instance.PlayerController.GetComponent<AudioSource>().maxDistance = 3;
                 Core.Instance.PlayerController.GetComponent<AudioSource>().Play();
-                photonView.RPC(nameof(ToggleFlashlight), RpcTarget.Others, Core.Instance.Sync.LocalLight.enabled);
+                if (Game.Game.Instance.IsAlive) photonView.RPC(nameof(ToggleFlashlight), RpcTarget.Others, Core.Instance.Sync.LocalLight.enabled);
             }
 
             //cancel dancing & healing
@@ -197,7 +197,7 @@ namespace SajberRoyale.Player
         private IEnumerator Emote()
         {
             int emoteIndex = Random.Range(0, EmoteNames.Length);
-            photonView.RPC(nameof(ToggleEmote), RpcTarget.All, true, emoteIndex);
+            if(Game.Game.Instance.IsAlive) photonView.RPC(nameof(ToggleEmote), RpcTarget.All, true, emoteIndex);
             Core.Instance.Sync.isDancing = true;
             Core.Instance.Sync.LocalHolder.SetActive(false);
             emoteid = Random.Range(0, 10000);
@@ -221,7 +221,7 @@ namespace SajberRoyale.Player
                 Core.Instance.Sync.LocalHolder.SetActive(true);
                 Core.Instance.Player.GetComponent<Animator>().Play("Idle", 1, 0);
                 Core.Instance.Player.GetComponent<Animator>().Play("Idle", 2, 0);
-                photonView.RPC(nameof(ToggleEmote), RpcTarget.All, false, 0);
+                if (Game.Game.Instance.IsAlive) photonView.RPC(nameof(ToggleEmote), RpcTarget.All, false, 0);
             }
         }
 

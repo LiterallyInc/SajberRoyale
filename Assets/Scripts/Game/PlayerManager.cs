@@ -87,7 +87,8 @@ namespace SajberRoyale.Player
             //emote
             if (Input.GetKeyDown(KeyCode.B) && !Core.Instance.Sync.isDancing && Game.Game.Instance.IsActive)
             {
-                StartCoroutine(Emote());
+                if (Input.GetKey(KeyCode.Alpha0)) StartCoroutine(Emote(0));
+                else StartCoroutine(Emote());
             }
 
             //toggle flashlight
@@ -194,10 +195,11 @@ namespace SajberRoyale.Player
             source.Play();
         }
 
-        private IEnumerator Emote()
+        private IEnumerator Emote(int emoteIndex = -1)
         {
-            int emoteIndex = Random.Range(0, EmoteNames.Length);
-            if(Game.Game.Instance.IsAlive) photonView.RPC(nameof(ToggleEmote), RpcTarget.All, true, emoteIndex);
+            if (emoteIndex == -1) emoteIndex = Random.Range(0, EmoteNames.Length);
+
+            if (Game.Game.Instance.IsAlive) photonView.RPC(nameof(ToggleEmote), RpcTarget.All, true, emoteIndex);
             Core.Instance.Sync.isDancing = true;
             Core.Instance.Sync.LocalHolder.SetActive(false);
             emoteid = Random.Range(0, 10000);

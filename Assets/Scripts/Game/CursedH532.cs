@@ -1,5 +1,6 @@
 using Photon.Pun;
 using SajberRoyale.Game;
+using SajberRoyale.Player;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ namespace SajberRoyale.Map
 {
     public class CursedH532 : MonoBehaviourPun
     {
+        private float shakeSpeed = 0;
         public bool isCursed = false;
         private bool roomCursed = false;
         private bool isSpace = false;
@@ -17,7 +19,6 @@ namespace SajberRoyale.Map
         public GameObject DoorClosed;
 
         public GameObject DoorOpen;
-        public Light RoofLamp;
         public AudioSource Ambient;
         public Renderer Whiteboard;
         public Renderer Poster;
@@ -26,6 +27,8 @@ namespace SajberRoyale.Map
         public AudioReverbZone Echo;
         public Clock Clock;
         public Animator Overlay;
+        public Animator RoofLamps;
+        public TextMesh Tombstone;
 
         [Header("Space Objects")]
         public Animator Credits;
@@ -70,12 +73,15 @@ namespace SajberRoyale.Map
         {
             if (isSpace) RenderSettings.skybox.SetFloat("_Rotation", Time.time / 3);
             else RenderSettings.skybox.SetFloat("_Rotation", 0);
+
+            if(Core.Instance) if (Core.Instance.Sync) if(Core.Instance.Sync.PlayerCam.GetComponent<vp_FPCamera>()) Core.Instance.Sync.PlayerCam.GetComponent<vp_FPCamera>().ShakeSpeed = shakeSpeed;
         }
 
         private void OnTriggerEnter(Collider c)
         {
             if (!c.GetComponent<PhotonView>()) return;
             if (roomCursed) return;
+            if (c.GetComponent<PlayerSync>().Player == null) return;
             else StartCoroutine(Curse(c.GetComponent<PhotonView>().IsMine, c));
         }
 
@@ -129,10 +135,13 @@ namespace SajberRoyale.Map
             //Queued
             StartCoroutine(Queue(1, () => Play(a_giggle)));
             StartCoroutine(Queue(2, () => OpenDoor(false)));
-            StartCoroutine(Queue(2, () => RoofLamp.color = new Color(1, 0.7688679f, 0.7753899f)));
-            if (isMe) StartCoroutine(Queue(2, () => StartCoroutine(LerpCamera(0, 0.2f, 10))));
+            if (isMe) StartCoroutine(Queue(2, () => Core.Instance.Sync.LocalLight.color = new Color(1, 0.7688679f, 0.7753899f)));
+            if (isMe) StartCoroutine(Queue(2f, () => shakeSpeed = 1.5f));
             StartCoroutine(Queue(5, () => Play(a_spectrum)));
+            StartCoroutine(Queue(5, () => RoofLamps.Play("Lights")));
             StartCoroutine(Queue(7, () => Play(a_canyouhearme)));
+            StartCoroutine(Queue(7, () => Tombstone.text = c.GetComponent<PhotonView>().Controller.NickName));
+            StartCoroutine(Queue(7, () => Tombstone.transform.parent.gameObject.SetActive(true)));
             StartCoroutine(Queue(5, () => Clock.modifier = -1000));
             StartCoroutine(Queue(8f, () => Play(a_flippage)));
             StartCoroutine(Queue(8f, () => Poster.material.SetTexture("_MainTex", t_posterCursed)));
@@ -143,22 +152,23 @@ namespace SajberRoyale.Map
 
             //Go to space
             if (isMe) StartCoroutine(Queue(34.5f, () => Overlay.Play("ShowOverlay")));
-            if (isMe) StartCoroutine(Queue(33.5f, () => StartCoroutine(LerpCamera(0.2f, 10f, 2))));
-            if (isMe) StartCoroutine(Queue(34.5f, () => FindObjectOfType<vp_FPCamera>().ShakeAmplitude = new Vector3(10, 10, 10)));
+            if (isMe) StartCoroutine(Queue(39f, () => shakeSpeed = 10f));
+            if (isMe) StartCoroutine(Queue(34.5f, () => Core.Instance.Sync.PlayerCam.GetComponent<vp_FPCamera>().ShakeAmplitude = new Vector3(10, 10, 10)));
             if (isMe) StartCoroutine(Queue(38.2f, () => Credits_Music.Play()));
-            if (isMe) StartCoroutine(Queue(39f, () => FindObjectOfType<vp_FPCamera>().ShakeSpeed = 0f));
+            if (isMe) StartCoroutine(Queue(39f, () => shakeSpeed = 0f));
             if (isMe) StartCoroutine(Queue(39.2f, () => SetSpace(true)));
             if (isMe) StartCoroutine(Queue(39.2f, () => Overlay.Play("HideOverlay")));
             if (isMe) StartCoroutine(Queue(39.2f, () => Core.Instance.UI.ShowData(false)));
             if (isMe) StartCoroutine(Queue(39.4f, () => c.transform.position = new Vector3(0, -211, 1233)));
             if (isMe) StartCoroutine(Queue(39.5f, () => Credits.Play("CreditsAnim")));
-            if (isMe) StartCoroutine(Queue(77.5f, () => StartCoroutine(LerpCamera(0f, 10f, 2))));
+            if (isMe) StartCoroutine(Queue(77.5f, () => shakeSpeed = 10f));
             if (isMe) StartCoroutine(Queue(77.5f, () => Overlay.Play("ShowOverlay")));
-            if (isMe) StartCoroutine(Queue(79.5f, () => FindObjectOfType<vp_FPCamera>().ShakeSpeed = 0f));
+            if (isMe) StartCoroutine(Queue(79.5f, () => shakeSpeed = 0f));
             if (isMe) StartCoroutine(Queue(80f, () => SetSpace(false)));
             if (isMe) StartCoroutine(Queue(80f, () => GoToNode(c)));
             if (isMe) StartCoroutine(Queue(80f, () => Credits.gameObject.SetActive(false)));
             if (isMe) StartCoroutine(Queue(80f, () => Core.Instance.UI.ShowData(true)));
+            if (isMe) StartCoroutine(Queue(80f, () => Core.Instance.Sync.LocalLight.color = new Color(1, 1, 1)));
             if (isMe) StartCoroutine(Queue(80f, () => Overlay.Play("HideOverlay")));
             if (isMe) StartCoroutine(Queue(80f, () => isCursed = false));
         }
@@ -169,18 +179,6 @@ namespace SajberRoyale.Map
             Vector3 SpawnPos = SpawnNodes[UnityEngine.Random.Range(0, SpawnNodes.Length - 1)].transform.position;
             SpawnPos.y++;
             c.transform.position = SpawnPos;
-        }
-
-        private IEnumerator LerpCamera(float v_start, float v_end, float duration)
-        {
-            float elapsed = 0.0f;
-            while (elapsed < duration)
-            {
-                FindObjectOfType<vp_FPCamera>().ShakeSpeed = Mathf.Lerp(v_start, v_end, elapsed / duration);
-                elapsed += Time.deltaTime;
-                yield return null;
-            }
-            FindObjectOfType<vp_FPCamera>().ShakeSpeed = v_end;
         }
 
         private IEnumerator LerpAmbient(float v_start, float v_end, float duration)

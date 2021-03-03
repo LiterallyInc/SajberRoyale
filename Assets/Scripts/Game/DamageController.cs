@@ -33,6 +33,7 @@ namespace SajberRoyale.Player
                 {
                     Game.Game.Instance.IsAlive = false;
                     PhotonNetwork.Destroy(Core.Instance.Player.gameObject); //destroy avatar
+                    Core.Instance.Sync.LocalLight.color = new Color(1, 0.7688679f, 0.7753899f); //tint flashlight
                     photonView.RPC(nameof(Die), RpcTarget.All, info.Sender.ActorNumber, weaponID, skin, Game.Game.Instance.Skin);
                 }
             }

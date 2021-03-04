@@ -78,13 +78,18 @@ namespace SajberRoyale.MainMenu
 
         private void Start()
         {
+            PhotonNetwork.PhotonServerSettings.AppSettings.AppVersion = Application.version;
+
             Game.Game.ResetGame();
             IF_Name.text = PlayerPrefs.GetString("username", "");
             if (PhotonNetwork.NickName.Length > 0) IF_Name.text = PhotonNetwork.NickName;
 
-            List<string> options = new List<string>();
-            options.Add("Tournament");
-            if (Helper.IsDev) D_Type.AddOptions(options);
+            if (Helper.IsDev)
+            {
+                List<string> options = new List<string>();
+                options.Add("Tournament");
+                D_Type.AddOptions(options);
+            }
         }
 
         private void Update()

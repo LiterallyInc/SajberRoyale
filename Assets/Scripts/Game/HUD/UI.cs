@@ -17,6 +17,7 @@ namespace SajberRoyale.Game
         public float FillPercentage;
 
         public Animator WinLogo;
+        public Animator Crosshair;
 
         private void Start()
         {

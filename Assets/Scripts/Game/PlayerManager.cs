@@ -20,12 +20,18 @@ namespace SajberRoyale.Player
 
         public AudioClip flashlight;
         public AudioClip Health;
+        public AudioClip[] Impact;
 
         public string[] EmoteNames;
         public AudioClip[] EmoteSfx;
 
+        private DamageController DMG;
         private int emoteid;
 
+        private void Start()
+        {
+            DMG = GetComponent<DamageController>();
+        }
         private void Update()
         {
             // if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hits)) Debug.Log(hits.transform.gameObject.name);
@@ -135,6 +141,8 @@ namespace SajberRoyale.Player
                 && target.transform.CompareTag("Player") //hit player
                 && Vector3.Distance(Core.Instance.Player.position, target.transform.position) < weapon.range) //player is in range
             {
+                DMG.PlayAudioAtPlayer(PhotonNetwork.LocalPlayer.ActorNumber, 5, Impact[Random.Range(0, Impact.Length)]);
+                Core.Instance.UI.Crosshair.Play("CrosshairJump", 0, 0);
                 int owner = target.transform.gameObject.GetComponent<PhotonView>().ControllerActorNr;
                 int damage = Mathf.RoundToInt(Random.Range(weapon.minDamage, weapon.maxDamage));
                 photonView.RPC(nameof(DamageController.Hit), RpcTarget.All, owner, damage, weapon.ID, Game.Game.Instance.Skin);
@@ -237,7 +245,7 @@ namespace SajberRoyale.Player
             {
                 anim.Play(EmoteNames[emoteIndex], 1, 0);
                 anim.Play(EmoteNames[emoteIndex], 2, 0);
-                Core.Instance.DamageController.PlayAudioAtPlayer(info.Sender.ActorNumber, 7, EmoteSfx[emoteIndex], "emote", emoteIndex != 0);
+                DMG.PlayAudioAtPlayer(info.Sender.ActorNumber, 7, EmoteSfx[emoteIndex], "emote", emoteIndex != 0);
             }
             else
             {

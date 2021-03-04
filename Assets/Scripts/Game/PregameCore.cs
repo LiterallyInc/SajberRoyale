@@ -33,6 +33,7 @@ namespace SajberRoyale.Game
             port.transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
             Random.InitState(Core.Instance.seed * id);
             string skin = Core.Instance.Meshes[Random.Range(0, Core.Instance.Meshes.Length)];
+            if (Game.Instance.IsTournament) skin = "GigaChad";
             if (id == PhotonNetwork.LocalPlayer.ActorNumber) Game.Instance.Skin = skin;
             port.GetComponent<PortraitContainer>().Username.text = name;
             port.GetComponent<PortraitContainer>().Portrait.sprite = Resources.Load<Sprite>($"CharPortraits/{skin}");

@@ -120,6 +120,7 @@ namespace SajberRoyale.MainMenu
         public void Leave()
         {
             if (Game.Game.Instance.IsActive && Game.Game.Instance.IsAlive) Core.Instance.Inventory.photonView.RPC("Die", RpcTarget.All, PhotonNetwork.LocalPlayer.ActorNumber, "suicide", Game.Game.Instance.Skin, Game.Game.Instance.Skin);
+            Time.timeScale = 1;
             PhotonNetwork.LeaveRoom();
             SceneManager.LoadScene("main");
         }

@@ -246,7 +246,7 @@ namespace SajberRoyale.Player
         }
 
         [PunRPC]
-        private void ToggleFlashlight(bool enable, PhotonMessageInfo info)
+        public void ToggleFlashlight(bool enable, PhotonMessageInfo info)
         {
             Transform player = Core.Instance.GetPlayer(info.Sender.ActorNumber);
             player.GetComponent<PlayerSync>().PublicLight.enabled = enable;

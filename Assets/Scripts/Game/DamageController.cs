@@ -68,6 +68,10 @@ namespace SajberRoyale.Player
         [PunRPC]
         public void Die(int killer, string weaponID, string killerSkin, string mySkin, PhotonMessageInfo info)
         {
+
+            //turn off their flashlight
+            photonView.RPC(nameof(PlayerManager.ToggleFlashlight), RpcTarget.Others, false);
+
             Weapon w = (Weapon)ItemDatabase.Instance.GetItem(weaponID);
 
             AddKillfeedEntry(killer, info.Sender.ActorNumber, killerSkin, mySkin, w);

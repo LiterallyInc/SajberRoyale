@@ -28,6 +28,8 @@ namespace SajberRoyale.Player
 
         private void Update()
         {
+            // if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hits)) Debug.Log(hits.transform.gameObject.name);
+
             //pickup item
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit) && hit.transform.CompareTag("ItemNode") && Input.GetKeyDown(KeyCode.E) && Game.Game.Instance.IsAlive && hit.distance < 2.5f)
             {

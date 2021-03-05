@@ -29,6 +29,8 @@ namespace SajberRoyale.Game
         public AudioSource VictoryMusic;
         public DamageController DamageController;
         public PostgameCore Postgame;
+
+        public List<string> PlayerSkins = new List<string>();
         
 
         [Header("Values")]

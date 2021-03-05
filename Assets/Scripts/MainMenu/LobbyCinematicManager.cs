@@ -18,6 +18,7 @@ namespace SajberRoyale.MainMenu
 
         private void Start()
         {
+            vp_Utility.LockCursor = false;
             currentPath = Random.Range(0, PathNames.Count);
             currentChar = Random.Range(0, Characters.Count);
             SetRandomAnimation();
@@ -35,7 +36,6 @@ namespace SajberRoyale.MainMenu
 
         private void Update()
         {
-            Cursor.visible = true;
             if (Camera.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.85f && !resetQueued) StartCoroutine(ChangeCinematic());
         }
 

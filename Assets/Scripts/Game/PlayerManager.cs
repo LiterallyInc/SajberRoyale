@@ -34,6 +34,7 @@ namespace SajberRoyale.Player
 
         private void Update()
         {
+            if (!Game.Game.Instance.IsActive) return;
             // if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hits)) Debug.Log(hits.transform.gameObject.name);
 
             //pickup item
@@ -137,7 +138,7 @@ namespace SajberRoyale.Player
             }
             StartCoroutine(Cooldown(weapon.shootingDelay));
             Physics.queriesHitTriggers = false;
-
+            Game.Game.Instance.Stats.ShotsFired++;
             //hit target in range
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit target) //shoot raycast
                 && target.transform.CompareTag("Player") //hit player
@@ -148,6 +149,7 @@ namespace SajberRoyale.Player
                 int owner = target.transform.gameObject.GetComponent<PhotonView>().ControllerActorNr;
                 int damage = Mathf.RoundToInt(Random.Range(weapon.minDamage, weapon.maxDamage));
                 photonView.RPC(nameof(DamageController.Hit), RpcTarget.All, owner, damage, weapon.ID, Game.Game.Instance.Skin);
+                Game.Game.Instance.Stats.ShotsHit++;
                 return;
             }
             Physics.queriesHitTriggers = true;
@@ -199,6 +201,7 @@ namespace SajberRoyale.Player
                 i++;
             }
             Game.Game.Instance.HP += healing.health;
+            Game.Game.Instance.Stats.HPRegen += healing.health;
             if (Game.Game.Instance.HP > 100) Game.Game.Instance.HP = 100;
             isHealing = false;
             Core.Instance.UI.FillPercentage = 0;
@@ -210,7 +213,7 @@ namespace SajberRoyale.Player
         private IEnumerator Emote(int emoteIndex = -1)
         {
             if (emoteIndex == -1) emoteIndex = Random.Range(0, Emotes.Length);
-
+            Game.Game.Instance.Stats.Emotes++;
             if (Game.Game.Instance.IsAlive) photonView.RPC(nameof(ToggleEmote), RpcTarget.All, true, emoteIndex);
             Core.Instance.Sync.isDancing = true;
             Core.Instance.Sync.LocalHolder.SetActive(false);

@@ -11,10 +11,9 @@ namespace SajberRoyale.Game
         public bool GracePeriod = true;
         public int TotalPlayers = 0;
         public int AlivePlayers = 0;
-        public long StartEpoch = 0;
 
         //Player data
-        public int Kills = 0;
+        public Stats Stats = new Stats();
         public int HP = 100;
         public bool canShoot = true;
         public bool IsAlive = true;
@@ -35,7 +34,7 @@ namespace SajberRoyale.Game
         public void StartGame()
         {
             IsActive = true;
-            StartEpoch = DateTimeOffset.Now.ToUnixTimeSeconds();
+            Stats.StartEpoch = DateTimeOffset.Now.ToUnixTimeSeconds();
             TotalPlayers = PhotonNetwork.CurrentRoom.PlayerCount;
             AlivePlayers = PhotonNetwork.CurrentRoom.PlayerCount;
         }

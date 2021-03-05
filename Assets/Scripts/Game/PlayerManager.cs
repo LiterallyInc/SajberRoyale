@@ -22,8 +22,7 @@ namespace SajberRoyale.Player
         public AudioClip Health;
         public AudioClip[] Impact;
 
-        public string[] EmoteNames;
-        public AudioClip[] EmoteSfx;
+        public Emote[] Emotes;
 
         private DamageController DMG;
         private int emoteid;
@@ -32,6 +31,7 @@ namespace SajberRoyale.Player
         {
             DMG = GetComponent<DamageController>();
         }
+
         private void Update()
         {
             // if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hits)) Debug.Log(hits.transform.gameObject.name);
@@ -93,10 +93,12 @@ namespace SajberRoyale.Player
             }
 
             //emote
-            if (Input.GetKeyDown(KeyCode.B) && !Core.Instance.Sync.isDancing && Game.Game.Instance.IsActive)
+            if (!Core.Instance.Sync.isDancing && Game.Game.Instance.IsActive)
             {
-                if (Input.GetKey(KeyCode.Alpha0)) StartCoroutine(Emote(0));
-                else StartCoroutine(Emote());
+               if(Input.GetKeyDown(KeyCode.B)) StartCoroutine(Emote());
+               if(Input.GetKeyDown(KeyCode.Alpha0)) StartCoroutine(Emote(0));
+               if(Input.GetKeyDown(KeyCode.Alpha9)) StartCoroutine(Emote(1));
+               if(Input.GetKeyDown(KeyCode.Alpha8)) StartCoroutine(Emote(2));
             }
 
             //toggle flashlight
@@ -207,20 +209,18 @@ namespace SajberRoyale.Player
 
         private IEnumerator Emote(int emoteIndex = -1)
         {
-            if (emoteIndex == -1) emoteIndex = Random.Range(0, EmoteNames.Length);
+            if (emoteIndex == -1) emoteIndex = Random.Range(0, Emotes.Length);
 
             if (Game.Game.Instance.IsAlive) photonView.RPC(nameof(ToggleEmote), RpcTarget.All, true, emoteIndex);
             Core.Instance.Sync.isDancing = true;
             Core.Instance.Sync.LocalHolder.SetActive(false);
             emoteid = Random.Range(0, 10000);
             int hash = emoteid;
-            Core.Instance.Player.GetComponent<Animator>().Play(EmoteNames[emoteIndex], 1, 0);
-            Core.Instance.Player.GetComponent<Animator>().Play(EmoteNames[emoteIndex], 2, 0);
 
             //cancel if emote is non-looping
-            if (EmoteNames[emoteIndex] == "Dance Moves")
+            if (Emotes[emoteIndex].length != 0)
             {
-                yield return new WaitForSeconds(6.9f);
+                yield return new WaitForSeconds(Emotes[emoteIndex].length);
                 if (hash == emoteid) StopEmote();
             }
         }
@@ -243,9 +243,9 @@ namespace SajberRoyale.Player
             Animator anim = Core.Instance.GetPlayer(info.Sender.ActorNumber).GetComponent<PlayerSync>().Player.GetComponent<Animator>();
             if (enable)
             {
-                anim.Play(EmoteNames[emoteIndex], 1, 0);
-                anim.Play(EmoteNames[emoteIndex], 2, 0);
-                DMG.PlayAudioAtPlayer(info.Sender.ActorNumber, 7, EmoteSfx[emoteIndex], "emote", emoteIndex != 0);
+                anim.Play(Emotes[emoteIndex].id, 1, 0);
+                anim.Play(Emotes[emoteIndex].id, 2, 0);
+                DMG.PlayAudioAtPlayer(info.Sender.ActorNumber, 7, Emotes[emoteIndex].audio, "emote", emoteIndex != 0);
             }
             else
             {

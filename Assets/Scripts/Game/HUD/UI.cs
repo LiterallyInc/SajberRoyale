@@ -70,7 +70,7 @@ Left: {Game.Instance.AlivePlayers}/{Game.Instance.TotalPlayers}
             Stats stats = Game.Instance.Stats;
             DateTime diff = DateTimeOffset.FromUnixTimeSeconds(stats.StartEpoch).DateTime;
             PostgamePlacement.text = $"#{stats.Placement}";
-            PostgameStats.text = $"{DateTime.Now.Subtract(diff):mm\\:ss}\n\n{stats.Eliminations}\n\n{stats.ShotsFired}\n\n{stats.ShotsHit} ({((stats.ShotsFired > 0) ? Math.Round((double)stats.ShotsFired / stats.ShotsHit, 2) : 0)}%)\n\n{stats.HPRegen}\n\n{stats.Emotes}";
+            PostgameStats.text = $"{DateTime.Now.Subtract(diff):mm\\:ss}\n\n{stats.Eliminations}\n\n{stats.ShotsFired}\n\n{stats.ShotsHit} ({((stats.ShotsFired > 0) ? Math.Round(stats.ShotsHit / (double)stats.ShotsFired * 100, 2) : 0)}%)\n\n{stats.HPRegen}\n\n{stats.Emotes}";
         }
     }
 }

@@ -595,7 +595,7 @@ namespace Console
             {
                 base.Logic();
                 Game.Instance.HP = 0;
-                Core.Instance.Inventory.photonView.RPC("Die", RpcTarget.All, PhotonNetwork.LocalPlayer.ActorNumber, "suicide", Game.Instance.Skin, Game.Instance.Skin);
+                Core.Instance.Inventory.photonView.RPC("Die", RpcTarget.All, PhotonNetwork.LocalPlayer.ActorNumber, "suicide", Game.Instance.Skin, Game.Instance.Skin, UnityEngine.Random.Range(0, Core.Instance.Postgame.VictoryEmotes.Length));
                 return new ConsoleOutput($"You died. Welp.", ConsoleOutput.OutputType.Log);
             }
         }
@@ -624,6 +624,21 @@ namespace Console
                 Helper.sens = value;
                 PlayerPrefs.SetFloat(Helper.Settings.sens.ToString(), value);
                 return new ConsoleOutput($"Mouse sensivity set to {value}.", ConsoleOutput.OutputType.Log, false);
+            }
+        }
+
+        [ConsoleCommand("left", "Change players left")]
+        private class left : Command
+        {
+            [CommandParameter("left")]
+            public int value;
+
+            public override ConsoleOutput Logic()
+            {
+                base.Logic();
+
+                Game.Instance.AlivePlayers = value;
+                return new ConsoleOutput($"Players left set to {value}.", ConsoleOutput.OutputType.Log, false);
             }
         }
 

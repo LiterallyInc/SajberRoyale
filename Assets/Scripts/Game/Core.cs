@@ -26,7 +26,10 @@ namespace SajberRoyale.Game
         public vp_FPInput PlayerInput;
         public PlayerSync Sync;
         public AudioSource VictoryTheme;
+        public AudioSource VictoryMusic;
         public DamageController DamageController;
+        public PostgameCore Postgame;
+        
 
         [Header("Values")]
         public bool GameStarted = false;
@@ -139,7 +142,7 @@ namespace SajberRoyale.Game
         [PunRPC]
         public void Summon()
         {
-            Destroy(Camera);
+            Camera.SetActive(false);
             GameObject[] SpawnNodes = GameObject.FindGameObjectsWithTag("PlayerSpawn");
             Random.InitState(localSeed);
             Vector3 SpawnPos = SpawnNodes[Random.Range(0, SpawnNodes.Length - 1)].transform.position;
@@ -165,16 +168,25 @@ namespace SajberRoyale.Game
 
         private IEnumerator StartVictory()
         {
+            Game.Instance.IsActive = false;
             VictoryTheme.Play();
+            VictoryMusic.Play();
             Time.timeScale = 0.2f;
             UI.WinEffect();
-            yield return new WaitForSecondsRealtime(2);
+            yield return new WaitForSecondsRealtime(3);
             Time.timeScale = 1f;
 
-            yield return new WaitForSecondsRealtime(5);
+            yield return new WaitForSecondsRealtime(4f);
+            UI.Overlay.Play("ShowOverlay");
+            yield return new WaitForSecondsRealtime(2);
 
-            foreach (Component c in Sync.LocalScripts) if (typeof(AudioListener) != c.GetType()) Destroy(c);
-            PhotonNetwork.Destroy(Player.gameObject);
+            PhotonNetwork.Destroy(PlayerController.gameObject);
+            UI.Data.SetActive(false);
+            UI.WinLogo.gameObject.SetActive(false);
+            Postgame.Victory();
+            UI.Overlay.Play("HideOverlay");
+            UI.UI_Postgame.SetActive(true);
+            UI.SetPostgame();
         }
 
         #region Ran by master client only

@@ -26,7 +26,6 @@ namespace SajberRoyale.Map
         public Renderer DoorOverlay;
         public AudioReverbZone Echo;
         public Clock Clock;
-        public Animator Overlay;
         public Animator RoofLamps;
         public TextMesh Tombstone;
 
@@ -151,25 +150,25 @@ namespace SajberRoyale.Map
             StartCoroutine(Queue(25.35f, () => DoorOverlay.enabled = true));
 
             //Go to space
-            if (isMe) StartCoroutine(Queue(34.5f, () => Overlay.Play("ShowOverlay")));
+            if (isMe) StartCoroutine(Queue(34.5f, () => Core.Instance.UI.Overlay.Play("ShowOverlay")));
             if (isMe) StartCoroutine(Queue(39f, () => shakeSpeed = 10f));
             if (isMe) StartCoroutine(Queue(34.5f, () => Core.Instance.Sync.PlayerCam.GetComponent<vp_FPCamera>().ShakeAmplitude = new Vector3(10, 10, 10)));
             if (isMe) StartCoroutine(Queue(38.2f, () => Credits_Music.Play()));
             if (isMe) StartCoroutine(Queue(39f, () => shakeSpeed = 0f));
             if (isMe) StartCoroutine(Queue(39.2f, () => SetSpace(true)));
-            if (isMe) StartCoroutine(Queue(39.2f, () => Overlay.Play("HideOverlay")));
+            if (isMe) StartCoroutine(Queue(39.2f, () => Core.Instance.UI.Overlay.Play("HideOverlay")));
             if (isMe) StartCoroutine(Queue(39.2f, () => Core.Instance.UI.ShowData(false)));
             if (isMe) StartCoroutine(Queue(39.4f, () => c.transform.position = new Vector3(0, -211, 1233)));
             if (isMe) StartCoroutine(Queue(39.5f, () => Credits.Play("CreditsAnim")));
             if (isMe) StartCoroutine(Queue(77.5f, () => shakeSpeed = 10f));
-            if (isMe) StartCoroutine(Queue(77.5f, () => Overlay.Play("ShowOverlay")));
+            if (isMe) StartCoroutine(Queue(77.5f, () => Core.Instance.UI.Overlay.Play("ShowOverlay")));
             if (isMe) StartCoroutine(Queue(79.5f, () => shakeSpeed = 0f));
             if (isMe) StartCoroutine(Queue(80f, () => SetSpace(false)));
             if (isMe) StartCoroutine(Queue(80f, () => GoToNode(c)));
             if (isMe) StartCoroutine(Queue(80f, () => Credits.gameObject.SetActive(false)));
             if (isMe) StartCoroutine(Queue(80f, () => Core.Instance.UI.ShowData(true)));
             if (isMe) StartCoroutine(Queue(80f, () => Core.Instance.Sync.LocalLight.color = new Color(1, 1, 1)));
-            if (isMe) StartCoroutine(Queue(80f, () => Overlay.Play("HideOverlay")));
+            if (isMe) StartCoroutine(Queue(80f, () => Core.Instance.UI.Overlay.Play("HideOverlay")));
             if (isMe) StartCoroutine(Queue(80f, () => isCursed = false));
         }
 

@@ -35,6 +35,7 @@ namespace SajberRoyale.MainMenu
 
         private void Update()
         {
+            Cursor.visible = true;
             if (Camera.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.85f && !resetQueued) StartCoroutine(ChangeCinematic());
         }
 

@@ -1,4 +1,5 @@
 using Photon.Pun;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,6 +9,7 @@ namespace SajberRoyale.Game
     {
         public GameObject UI_Pregame;
         public GameObject Data;
+        public GameObject UI_Postgame;
         public Text GameStats;
         public Text TechStats;
         public Transform HPOverlay;
@@ -18,6 +20,10 @@ namespace SajberRoyale.Game
 
         public Animator WinLogo;
         public Animator Crosshair;
+        public Animator Overlay;
+
+        public Text PostgamePlacement;
+        public Text PostgameStats;
 
         private void Start()
         {
@@ -45,7 +51,7 @@ namespace SajberRoyale.Game
 <size=10><i>Playing as {Game.Instance.Skin}</i></size>
 
 Room: {Game.Instance.CurrentRoom}
-Elims: {Game.Instance.Kills}
+Elims: {Game.Instance.Stats.Eliminations}
 Left: {Game.Instance.AlivePlayers}/{Game.Instance.TotalPlayers}
 ";
             string ping = $"{PhotonNetwork.GetPing()} ms";
@@ -58,6 +64,13 @@ Left: {Game.Instance.AlivePlayers}/{Game.Instance.TotalPlayers}
             WinLogo.gameObject.SetActive(true);
             WinLogo.PlayInFixedTime("VictoryAnimation");
         }
-        
+
+        public void SetPostgame()
+        {
+            Stats stats = Game.Instance.Stats;
+            DateTime diff = DateTimeOffset.FromUnixTimeSeconds(stats.StartEpoch).DateTime;
+            PostgamePlacement.text = $"#{stats.Placement}";
+            PostgameStats.text = $"{DateTime.Now.Subtract(diff):mm\\:ss}\n\n{stats.Eliminations}\n\n{stats.ShotsFired}\n\n{stats.ShotsHit} ({((stats.ShotsFired > 0) ? Math.Round((double)stats.ShotsFired / stats.ShotsHit, 2) : 0)}%)\n\n{stats.HPRegen}\n\n{stats.Emotes}";
+        }
     }
 }

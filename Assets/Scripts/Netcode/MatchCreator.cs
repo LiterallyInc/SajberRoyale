@@ -124,7 +124,6 @@ namespace SajberRoyale.MainMenu
             if (IF_Name.text.Trim().Length >= 3) name = IF_Name.text.Trim();
             PhotonNetwork.OfflineMode = true;
             PhotonNetwork.NickName = name;
-            Debug.Log(PhotonNetwork.IsConnected);
             PhotonNetwork.CreateRoom($"offline{Random.Range(0, 10000)}");
         }
 

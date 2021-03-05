@@ -126,7 +126,6 @@ namespace SajberRoyale.Player
             if (KillfeedEntry != null) KillfeedEntry.GetComponent<KillfeedEntry>().Close();
             KillfeedEntry = Instantiate(KillfeedEntryTemplate, Core.Instance.UI.Data.transform);
             KillfeedEntry feed = KillfeedEntry.GetComponent<KillfeedEntry>();
-            Debug.Log(killedSkin);
             feed.IconKiller.sprite = Resources.Load<Sprite>($"CharPortraits/{killerSkin}");
             feed.IconKilled.sprite = Resources.Load<Sprite>($"CharPortraits/Dead{killedSkin}");
             feed.IconWeapon.sprite = weapon.icon;

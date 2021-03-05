@@ -105,7 +105,6 @@ namespace SajberRoyale.Game
             Emote e = VictoryEmotes[winnerEmote];
             CharacterAnim.Play(e.id, 1, 0);
             CharacterAnim.Play(e.id, 2, 0);
-            Debug.Log(e.id);
             if (e.length != 0)
             {
                 yield return new WaitForSeconds(e.length);

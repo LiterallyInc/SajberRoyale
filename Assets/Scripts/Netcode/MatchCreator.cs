@@ -187,7 +187,7 @@ namespace SajberRoyale.MainMenu
         public override void OnDisconnected(DisconnectCause cause)
         {
             Debug.Log($"SRNet: Disconnected from server: {cause}");
-            Status.text = cause.ToString();
+            if(Status) Status.text = cause.ToString();
         }
 
         public override void OnJoinedRoom()
@@ -213,6 +213,14 @@ namespace SajberRoyale.MainMenu
                 _ => $"Error {returnCode}: {message}",
             };
             base.OnJoinRoomFailed(returnCode, message);
+        }
+
+        public static void LeaveGame()
+        {
+            Time.timeScale = 1;
+            PhotonNetwork.LeaveRoom();
+            PhotonNetwork.Disconnect();
+            SceneManager.LoadScene("main");
         }
 
         #endregion Photon callbacks

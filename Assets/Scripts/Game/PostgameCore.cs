@@ -1,5 +1,6 @@
 using Photon.Pun;
 using SajberRoyale.Items;
+using SajberRoyale.MainMenu;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -123,8 +124,7 @@ namespace SajberRoyale.Game
             yield return new WaitForSeconds(25.5f);
             SplashScreen.Begin();
             yield return new WaitForSeconds(3.2f);
-            PhotonNetwork.LeaveRoom();
-            SceneManager.LoadScene("main");
+            MatchCreator.LeaveGame();
         }
     }
 }

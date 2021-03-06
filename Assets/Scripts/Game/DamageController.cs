@@ -135,5 +135,10 @@ namespace SajberRoyale.Player
                 if (player.ActorNumber == killer) feed.TextKiller.text = player.NickName;
             }
         }
+
+        private void OnApplicationQuit()
+        {
+            if (Game.Game.Instance.IsActive && Game.Game.Instance.IsAlive) Core.Instance.Inventory.photonView.RPC("Die", RpcTarget.All, PhotonNetwork.LocalPlayer.ActorNumber, "suicide", Game.Game.Instance.Skin, Game.Game.Instance.Skin);
+        }
     }
 }

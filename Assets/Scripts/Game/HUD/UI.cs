@@ -38,8 +38,8 @@ namespace SajberRoyale.Game
 
         private void Update()
         {
-            HPText.text = $"{(Game.Instance.HP >= 0 ? Game.Instance.HP : 0)}/100";
-            HPOverlay.transform.localScale = new Vector3(Game.Instance.HP >= 0 ? (float)Game.Instance.HP / 100f : 0, 1, 1);
+            HPText.text = $"{(Game.Instance.HP >= 0 ? Game.Instance.HP : 0)}/{Game.Instance.MaxHP}";
+            HPOverlay.transform.localScale = new Vector3(Game.Instance.HP >= 0 ? (float)Game.Instance.HP / Game.Instance.MaxHP : 0, 1, 1);
 
             if (FillPercentage != -1) FillArea.fillAmount = FillPercentage;
             else FillArea.fillAmount = 0;

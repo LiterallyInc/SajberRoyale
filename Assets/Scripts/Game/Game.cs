@@ -14,7 +14,8 @@ namespace SajberRoyale.Game
 
         //Player data
         public Stats Stats = new Stats();
-        public int HP = 100;
+        public int HP = 200;
+        public int MaxHP;
         public bool canShoot = true;
         public bool IsAlive = true;
         /// <summary> Last physical in-game room player entered  </summary>
@@ -29,6 +30,7 @@ namespace SajberRoyale.Game
         public static void ResetGame()
         {
             Instance = new Game();
+            Instance.MaxHP = Instance.HP;
         }
 
         public void StartGame()

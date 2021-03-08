@@ -52,6 +52,7 @@ public class DiscordController : MonoBehaviour
     public void ReadyCallback(ref DiscordRpc.DiscordUser connectedUser)
     {
         Debug.Log(string.Format("RPC: connected to {0}", connectedUser.userId));
+        PlayerPrefs.SetString(Helper.Account.id.ToString(), connectedUser.userId);
         onConnect.Invoke();
     }
 

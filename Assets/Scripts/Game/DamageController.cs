@@ -13,6 +13,12 @@ namespace SajberRoyale.Player
         public GameObject KillfeedEntryTemplate;
         public GameObject KillfeedEntry;
         public AudioClip[] damageSounds;
+        public Game.Game game;
+
+        private void Start()
+        {
+            game = Game.Game.Instance;
+        }
 
         /// <summary>
         /// Runs for everyone when someone gets hit
@@ -27,17 +33,17 @@ namespace SajberRoyale.Player
             if (PhotonNetwork.LocalPlayer.ActorNumber == actorID) //i got hit
             {
                 Core.Instance.UI.HPOverlay.parent.GetComponent<Animator>().Play("HealthImpact", 0, 0);
-                Game.Game.Instance.HP -= damage;
-                Game.Game.Instance.Stats.DamageTaken += damage;
-                if (Game.Game.Instance.HP <= 0)
+                game.HP -= damage;
+                game.Stats.DamageTaken += damage;
+                if (game.HP <= 0)
                 {
-                    Game.Game.Instance.Stats.Placement = Game.Game.Instance.AlivePlayers;
-                    Game.Game.Instance.IsAlive = false;
+                    game.Stats.Placement = game.AlivePlayers;
+                    game.IsAlive = false;
                     PhotonNetwork.Destroy(Core.Instance.Player.gameObject); //destroy avatar
                     Core.Instance.Sync.LocalLight.color = new Color(1, 0.7688679f, 0.7753899f); //tint flashlight
 
                     Random.InitState(Core.Instance.localSeed);
-                    photonView.RPC(nameof(Die), RpcTarget.All, info.Sender.ActorNumber, weaponID, skin, Game.Game.Instance.Skin, Random.Range(0, Core.Instance.Postgame.VictoryEmotes.Length));
+                    photonView.RPC(nameof(Die), RpcTarget.All, info.Sender.ActorNumber, weaponID, skin, game.Skin, Random.Range(0, Core.Instance.Postgame.VictoryEmotes.Length));
                 }
             }
             else //someone else got hit
@@ -82,10 +88,10 @@ namespace SajberRoyale.Player
             Transform dead = Core.Instance.GetPlayer(info.Sender.ActorNumber);
             dead.GetComponent<PlayerSync>().DeathParticles.Play();
             if (info.Sender.ActorNumber != PhotonNetwork.LocalPlayer.ActorNumber) Destroy(dead.GetComponent<CharacterController>());
-            if (PhotonNetwork.LocalPlayer.ActorNumber == killer) Game.Game.Instance.Stats.Eliminations++;
-            Game.Game.Instance.AlivePlayers--;
+            if (PhotonNetwork.LocalPlayer.ActorNumber == killer) game.Stats.Eliminations++;
+            game.AlivePlayers--;
 
-            if (Game.Game.Instance.AlivePlayers == 1)
+            if (game.AlivePlayers == 1)
             {
                 Core.Instance.Postgame.winnerEmote = emoteIndex;
                 Core.Instance.Postgame.winnerSkin = killerSkin;
@@ -139,7 +145,7 @@ namespace SajberRoyale.Player
 
         private void OnApplicationQuit()
         {
-            if (Game.Game.Instance.IsActive && Game.Game.Instance.IsAlive) Core.Instance.Inventory.photonView.RPC("Die", RpcTarget.All, PhotonNetwork.LocalPlayer.ActorNumber, "suicide", Game.Game.Instance.Skin, Game.Game.Instance.Skin);
+            if (game.IsActive && game.IsAlive) Core.Instance.Inventory.photonView.RPC("Die", RpcTarget.All, PhotonNetwork.LocalPlayer.ActorNumber, "suicide", game.Skin, game.Skin);
         }
     }
 }

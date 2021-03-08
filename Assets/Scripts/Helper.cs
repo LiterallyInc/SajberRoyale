@@ -32,4 +32,10 @@ public class Helper
         sens
 
     }
+
+    public enum Account
+    {
+        id,
+        access
+    }
 }

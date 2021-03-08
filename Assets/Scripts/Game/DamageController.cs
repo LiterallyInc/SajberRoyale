@@ -28,6 +28,7 @@ namespace SajberRoyale.Player
             {
                 Core.Instance.UI.HPOverlay.parent.GetComponent<Animator>().Play("HealthImpact", 0, 0);
                 Game.Game.Instance.HP -= damage;
+                Game.Game.Instance.Stats.DamageTaken += damage;
                 if (Game.Game.Instance.HP <= 0)
                 {
                     Game.Game.Instance.Stats.Placement = Game.Game.Instance.AlivePlayers;

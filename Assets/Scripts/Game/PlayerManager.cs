@@ -40,12 +40,16 @@ namespace SajberRoyale.Player
             //pickup item
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit) && hit.transform.CompareTag("ItemNode") && Input.GetKeyDown(KeyCode.E) && Game.Game.Instance.IsAlive && hit.distance < 2.5f)
             {
+                Game.Game.Instance.Stats.ItemsPickup++;
                 ItemNode node = hit.transform.gameObject.GetComponent<ItemNode>();
                 if (hit.transform.gameObject.GetComponent<Locker>()) //locker
                 {
                     Locker locker = hit.transform.gameObject.GetComponent<Locker>();
                     if (!locker.isOpen)
+                    {
+                        Game.Game.Instance.Stats.LockersOpened++;
                         Core.Instance.photonView.RPC(nameof(Core.OpenLocker), RpcTarget.All, (double)hit.transform.position.x * (double)hit.transform.position.y * (double)hit.transform.position.z);
+                    }
                     else
                         TakeItem(node, hit);
                 }
@@ -149,6 +153,7 @@ namespace SajberRoyale.Player
                 int owner = target.transform.gameObject.GetComponent<PhotonView>().ControllerActorNr;
                 int damage = Mathf.RoundToInt(Random.Range(weapon.minDamage, weapon.maxDamage));
                 photonView.RPC(nameof(DamageController.Hit), RpcTarget.All, owner, damage, weapon.ID, Game.Game.Instance.Skin);
+                Game.Game.Instance.Stats.DamageDone+=damage;
                 Game.Game.Instance.Stats.ShotsHit++;
                 return;
             }

@@ -29,9 +29,14 @@ namespace SajberRoyale.MainMenu
 
         public IEnumerator VerifyLogin(bool isAuto = true)
         {
+            string id = PlayerPrefs.GetString(Helper.Account.id.ToString(), "");
+            string auth = PlayerPrefs.GetString(Helper.Account.access.ToString(), "");
+
+            if (!(id.Length > 0) && !(auth.Length > 0)) yield break;
+
             WWWForm form = new WWWForm();
-            form.AddField("id", PlayerPrefs.GetString(Helper.Account.id.ToString()));
-            form.AddField("access_token", PlayerPrefs.GetString(Helper.Account.access.ToString()));
+            form.AddField("id", id);
+            form.AddField("access_token", auth);
 
             using (UnityWebRequest www = UnityWebRequest.Post($"{ApiEndPoint}/auth/verify", form))
             {
@@ -49,7 +54,7 @@ namespace SajberRoyale.MainMenu
                         sb.Append(dict.Key).Append(": \t[").Append(dict.Value).Append("]\n");
                     }
 
-                    if(www.downloadHandler.text == "true") //logged in 
+                    if (www.downloadHandler.text == "true") //logged in
                     {
                         Debug.Log($"Successfully logged in as {PlayerPrefs.GetString(Helper.Account.id.ToString())}");
                         ButtonController.Instance.LoginStatus.text = "Welcome!";
@@ -60,7 +65,7 @@ namespace SajberRoyale.MainMenu
                     }
                     else //token invalid
                     {
-                        if(!isAuto)ButtonController.Instance.LoginStatus.text = "Could not log you in.";
+                        if (!isAuto) ButtonController.Instance.LoginStatus.text = "Could not log you in.";
                     }
                 }
             }

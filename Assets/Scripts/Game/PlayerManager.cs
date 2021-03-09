@@ -207,7 +207,7 @@ namespace SajberRoyale.Player
             }
             Game.Game.Instance.HP += healing.health;
             Game.Game.Instance.Stats.HPRegen += healing.health;
-            if (Game.Game.Instance.HP > 100) Game.Game.Instance.HP = 100;
+            if (Game.Game.Instance.HP > Game.Game.Instance.MaxHP) Game.Game.Instance.HP = Game.Game.Instance.MaxHP;
             isHealing = false;
             Core.Instance.UI.FillPercentage = 0;
             Core.Instance.Inventory.RemoveItem();

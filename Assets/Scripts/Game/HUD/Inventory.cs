@@ -106,7 +106,6 @@ namespace SajberRoyale.Player
 
             if (CurrentWeapon != null) //got item
             {
-                Core.Instance.PlayerController.GetComponent<vp_FPController>().MotorAcceleration = 0.088f * CurrentWeapon.speedMultiplier;
                 if (CurrentWeapon.type == Item.Type.Weapon) SetDesc((Weapon)CurrentWeapon);
                 if (CurrentWeapon.type == Item.Type.Healing) SetDesc((Healing)CurrentWeapon);
             }

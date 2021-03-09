@@ -1,5 +1,6 @@
 ﻿using Photon.Pun;
 using SajberRoyale.Items;
+using SajberRoyale.MainMenu;
 using SajberRoyale.Map;
 using SajberRoyale.Player;
 using System.Collections;
@@ -17,6 +18,7 @@ namespace SajberRoyale.Game
     {
         [Header("Objects")]
         public UI UI;
+
         public Button Button_Start;
         public GameObject Camera;
         public Inventory Inventory;
@@ -32,7 +34,6 @@ namespace SajberRoyale.Game
         public PostgameCore Postgame;
 
         public List<string> PlayerSkins = new List<string>();
-        
 
         [Header("Values")]
         public bool GameStarted = false;
@@ -90,7 +91,6 @@ namespace SajberRoyale.Game
 
             if (PlayerInput != null) if (!PlayerInput.MouseLookAcceleration) PlayerInput.MouseLookSensitivity = new Vector2(Helper.sens, Helper.sens);
         }
-        
 
         [PunRPC]
         private void PlaceLoot(string[] itemIDs, int[] nodes)
@@ -214,7 +214,7 @@ namespace SajberRoyale.Game
 
             yield return www.SendWebRequest();
 
-            if (www.isNetworkError || www.isHttpError)
+            if (www.result != UnityWebRequest.Result.ConnectionError)
             {
                 Debug.Log(www.error);
             }

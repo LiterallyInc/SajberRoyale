@@ -214,7 +214,7 @@ namespace SajberRoyale.Game
 
             yield return www.SendWebRequest();
 
-            if (www.result != UnityWebRequest.Result.ConnectionError)
+            if (www.result != UnityWebRequest.Result.Success)
             {
                 Debug.Log(www.error);
             }

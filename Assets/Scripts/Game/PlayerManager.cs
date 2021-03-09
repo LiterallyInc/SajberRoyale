@@ -188,6 +188,7 @@ namespace SajberRoyale.Player
             Core.Instance.UI.FillPercentage = 0.01f;
             source.clip = healing.useSfx;
             source.Play();
+            photonView.RPC(nameof(Heal), RpcTarget.Others, healing.ID, true);
             int i = 1;
             while (i < 100)
             {
@@ -213,6 +214,7 @@ namespace SajberRoyale.Player
             Core.Instance.Inventory.RemoveItem();
             source.clip = Health;
             source.Play();
+            photonView.RPC(nameof(Heal), RpcTarget.Others, healing.ID, false);
         }
 
         private IEnumerator Emote(int emoteIndex = -1)
@@ -262,7 +264,12 @@ namespace SajberRoyale.Player
                 Destroy(GameObject.Find($"Player{info.Sender.ActorNumber}/emote"));
             }
         }
-
+        [PunRPC]
+        private void Heal(string itemID, bool start, PhotonMessageInfo info)
+        {
+            Healing h = (Healing)Core.Instance.ItemDatabase.GetItem(itemID);
+            DMG.PlayAudioAtPlayer(info.Sender.ActorNumber, 7, start ? h.useSfx : Health);
+        }
         [PunRPC]
         public void ToggleFlashlight(bool enable, PhotonMessageInfo info)
         {

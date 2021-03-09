@@ -111,7 +111,6 @@ namespace SajberRoyale.Player
             }
             else
             {
-                Core.Instance.PlayerController.GetComponent<vp_FPController>().MotorAcceleration = 0.088f;
                 UIInfo.GetComponent<Text>().text = "";
             }
         }

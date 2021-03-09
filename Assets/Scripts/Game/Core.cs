@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.UI;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using Random = UnityEngine.Random;
@@ -171,6 +172,7 @@ namespace SajberRoyale.Game
         private IEnumerator StartVictory()
         {
             Game.Instance.IsActive = false;
+            StartCoroutine(UploadStats());
             VictoryTheme.Play();
             VictoryMusic.Play();
             Time.timeScale = 0.2f;
@@ -189,6 +191,37 @@ namespace SajberRoyale.Game
             UI.Overlay.Play("HideOverlay");
             UI.UI_Postgame.SetActive(true);
             UI.SetPostgame();
+        }
+
+        private IEnumerator UploadStats()
+        {
+            Stats stats = Game.Instance.Stats;
+            WWWForm form = new WWWForm();
+            form.AddField("id", PlayerPrefs.GetString(Helper.Account.id.ToString()));
+            form.AddField("access_token", PlayerPrefs.GetString(Helper.Account.access.ToString()));
+            form.AddField("win", stats.Placement == 1 ? "true" : "false");
+            form.AddField("kills", stats.Eliminations);
+            form.AddField("damageDone", stats.DamageDone);
+            form.AddField("damageTaken", stats.DamageTaken);
+            form.AddField("healthRegenerated", stats.HPRegen);
+            form.AddField("shotsFired", stats.ShotsFired);
+            form.AddField("shotsHit", stats.ShotsHit);
+            form.AddField("emotesEmoted", stats.Emotes);
+            form.AddField("itemsPickedup", stats.ItemsPickup);
+            form.AddField("lockersOpened", stats.LockersOpened);
+
+            using UnityWebRequest www = UnityWebRequest.Post($"{AccountManager.Manager.ApiEndPoint}/royale/update", form);
+
+            yield return www.SendWebRequest();
+
+            if (www.isNetworkError || www.isHttpError)
+            {
+                Debug.Log(www.error);
+            }
+            else
+            {
+                Debug.Log("Stats uploaded!");
+            }
         }
 
         #region Ran by master client only

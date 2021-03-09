@@ -38,8 +38,7 @@ namespace SajberRoyale.MainMenu
         }
         public void TryLogin()
         {
-            PlayerPrefs.SetString(Helper.Account.access.ToString(), AuthCode.text);
-            StartCoroutine(AccountManager.Manager.VerifyLogin(false));
+            StartCoroutine(AccountManager.Manager.ProcessToken(AuthCode.text));
         }
         public void ToggleLoginGUI(bool open)
         {

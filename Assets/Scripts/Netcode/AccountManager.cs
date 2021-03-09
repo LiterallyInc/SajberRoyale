@@ -3,6 +3,8 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace SajberRoyale.MainMenu
 {
@@ -66,6 +68,36 @@ namespace SajberRoyale.MainMenu
                     else //token invalid
                     {
                         if (!isAuto) ButtonController.Instance.LoginStatus.text = "Could not log you in.";
+                    }
+                }
+            }
+        }
+        public IEnumerator ProcessToken(string token)
+        {
+            WWWForm form = new WWWForm();
+            form.AddField("royale", token);
+
+            using (UnityWebRequest www = UnityWebRequest.Post($"{ApiEndPoint}/auth/verify", form))
+            {
+                yield return www.SendWebRequest();
+                string text = www.downloadHandler.text;
+                if (www.result == UnityWebRequest.Result.ConnectionError)
+                {
+                    Debug.Log(www.error);
+                }
+                else
+                {
+                    if (text != "false") //logged in
+                    {
+                        JObject data = JObject.Parse(text.Substring(1, text.Length - 2));
+                        
+                        PlayerPrefs.SetString(Helper.Account.access.ToString(), data["access_token"].ToString());
+                        PlayerPrefs.SetString(Helper.Account.id.ToString(), data["id"].ToString());
+                        StartCoroutine(VerifyLogin(false));
+                    }
+                    else //token invalid
+                    {
+                        ButtonController.Instance.LoginStatus.text = "Could not log you in.";
                     }
                 }
             }

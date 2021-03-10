@@ -33,7 +33,7 @@ namespace SajberRoyale.MainMenu
         }
         public void OpenLogin()
         {
-            Application.OpenURL("https://discord.com/api/oauth2/authorize?client_id=793179363029549057&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauth%2Froyale&response_type=code&scope=identify");
+            Application.OpenURL(AccountManager.Manager.AuthLink);
             ToggleLoginGUI(true);
         }
         public void TryLogin()

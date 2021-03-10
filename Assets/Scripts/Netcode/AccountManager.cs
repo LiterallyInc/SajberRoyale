@@ -13,6 +13,7 @@ namespace SajberRoyale.MainMenu
         public static AccountManager Manager = null;
         public bool isLoggedIn = false;
         public string ApiEndPoint;
+        public string AuthLink;
 
         // Start is called before the first frame update
         private void Start()

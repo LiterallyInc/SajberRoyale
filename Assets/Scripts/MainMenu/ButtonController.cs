@@ -16,6 +16,12 @@ namespace SajberRoyale.MainMenu
         {
             Destroy(Instance);
             Instance = this;
+
+            if (AccountManager.Manager.isLoggedIn)
+            {
+                Login.interactable = false;
+                Login.GetComponent<Text>().text = "LOGGED IN";
+            }
         }
         public void ToggleConnectionGUI(bool open)
         {

@@ -172,7 +172,7 @@ namespace SajberRoyale.Game
         private IEnumerator StartVictory()
         {
             Game.Instance.IsActive = false;
-            StartCoroutine(UploadStats());
+            if (AccountManager.Manager.isLoggedIn && !PhotonNetwork.OfflineMode) StartCoroutine(UploadStats());
             VictoryTheme.Play();
             VictoryMusic.Play();
             Time.timeScale = 0.2f;

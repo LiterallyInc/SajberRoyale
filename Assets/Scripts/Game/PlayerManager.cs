@@ -17,10 +17,12 @@ namespace SajberRoyale.Player
     {
         private Weapon QueuedShot;
         private bool isHealing = false;
+        private bool isReloading = false;
 
         public AudioClip flashlight;
         public AudioClip Health;
         public AudioClip[] Impact;
+        public AudioClip ReloadSfx;
 
         public Emote[] Emotes;
 
@@ -74,11 +76,11 @@ namespace SajberRoyale.Player
             if (Input.GetMouseButtonDown(0) && Core.Instance.Inventory.CurrentWeapon != null && vp_Utility.LockCursor && !Game.Game.Instance.GracePeriod && Game.Game.Instance.IsAlive)
             {
                 Item item = Core.Instance.Inventory.CurrentWeapon;
-                if (item.type == Item.Type.Weapon || item.type == Item.Type.Melee)
+                if (item.GetType() == typeof(Weapon))
                 {
                     UseWeapon((Weapon)item);
                 }
-                else if (item.type == Item.Type.Healing)
+                else if (item.GetType() == typeof(Healing))
                 {
                     UseHealing((Healing)item);
                 }
@@ -106,6 +108,16 @@ namespace SajberRoyale.Player
                if(Input.GetKeyDown(KeyCode.Alpha8)) StartCoroutine(Emote(2));
             }
 
+            //reload
+            if (Input.GetKeyDown(KeyCode.R) && Core.Instance.Inventory.CurrentWeapon != null && !Core.Instance.Sync.isDancing && Game.Game.Instance.IsActive)
+            {
+                Item item = Core.Instance.Inventory.CurrentWeapon;
+                if (item.GetType() == typeof(Weapon))
+                {
+                    StartCoroutine(Reload((Weapon)item));
+                }
+            }
+
             //toggle flashlight
             if (Input.GetKeyDown(KeyCode.F) && Game.Game.Instance.IsActive)
             {
@@ -116,11 +128,11 @@ namespace SajberRoyale.Player
                 if (Game.Game.Instance.IsAlive) photonView.RPC(nameof(ToggleFlashlight), RpcTarget.Others, Core.Instance.Sync.LocalLight.enabled);
             }
 
-            //cancel dancing & healing
+            //cancel dancing, reloading & healing
             if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.C))
             {
                 StopEmote();
-                if (!Input.GetKey(KeyCode.C)) Core.Instance.UI.FillPercentage = -1;
+                if (!Input.GetKey(KeyCode.C) && isHealing) Core.Instance.UI.FillPercentage = -1;
             }
         }
 
@@ -132,17 +144,25 @@ namespace SajberRoyale.Player
         }
 
         private void UseWeapon(Weapon weapon)
+           
         {
-            if (Core.Instance.Sync.isDancing) return;
+            AmmoHolder ammo = AmmoHolder.Get(weapon.ID);
+
+            //return if user is dancing or if out of bullets
+            if (Core.Instance.Sync.isDancing || !ammo.CanShoot) return;
+
             //return if user is on global cooldown
             if (!Game.Game.Instance.canShoot)
             {
-                if (weapon.shootingDelay < 0.3f) QueuedShot = weapon;
+                if (weapon.shootingDelay < 0.15f) QueuedShot = weapon;
                 return;
             }
+            
             StartCoroutine(Cooldown(weapon.shootingDelay));
             Physics.queriesHitTriggers = false;
             Game.Game.Instance.Stats.ShotsFired++;
+            ammo.Shoot();
+            Core.Instance.UI.Ammo.text = $"{ammo.Bullets}/{ammo.MaxBullets}";
             //hit target in range
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit target) //shoot raycast
                 && target.transform.CompareTag("Player") //hit player
@@ -182,13 +202,12 @@ namespace SajberRoyale.Player
 
         private IEnumerator Heal(Healing healing)
         {
-            AudioSource source = Core.Instance.PlayerController.GetComponent<AudioSource>();
+            
             Item h = Core.Instance.Inventory.CurrentWeapon;
             isHealing = true;
             Core.Instance.UI.FillPercentage = 0.01f;
-            source.clip = healing.useSfx;
-            source.Play();
             photonView.RPC(nameof(Heal), RpcTarget.Others, healing.ID, true);
+            Core.Instance.DamageController.PlayAudioAtPlayer(PhotonNetwork.LocalPlayer.ActorNumber, 10, healing.useSfx, "heal");
             int i = 1;
             while (i < 100)
             {
@@ -196,7 +215,7 @@ namespace SajberRoyale.Player
                 {
                     Core.Instance.UI.FillPercentage = -1;
                     isHealing = false;
-                    source.Stop();
+                    Destroy(GameObject.Find($"Player{PhotonNetwork.LocalPlayer.ActorNumber}/heal"));
                     yield break;
                 }
                 else
@@ -212,9 +231,35 @@ namespace SajberRoyale.Player
             isHealing = false;
             Core.Instance.UI.FillPercentage = 0;
             Core.Instance.Inventory.RemoveItem();
-            source.clip = Health;
-            source.Play();
+            Core.Instance.DamageController.PlayAudioAtPlayer(PhotonNetwork.LocalPlayer.ActorNumber, 10, Health);
             photonView.RPC(nameof(Heal), RpcTarget.Others, healing.ID, false);
+        }
+        private IEnumerator Reload(Weapon w)
+        {
+            AmmoHolder ammo = AmmoHolder.Get(w.ID);
+            isReloading = true;
+            Core.Instance.UI.FillPercentage = 0.01f;
+            int i = 1;
+            while (i < 100)
+            {
+                if (Core.Instance.UI.FillPercentage == -1 || Core.Instance.Inventory.CurrentWeapon.ID != w.ID)
+                {
+                    Core.Instance.UI.FillPercentage = -1;
+                    isReloading = false;
+                    yield break;
+                }
+                else
+                {
+                    Core.Instance.UI.FillPercentage = i * 0.01f;
+                }
+                yield return new WaitForSeconds(w.reloadTime / 100);
+                i++;
+            }
+            ammo.Reload();
+            isReloading = false;
+            Core.Instance.UI.FillPercentage = 0;
+            Core.Instance.UI.Ammo.text = $"{ammo.Bullets}/{ammo.MaxBullets}";
+            Core.Instance.DamageController.PlayAudioAtPlayer(PhotonNetwork.LocalPlayer.ActorNumber, 10, ReloadSfx);
         }
 
         private IEnumerator Emote(int emoteIndex = -1)

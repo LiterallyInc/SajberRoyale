@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace SajberRoyale.Items
 {
@@ -58,5 +59,44 @@ namespace SajberRoyale.Items
         /// Played every time the weapon is reloading
         /// </summary>
         public AudioClip reloadSFX;
+    }
+
+    public class AmmoHolder
+    {
+        /// <summary>
+        /// List of all ammo holders in game. Cleared in ItemDB before start.
+        /// </summary>
+        public static List<AmmoHolder> Ammo = new List<AmmoHolder>();
+
+        public string WeaponID;
+        public int MaxBullets;
+        public int Bullets;
+        public bool CanShoot { get { return Bullets > 0; } }
+
+        public AmmoHolder(string ID, int max)
+        {
+            WeaponID = ID;
+            MaxBullets = max;
+            Bullets = max;
+            Ammo.Add(this);
+        }
+
+        public void Reload()
+        {
+            Bullets = MaxBullets;
+        }
+
+        public void Shoot()
+        {
+            Bullets--;
+        }
+        public static AmmoHolder Get(string id)
+        {
+            foreach(AmmoHolder a in Ammo)
+            {
+                if (a.WeaponID == id) return a;
+            }
+            return null;
+        }
     }
 }

@@ -15,6 +15,7 @@ namespace SajberRoyale.Game
         public Transform HPOverlay;
         public Text HPText;
         public Text StatusText;
+        public Text Ammo;
         public Image FillArea;
         public float FillPercentage;
 

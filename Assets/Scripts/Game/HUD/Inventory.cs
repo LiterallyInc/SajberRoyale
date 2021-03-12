@@ -174,6 +174,7 @@ namespace SajberRoyale.Player
             items[pos] = null;
             CurrentWeapon = null;
             icons[pos].texture = baseTexture.texture;
+            Core.Instance.UI.Ammo.text = "";
             SummonItem();
         }
 
@@ -211,6 +212,9 @@ namespace SajberRoyale.Player
 ➤ {range} ❤ {w.maxDamage} ✱ {Mathf.RoundToInt(60 / w.shootingDelay)}rpm</size>";
 
             UIInfo.GetComponent<Animator>().Play("InventoryItemInfo", 0, 0);
+
+            AmmoHolder ammo = AmmoHolder.Get(w.ID);
+            Core.Instance.UI.Ammo.text = $"{ammo.Bullets}/{ammo.MaxBullets}";
         }
 
         private void SetDesc(Healing h)

@@ -16,9 +16,11 @@ namespace SajberRoyale.Items
         private void Awake()
         {
             Instance = this;
+            AmmoHolder.Ammo.Clear();
             //weights all items
             foreach (Item item in Items)
             {
+                if (item.GetType() == typeof(Weapon)) if (((Weapon)item).clipSize > 0) new AmmoHolder(item.ID, ((Weapon)item).clipSize);
                 for (int i = 0; i < item.spawnWeight; i++)
                 {
                     weightedItems.Add(item);

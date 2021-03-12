@@ -161,6 +161,7 @@ namespace SajberRoyale.Map
             if (isMe) StartCoroutine(Queue(38.2f, () => Credits_Music.Play()));
             if (isMe) StartCoroutine(Queue(39f, () => shakeSpeed = 0f));
             if (isMe) StartCoroutine(Queue(39.2f, () => SetSpace(true)));
+            if (isMe) StartCoroutine(Queue(39.2f, () => Core.Instance.Sync.LocalHolder.SetActive(false)));
             if (isMe) StartCoroutine(Queue(39.2f, () => Core.Instance.UI.Overlay.Play("HideOverlay")));
             if (isMe) StartCoroutine(Queue(39.2f, () => Core.Instance.UI.ShowData(false)));
             if (isMe) StartCoroutine(Queue(39.4f, () => c.transform.position = new Vector3(0, -211, 1233)));
@@ -173,6 +174,7 @@ namespace SajberRoyale.Map
             if (isMe) StartCoroutine(Queue(80f, () => Credits.gameObject.SetActive(false)));
             if (isMe) StartCoroutine(Queue(80f, () => Core.Instance.UI.ShowData(true)));
             if (isMe) StartCoroutine(Queue(80f, () => Core.Instance.Sync.LocalLight.color = new Color(1, 1, 1)));
+            if (isMe) StartCoroutine(Queue(80f, () => Core.Instance.Sync.LocalHolder.SetActive(true)));
             if (isMe) StartCoroutine(Queue(80f, () => Core.Instance.UI.Overlay.Play("HideOverlay")));
             if (isMe) StartCoroutine(Queue(80f, () => isCursed = false));
         }

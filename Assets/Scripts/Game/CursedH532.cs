@@ -17,17 +17,19 @@ namespace SajberRoyale.Map
 
         [Header("Objects")]
         public GameObject DoorClosed;
-
         public GameObject DoorOpen;
         public AudioSource Ambient;
         public Renderer Whiteboard;
         public Renderer Poster;
         public Renderer Sayori;
+        public Renderer PoemPaper;
         public Renderer DoorOverlay;
         public AudioReverbZone Echo;
         public Clock Clock;
         public Animator RoofLamps;
         public TextMesh Tombstone;
+        public Animator Tables;
+        
 
         [Header("Space Objects")]
         public Animator Credits;
@@ -53,6 +55,7 @@ namespace SajberRoyale.Map
 
         public Texture[] whiteboardDrawings;
         public Texture t_posterCursed;
+        public Texture t_poem;
 
         public Material Skybox_Default;
         public Material Skybox_Space;
@@ -144,10 +147,12 @@ namespace SajberRoyale.Map
             StartCoroutine(Queue(5, () => Clock.modifier = -1000));
             StartCoroutine(Queue(8f, () => Play(a_flippage)));
             StartCoroutine(Queue(8f, () => Poster.material.SetTexture("_MainTex", t_posterCursed)));
+            StartCoroutine(Queue(20f, () => PoemPaper.material.SetTexture("_MainTex", t_poem)));
             StartCoroutine(Queue(21.35f, () => StartCoroutine(SetWhiteboard())));
             StartCoroutine(Queue(23f, () => Sayori.enabled = true));
             StartCoroutine(Queue(25.35f, () => Play(a_breathing, Whiteboard.transform.localPosition)));
             StartCoroutine(Queue(25.35f, () => DoorOverlay.enabled = true));
+            StartCoroutine(Queue(33f, () => Tables.Play("TableFall")));
 
             //Go to space
             if (isMe) StartCoroutine(Queue(34.5f, () => Core.Instance.UI.Overlay.Play("ShowOverlay")));

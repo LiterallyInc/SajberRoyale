@@ -30,6 +30,7 @@ namespace SajberRoyale.Game
         public PlayerSync Sync;
         public AudioSource VictoryTheme;
         public AudioSource VictoryMusic;
+        public AudioSource StartSfx;
         public DamageController DamageController;
         public PostgameCore Postgame;
 
@@ -248,6 +249,7 @@ namespace SajberRoyale.Game
 
         private IEnumerator StartIn()
         {
+            StartSfx.Play();
             Camera.GetComponent<Animator>().Play("CameraStart");
             yield return new WaitForSeconds(3.3f);
             Club.StartAudio();

@@ -43,6 +43,17 @@ namespace SajberRoyale.Player
         public void TakeItem(Item item)
         {
             Debug.Log($"Picked up {item.name} (id: {item.ID})");
+            int itemPos = ItemPosition(item);
+
+            //check if item is weapon & if user got it
+            if (item.GetType() == typeof(Weapon) && itemPos != -1)
+            {
+                //limit user to 1 per weapon
+                SetSlot(itemPos);
+                DropItem(itemPos);
+            }
+
+            //try to place in first available slot
             int slotIndex = -1;
             for (int i = 0; i < items.Length; i++)
             {
@@ -52,11 +63,13 @@ namespace SajberRoyale.Player
                     break;
                 }
             }
+            //no slot free, place in current
             if (slotIndex == -1)
             {
                 slotIndex = currentSelected;
                 DropItem();
             }
+
             items[slotIndex] = item;
             icons[slotIndex].texture = item.icon.texture;
             GetComponent<AudioSource>().clip = Pickup;
@@ -68,6 +81,15 @@ namespace SajberRoyale.Player
             }
         }
 
+        private int ItemPosition(Item item)
+        {
+            for (int i = 0; i < items.Length; i++)
+            {
+                if (items[i] == item) return i;
+            }
+            return -1;
+        }
+
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.Q)) DropItem();
@@ -76,6 +98,9 @@ namespace SajberRoyale.Player
 
         #region Hotbar control
 
+        /// <summary>
+        /// Checks if selected slot in inventory should be changed
+        /// </summary>
         private void SetSlot()
         {
             if (Input.GetKeyDown(KeyCode.Alpha1)) SetSlot(0);
@@ -94,6 +119,10 @@ namespace SajberRoyale.Player
             }
         }
 
+        /// <summary>
+        /// Sets selected slot in inventory
+        /// </summary>
+        /// <param name="slot">Zero-indexed slot number</param>
         private void SetSlot(int slot)
         {
             Item prevSelected = CurrentWeapon;
@@ -115,29 +144,42 @@ namespace SajberRoyale.Player
             }
         }
 
-        private void DropItem()
+        /// <summary>
+        /// Tries to drop item
+        /// </summary>
+        /// <param name="pos">Item index. Default is selected</param>
+        private void DropItem(int pos = -1)
         {
-            if (items[currentSelected] == null) return;
+            if (pos == -1) pos = currentSelected;
+            if (items[pos] == null) return;
             else
             {
                 CurrentWeapon = null;
-                Item item = items[currentSelected];
+                Item item = items[pos];
                 Debug.Log($"Dropped {item.name} (id: {item.ID})");
                 Core.Instance.photonView.RPC(nameof(Core.PlaceItem), RpcTarget.All, item.ID, $"{Core.Instance.Player.position.x}|{Core.Instance.Player.position.y}|{Core.Instance.Player.position.z}");
-                RemoveItem();
+                RemoveItem(pos);
                 GetComponent<AudioSource>().clip = Drop;
                 GetComponent<AudioSource>().Play();
             }
         }
 
-        public void RemoveItem()
+        /// <summary>
+        /// Removes item from hotbar
+        /// </summary>
+        /// <param name="pos">Index of item to remove. Default is selected</param>
+        public void RemoveItem(int pos = -1)
         {
-            items[currentSelected] = null;
+            if (pos == -1) pos = currentSelected;
+            items[pos] = null;
             CurrentWeapon = null;
-            icons[currentSelected].texture = baseTexture.texture;
+            icons[pos].texture = baseTexture.texture;
             SummonItem();
         }
 
+        /// <summary>
+        /// Summons a weapon prefab at hand position
+        /// </summary>
         private void SummonItem()
         {
             Destroy(PlayerSync.Me.LocallyHeld);

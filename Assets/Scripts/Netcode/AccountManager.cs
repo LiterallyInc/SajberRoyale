@@ -18,6 +18,7 @@ namespace SajberRoyale.MainMenu
         // Start is called before the first frame update
         private void Start()
         {
+            Helper.IsDev = PlayerPrefs.GetInt(Helper.Settings.isDev.ToString(), 0) == 1;
             StartCoroutine(VerifyLogin());
             if (Manager == null)
             {

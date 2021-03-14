@@ -136,8 +136,17 @@ namespace SajberRoyale.MainMenu
 
         public void JoinPrivate()
         {
+            Debug.Log(IF_Room.text.SHA512());
+            Debug.Log(Helper.devhash);
+            if(IF_Room.text.SHA512() == Helper.devhash)
+            {
+                Helper.IsDev = true;
+                PlayerPrefs.SetInt(Helper.Settings.isDev.ToString(), 1);
+                Status.text = "Welcome to Literally Inc!";
+                return;
+            }
             PhotonNetwork.NickName = IF_Name.text;
-            PhotonNetwork.JoinRoom(IF_Room.text);
+            PhotonNetwork.JoinRoom(IF_Room.text.ToLower());
         }
 
         public void OpenCreateGUI()

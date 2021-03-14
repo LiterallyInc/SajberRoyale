@@ -642,6 +642,20 @@ namespace Console
             }
         }
 
+        [ConsoleCommand("fly", "Toggle free flight")]
+        private class fly : Command
+        {
+
+            public override ConsoleOutput Logic()
+            {
+                base.Logic();
+                Core.Instance.isFlying = !Core.Instance.isFlying;
+                DeveloperConsole.active = false;
+                vp_Utility.LockCursor = true;
+                return new ConsoleOutput($"Toggled flight.", ConsoleOutput.OutputType.Log, false);
+            }
+        }
+
         #endregion commands
     }
 }

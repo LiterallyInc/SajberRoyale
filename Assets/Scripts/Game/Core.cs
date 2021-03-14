@@ -33,6 +33,7 @@ namespace SajberRoyale.Game
         public AudioSource StartSfx;
         public DamageController DamageController;
         public PostgameCore Postgame;
+        private vp_FPController motor;
 
         public List<string> PlayerSkins = new List<string>();
 
@@ -43,6 +44,7 @@ namespace SajberRoyale.Game
         public float SpawnOdds = 0.4f;
         public int seed = 0;
         public int localSeed = 0;
+        public bool isFlying = false;
 
         [Header("Data")]
         public ItemDatabase ItemDatabase;
@@ -91,6 +93,12 @@ namespace SajberRoyale.Game
             }
 
             if (PlayerInput != null) if (!PlayerInput.MouseLookAcceleration) PlayerInput.MouseLookSensitivity = new Vector2(Helper.sens, Helper.sens);
+
+            if (motor)
+            {
+                motor.MotorFreeFly = isFlying;
+                motor.PhysicsGravityModifier = isFlying ? 0.0f : 0.2f;
+            }
         }
 
         [PunRPC]
@@ -154,6 +162,8 @@ namespace SajberRoyale.Game
             SpawnPos.y++;
             PlayerController = PhotonNetwork.Instantiate("UFPS_Player", SpawnPos, Quaternion.identity).transform;
             PlayerInput = PlayerController.GetComponent<vp_FPInput>();
+            motor = PlayerController.GetComponent<vp_FPController>();
+           
         }
 
         [PunRPC]

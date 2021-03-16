@@ -12,18 +12,22 @@ namespace SajberRoyale.MainMenu
         public Text LoginStatus;
         public Button Login;
         public static ButtonController Instance;
+        public Text VersionNumber;
+
         private void Start()
         {
+            VersionNumber.text = "v" + Application.version;
             Destroy(Instance);
             Instance = this;
 
-            if(AccountManager.Manager != null)
-            if (AccountManager.Manager.isLoggedIn)
-            {
-                Login.interactable = false;
-                Login.GetComponent<Text>().text = "LOGGED IN";
-            }
+            if (AccountManager.Manager != null)
+                if (AccountManager.Manager.isLoggedIn)
+                {
+                    Login.interactable = false;
+                    Login.GetComponent<Text>().text = "LOGGED IN";
+                }
         }
+
         public void ToggleConnectionGUI(bool open)
         {
             ConnectionGUI.SetActive(open);
@@ -38,19 +42,23 @@ namespace SajberRoyale.MainMenu
         {
             Application.OpenURL(AccountManager.Manager.ApiEndPoint + "/sajberroyale");
         }
+
         public void OpenLogin()
         {
             Application.OpenURL(AccountManager.Manager.AuthLink);
             ToggleLoginGUI(true);
         }
+
         public void TryLogin()
         {
             StartCoroutine(AccountManager.Manager.ProcessToken(AuthCode.text));
         }
+
         public void ToggleLoginGUI(bool open)
         {
             LoginGUI.SetActive(open);
         }
+
         public void Exit()
         {
             Application.Quit();

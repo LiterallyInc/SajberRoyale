@@ -10,7 +10,8 @@ namespace SajberRoyale.Map
         public string roomName;
         public bool isActivated = true;
         public Light[] Lights;
-        private string id; //gameobject name
+        public bool allowMusic = true;
+        private string id; //gameobject name //update: yes i know that it's a built in variable
 
         private void Start()
         {
@@ -24,7 +25,7 @@ namespace SajberRoyale.Map
             else if (c.GetComponent<PhotonView>().IsMine)
             {
                 Debug.Log($"Entered room {roomName}");
-                Game.Game.Instance.CurrentRoom = roomName;
+                Game.Game.Instance.CurrentRoom = this;
             }
         }
 

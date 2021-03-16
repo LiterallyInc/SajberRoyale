@@ -1,4 +1,5 @@
 using Photon.Pun;
+using SajberRoyale.Map;
 using System;
 using System.Collections;
 
@@ -19,7 +20,7 @@ namespace SajberRoyale.Game
         public bool canShoot = true;
         public bool IsAlive = true;
         /// <summary> Last physical in-game room player entered  </summary>
-        public string CurrentRoom = "Unknown";
+        public RoomNode CurrentRoom;
 
         public string Skin = "Unknown";
         public bool IsTournament = false;

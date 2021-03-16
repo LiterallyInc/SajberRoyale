@@ -51,7 +51,7 @@ namespace SajberRoyale.Game
             GameStats.text = $@"{(Helper.IsDev ? "<color=#FFB4C0>[DEV]</color> " : "")}{(Game.Instance.IsAlive ? "" : "<color=#FD6F77>[DEAD]</color> ")}{PhotonNetwork.NickName}
 <size=10><i>Playing as {Game.Instance.Skin}</i></size>
 
-Room: {Game.Instance.CurrentRoom}
+Room: {Game.Instance.CurrentRoom.roomName}
 Elims: {Game.Instance.Stats.Eliminations}
 Left: {Game.Instance.AlivePlayers}/{Game.Instance.TotalPlayers}
 ";

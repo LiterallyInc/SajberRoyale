@@ -102,10 +102,10 @@ namespace SajberRoyale.Player
             //emote
             if (!Core.Instance.Sync.isDancing && Game.Game.Instance.IsActive)
             {
-               if(Input.GetKeyDown(KeyCode.B)) StartCoroutine(Emote());
-               if(Input.GetKeyDown(KeyCode.Alpha0)) StartCoroutine(Emote(0));
-               if(Input.GetKeyDown(KeyCode.Alpha9)) StartCoroutine(Emote(1));
-               if(Input.GetKeyDown(KeyCode.Alpha8)) StartCoroutine(Emote(2));
+                if (Input.GetKeyDown(KeyCode.B)) StartCoroutine(Emote());
+                if (Input.GetKeyDown(KeyCode.Alpha0)) StartCoroutine(Emote(0));
+                if (Input.GetKeyDown(KeyCode.Alpha9)) StartCoroutine(Emote(1));
+                if (Input.GetKeyDown(KeyCode.Alpha8)) StartCoroutine(Emote(2));
             }
 
             //reload
@@ -144,7 +144,7 @@ namespace SajberRoyale.Player
         }
 
         private void UseWeapon(Weapon weapon)
-           
+
         {
             AmmoHolder ammo = AmmoHolder.Get(weapon.ID);
 
@@ -157,7 +157,7 @@ namespace SajberRoyale.Player
                 if (weapon.shootingDelay < 0.15f) QueuedShot = weapon;
                 return;
             }
-            
+
             StartCoroutine(Cooldown(weapon.shootingDelay));
             Physics.queriesHitTriggers = false;
             Game.Game.Instance.Stats.ShotsFired++;
@@ -173,7 +173,7 @@ namespace SajberRoyale.Player
                 int owner = target.transform.gameObject.GetComponent<PhotonView>().ControllerActorNr;
                 int damage = Mathf.RoundToInt(Random.Range(weapon.minDamage, weapon.maxDamage));
                 photonView.RPC(nameof(DamageController.Hit), RpcTarget.All, owner, damage, weapon.ID, Game.Game.Instance.Skin);
-                Game.Game.Instance.Stats.DamageDone+=damage;
+                Game.Game.Instance.Stats.DamageDone += damage;
                 Game.Game.Instance.Stats.ShotsHit++;
                 return;
             }
@@ -202,7 +202,6 @@ namespace SajberRoyale.Player
 
         private IEnumerator Heal(Healing healing)
         {
-            
             Item h = Core.Instance.Inventory.CurrentWeapon;
             isHealing = true;
             Core.Instance.UI.FillPercentage = 0.01f;
@@ -234,6 +233,7 @@ namespace SajberRoyale.Player
             Core.Instance.DamageController.PlayAudioAtPlayer(PhotonNetwork.LocalPlayer.ActorNumber, 10, Health);
             photonView.RPC(nameof(Heal), RpcTarget.Others, healing.ID, false);
         }
+
         private IEnumerator Reload(Weapon w)
         {
             AmmoHolder ammo = AmmoHolder.Get(w.ID);
@@ -266,7 +266,7 @@ namespace SajberRoyale.Player
         {
             if (emoteIndex == -1) emoteIndex = Random.Range(0, Emotes.Length);
             Game.Game.Instance.Stats.Emotes++;
-            if (Game.Game.Instance.IsAlive) photonView.RPC(nameof(ToggleEmote), RpcTarget.All, true, emoteIndex);
+            if (Game.Game.Instance.IsAlive) photonView.RPC(nameof(PlayEmote), RpcTarget.All, emoteIndex, Game.Game.Instance.CurrentRoom.allowMusic);
             Core.Instance.Sync.isDancing = true;
             Core.Instance.Sync.LocalHolder.SetActive(false);
             emoteid = Random.Range(0, 10000);
@@ -288,33 +288,35 @@ namespace SajberRoyale.Player
                 Core.Instance.Sync.LocalHolder.SetActive(true);
                 Core.Instance.Player.GetComponent<Animator>().Play("Idle", 1, 0);
                 Core.Instance.Player.GetComponent<Animator>().Play("Idle", 2, 0);
-                if (Game.Game.Instance.IsAlive) photonView.RPC(nameof(ToggleEmote), RpcTarget.All, false, 0);
+                if (Game.Game.Instance.IsAlive) photonView.RPC(nameof(StopEmote), RpcTarget.All);
             }
         }
 
         [PunRPC]
-        private void ToggleEmote(bool enable, int emoteIndex, PhotonMessageInfo info)
+        private void PlayEmote(int emoteIndex, bool playMusic, PhotonMessageInfo info)
         {
             Animator anim = Core.Instance.GetPlayer(info.Sender.ActorNumber).GetComponent<PlayerSync>().Player.GetComponent<Animator>();
-            if (enable)
-            {
                 anim.Play(Emotes[emoteIndex].id, 1, 0);
                 anim.Play(Emotes[emoteIndex].id, 2, 0);
-                DMG.PlayAudioAtPlayer(info.Sender.ActorNumber, 7, Emotes[emoteIndex].audio, "emote", emoteIndex != 0);
-            }
-            else
-            {
-                anim.Play("Idle", 1, 0);
-                anim.Play("Idle", 2, 0);
-                Destroy(GameObject.Find($"Player{info.Sender.ActorNumber}/emote"));
-            }
+                if (playMusic) DMG.PlayAudioAtPlayer(info.Sender.ActorNumber, 7, Emotes[emoteIndex].audio, "emote", emoteIndex != 0);
         }
+
+        [PunRPC]
+        private void StopEmote(PhotonMessageInfo info)
+        {
+            Animator anim = Core.Instance.GetPlayer(info.Sender.ActorNumber).GetComponent<PlayerSync>().Player.GetComponent<Animator>();
+            anim.Play("Idle", 1, 0);
+            anim.Play("Idle", 2, 0);
+            if (GameObject.Find($"Player{info.Sender.ActorNumber}/emote")) Destroy(GameObject.Find($"Player{info.Sender.ActorNumber}/emote"));
+        }
+
         [PunRPC]
         private void Heal(string itemID, bool start, PhotonMessageInfo info)
         {
             Healing h = (Healing)Core.Instance.ItemDatabase.GetItem(itemID);
             DMG.PlayAudioAtPlayer(info.Sender.ActorNumber, 7, start ? h.useSfx : Health);
         }
+
         [PunRPC]
         public void ToggleFlashlight(bool enable, PhotonMessageInfo info)
         {

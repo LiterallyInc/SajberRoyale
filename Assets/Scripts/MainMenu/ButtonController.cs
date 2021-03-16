@@ -17,6 +17,7 @@ namespace SajberRoyale.MainMenu
             Destroy(Instance);
             Instance = this;
 
+            if(AccountManager.Manager != null)
             if (AccountManager.Manager.isLoggedIn)
             {
                 Login.interactable = false;

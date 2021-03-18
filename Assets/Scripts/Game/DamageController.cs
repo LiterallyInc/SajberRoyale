@@ -75,14 +75,14 @@ namespace SajberRoyale.Player
         /// <param name="weaponID">Weapon ID that killed player</param>
         /// <param name="info">Player who dies</param>
         [PunRPC]
-        public void Die(int killer, string weaponID, string killerSkin, string mySkin, int emoteIndex, PhotonMessageInfo info)
+        public void Die(int killer, string weaponID, string killerSkin, string killedSkin, int emoteIndex, PhotonMessageInfo info)
         {
             //turn off their flashlight
             photonView.RPC(nameof(PlayerManager.ToggleFlashlight), RpcTarget.Others, false);
-
+            Core.Instance.AliveSkins.Remove(killedSkin);
             Weapon w = (Weapon)ItemDatabase.Instance.GetItem(weaponID);
 
-            AddKillfeedEntry(killer, info.Sender.ActorNumber, killerSkin, mySkin, w);
+            AddKillfeedEntry(killer, info.Sender.ActorNumber, killerSkin, killedSkin, w);
             Debug.Log($"{info.Sender.NickName} got killed by {PhotonNetwork.CurrentRoom.GetPlayer(killer).NickName} using {w.name}");
 
             Transform dead = Core.Instance.GetPlayer(info.Sender.ActorNumber);
@@ -94,7 +94,7 @@ namespace SajberRoyale.Player
             if (game.AlivePlayers == 1)
             {
                 Core.Instance.Postgame.winnerEmote = emoteIndex;
-                Core.Instance.Postgame.winnerSkin = killerSkin;
+                Core.Instance.Postgame.winnerSkin = Core.Instance.AliveSkins[0];
                 Core.Instance.Win();
             }
         }
@@ -133,6 +133,7 @@ namespace SajberRoyale.Player
             if (KillfeedEntry != null) KillfeedEntry.GetComponent<KillfeedEntry>().Close();
             KillfeedEntry = Instantiate(KillfeedEntryTemplate, Core.Instance.UI.Data.transform);
             KillfeedEntry feed = KillfeedEntry.GetComponent<KillfeedEntry>();
+            
             feed.IconKiller.sprite = Resources.Load<Sprite>($"CharPortraits/{killerSkin}");
             feed.IconKilled.sprite = Resources.Load<Sprite>($"CharPortraits/Dead{killedSkin}");
             feed.IconWeapon.sprite = weapon.icon;
@@ -140,6 +141,12 @@ namespace SajberRoyale.Player
             {
                 if (player.ActorNumber == killed) feed.TextKilled.text = player.NickName;
                 if (player.ActorNumber == killer) feed.TextKiller.text = player.NickName;
+            }
+            //clear killer if used developer item
+            if (weapon.developerItem)
+            {
+                feed.TextKiller.text = "";
+                feed.IconKiller.color = Color.clear;
             }
         }
 

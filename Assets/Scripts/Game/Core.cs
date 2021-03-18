@@ -36,6 +36,7 @@ namespace SajberRoyale.Game
         private vp_FPController motor;
 
         public List<string> PlayerSkins = new List<string>();
+        public List<string> AliveSkins = new List<string>();
 
         [Header("Values")]
         public bool GameStarted = false;
@@ -163,7 +164,7 @@ namespace SajberRoyale.Game
             PlayerController = PhotonNetwork.Instantiate("UFPS_Player", SpawnPos, Quaternion.identity).transform;
             PlayerInput = PlayerController.GetComponent<vp_FPInput>();
             motor = PlayerController.GetComponent<vp_FPController>();
-           
+            AliveSkins = PlayerSkins;
         }
 
         [PunRPC]

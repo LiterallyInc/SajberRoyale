@@ -51,6 +51,10 @@ namespace SajberRoyale.Items
         /// </summary>
         public Type type;
 
+        /// <summary>
+        /// Whether users can pick this up or not. Dev items won't have a killer in the feed.
+        /// </summary>
+        public bool developerItem = false;
 
         /// <summary>
         /// Modifier to walking speed when holding weapon

@@ -49,10 +49,14 @@ namespace SajberRoyale.Player
             else //someone else got hit
             {
             }
-            AnimateWeapon(weaponID, info.Sender.ActorNumber);
+            
             Weapon weapon = (Weapon)ItemDatabase.Instance.GetItem(weaponID);
-            PlayAudioAtPlayer(actorID, 5, damageSounds[Random.Range(0, damageSounds.Length)]);
-            PlayAudioAtPlayer(info.Sender.ActorNumber, weapon.range * 2f, weapon.shootSFX[Random.Range(0, weapon.shootSFX.Length)]);
+            if (!weapon.developerItem)
+            {
+                AnimateWeapon(weaponID, info.Sender.ActorNumber);
+                PlayAudioAtPlayer(actorID, 5, damageSounds[Random.Range(0, damageSounds.Length)]);
+                PlayAudioAtPlayer(info.Sender.ActorNumber, weapon.range * 2f, weapon.shootSFX[Random.Range(0, weapon.shootSFX.Length)]);
+            }
         }
 
         /// <summary>

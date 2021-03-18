@@ -32,6 +32,7 @@ namespace SajberRoyale.Player
         {
             if (PhotonNetwork.LocalPlayer.ActorNumber == actorID) //i got hit
             {
+                if (!game.IsAlive) return;
                 Core.Instance.UI.HPOverlay.parent.GetComponent<Animator>().Play("HealthImpact", 0, 0);
                 game.HP -= damage;
                 game.Stats.DamageTaken += damage;

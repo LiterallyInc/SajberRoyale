@@ -17,6 +17,7 @@ namespace SajberRoyale.Game
         public Text StatusText;
         public Text Ammo;
         public Image FillArea;
+        public Text Tooltip;
         public float FillPercentage;
 
         public Animator WinLogo;

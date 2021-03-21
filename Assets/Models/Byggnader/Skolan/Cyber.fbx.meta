@@ -60,7 +60,17 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: "hissing\xE5ng"
+    second: {fileID: 2100000, guid: aedd3d6ea7b6cd3449b31fcb8f15a249, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: hissmetal
+    second: {fileID: 2100000, guid: aedd3d6ea7b6cd3449b31fcb8f15a249, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: "hissv\xE4g_traphus"
     second: {fileID: 2100000, guid: aedd3d6ea7b6cd3449b31fcb8f15a249, type: 2}
   - first:
       type: UnityEngine:Material

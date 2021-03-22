@@ -14,14 +14,13 @@ namespace SajberRoyale.MainMenu
 
         public Slider InputDiscord;
         public Slider InputTheme;
-        public Slider InputServer;
         public Slider InputVolume;
         public Slider InputFOV;
         public Slider InputSens;
+        public Dropdown InputQuality;
         public Text TextVolume;
         public Text TextFOV;
         public Text TextSens;
-        public Text TextServer;
 
         public Button LeaveGame;
 
@@ -29,7 +28,7 @@ namespace SajberRoyale.MainMenu
         private string KeyTheme;
         private string KeyVolume;
         private string KeyFOV;
-        private string KeyServer;
+        private string KeyQuality;
         private string KeySens;
 
         private bool isGame;
@@ -42,7 +41,7 @@ namespace SajberRoyale.MainMenu
             KeyTheme = Helper.Settings.musicTheme.ToString();
             KeyVolume = Helper.Settings.volumeMaster.ToString();
             KeyFOV = Helper.Settings.fov.ToString();
-            KeyServer = Helper.Settings.altServer.ToString();
+            KeyQuality = Helper.Settings.quality.ToString();
             KeySens = Helper.Settings.sens.ToString();
 
             InputDiscord.SetValueWithoutNotify(PlayerPrefs.GetInt(KeyDiscord, 1));
@@ -50,14 +49,14 @@ namespace SajberRoyale.MainMenu
             InputVolume.SetValueWithoutNotify(PlayerPrefs.GetFloat(KeyVolume, 0.5f));
             InputFOV.SetValueWithoutNotify(PlayerPrefs.GetFloat(KeyFOV, 80));
             InputSens.SetValueWithoutNotify(PlayerPrefs.GetFloat(KeySens, 5));
-            InputSens.SetValueWithoutNotify(PlayerPrefs.GetFloat(KeySens, 5));
+            InputQuality.SetValueWithoutNotify(PlayerPrefs.GetInt(KeyQuality, 5));
 
             AudioListener.volume = InputVolume.value;
             SetVolume(InputVolume.value);
             SetFOV(InputFOV.value);
             SetSens(InputSens.value);
             Helper.sens = InputSens.value;
-            ToggleServer(0);
+            SetQuality(InputQuality.value);
         }
 
         private void Update()
@@ -79,10 +78,10 @@ namespace SajberRoyale.MainMenu
             if (n == 1) DiscordController.Instance.StartRPC();
         }
 
-        public void ToggleServer(float n)
+        public void SetQuality(int n)
         {
-            PlayerPrefs.SetInt(KeyServer, Mathf.RoundToInt(n));
-            TextServer.gameObject.SetActive(n == 1);
+            PlayerPrefs.SetInt(KeyQuality, n);
+            QualitySettings.SetQualityLevel(InputQuality.value);
         }
 
         public void ToggleTheme(float n)

@@ -29,7 +29,9 @@ public class Helper
         /// <summary> (0/1) Whether or not the game should connect to an alternate server </summary>
         altServer,
         /// <summary> (0.0-20.0) Mouse sensivity modifier </summary>
-        sens
+        sens,
+        /// <summary> (0-5) Graphics quality tier </summary>
+        quality
 
     }
 

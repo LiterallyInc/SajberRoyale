@@ -136,12 +136,16 @@ namespace SajberRoyale.MainMenu
 
         public void JoinPrivate()
         {
-            if(IF_Room.text.SHA512() == Helper.devhash)
+            if (IF_Room.text.SHA512() == Helper.devhash)
             {
                 Helper.IsDev = true;
                 PlayerPrefs.SetInt(Helper.Settings.isDev.ToString(), 1);
                 Status.text = "Welcome to Literally Inc!";
                 return;
+            }
+            else if (IF_Room.text == "demo")
+            {
+                SceneManager.LoadScene("sandbox");
             }
             PhotonNetwork.NickName = IF_Name.text;
             PhotonNetwork.JoinRoom(IF_Room.text.ToLower());
@@ -194,7 +198,7 @@ namespace SajberRoyale.MainMenu
         public override void OnDisconnected(DisconnectCause cause)
         {
             Debug.Log($"SRNet: Disconnected from server: {cause}");
-            if(Status) Status.text = cause.ToString();
+            if (Status) Status.text = cause.ToString();
         }
 
         public override void OnJoinedRoom()

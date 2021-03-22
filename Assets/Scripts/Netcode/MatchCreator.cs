@@ -136,8 +136,6 @@ namespace SajberRoyale.MainMenu
 
         public void JoinPrivate()
         {
-            Debug.Log(IF_Room.text.SHA512());
-            Debug.Log(Helper.devhash);
             if(IF_Room.text.SHA512() == Helper.devhash)
             {
                 Helper.IsDev = true;

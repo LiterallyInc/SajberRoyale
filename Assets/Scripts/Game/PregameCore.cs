@@ -58,7 +58,7 @@ namespace SajberRoyale.Game
                 "You can do specific dances with 8, 9 and 0.",
                 "Turning off your flashlight with F makes you harder to spot.",
                 "Nothing happened in H532. Everything you have heard is a lie.",
-                "Make sure to pick up some of Björns cola if you need to heal up!",
+                "Make sure to pick up some of cola if you need to heal up!",
                 "The D.va blaster isn't as bad as you might think.\n<size=12>Actually, it probably is.</size>",
                 "Pay a visit to The Weeb Empire on floor 5 if you get the chance!",
                 "Apparently there is a lot of abandoned stuff backstage.",

@@ -267,6 +267,7 @@ namespace SajberRoyale.Player
             if (emoteIndex == -1) emoteIndex = Random.Range(0, Emotes.Length);
             Game.Game.Instance.Stats.Emotes++;
             if (Game.Game.Instance.IsAlive) photonView.RPC(nameof(PlayEmote), RpcTarget.All, emoteIndex, Game.Game.Instance.CurrentRoom.allowMusic);
+            vp_LocalPlayer.GoThirdPerson();
             Core.Instance.Sync.isDancing = true;
             Core.Instance.Sync.LocalHolder.SetActive(false);
             emoteid = Random.Range(0, 10000);
@@ -284,6 +285,7 @@ namespace SajberRoyale.Player
         {
             if (Core.Instance.Sync.isDancing)
             {
+                vp_LocalPlayer.GoFirstPerson();
                 Core.Instance.Sync.isDancing = false;
                 Core.Instance.Sync.LocalHolder.SetActive(true);
                 Core.Instance.Player.GetComponent<Animator>().Play("Idle", 1, 0);

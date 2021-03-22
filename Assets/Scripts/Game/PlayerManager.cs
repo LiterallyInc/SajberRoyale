@@ -321,7 +321,7 @@ namespace SajberRoyale.Player
         public void ToggleFlashlight(bool enable, PhotonMessageInfo info)
         {
             Transform player = Core.Instance.GetPlayer(info.Sender.ActorNumber);
-            player.GetComponent<PlayerSync>().PublicLight.enabled = enable;
+            player.GetComponent<PlayerSync>().PublicLight.SetActive(enable);
             player.GetComponent<AudioSource>().clip = flashlight;
             player.GetComponent<AudioSource>().maxDistance = 3;
             player.GetComponent<AudioSource>().Play();

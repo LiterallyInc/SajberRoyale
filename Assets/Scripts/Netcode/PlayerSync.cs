@@ -16,7 +16,7 @@ namespace SajberRoyale.Player
         public GameObject LocallyHeld;
 
         public Light LocalLight;
-        public Light PublicLight;
+        public GameObject PublicLight;
 
         public ParticleSystem DeathParticles;
 
@@ -29,7 +29,7 @@ namespace SajberRoyale.Player
             //delete local comps if it's another user
             if (!photonView.IsMine)
             {
-                PublicLight.enabled = true;
+                PublicLight.SetActive(true);
                 Destroy(PlayerCam);
                 foreach (Component c in LocalScripts) Destroy(c);
             }

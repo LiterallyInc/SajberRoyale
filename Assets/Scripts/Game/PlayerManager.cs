@@ -32,6 +32,7 @@ namespace SajberRoyale.Player
         private void Start()
         {
             DMG = GetComponent<DamageController>();
+            Physics.queriesHitTriggers = true;
         }
 
         private void Update()
@@ -173,6 +174,7 @@ namespace SajberRoyale.Player
                 int owner = target.transform.gameObject.GetComponent<PhotonView>().ControllerActorNr;
                 int damage = Mathf.RoundToInt(Random.Range(weapon.minDamage, weapon.maxDamage));
                 photonView.RPC(nameof(DamageController.Hit), RpcTarget.All, owner, damage, weapon.ID, Game.Game.Instance.Skin);
+                Physics.queriesHitTriggers = true;
                 Game.Game.Instance.Stats.DamageDone += damage;
                 Game.Game.Instance.Stats.ShotsHit++;
                 return;

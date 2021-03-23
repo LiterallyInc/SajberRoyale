@@ -17,11 +17,12 @@ namespace SajberRoyale.Map
             points[2] = CursedH532.AudioNodes[Random.Range(0, CursedH532.AudioNodes.Count)].gameObject;
         }
 
-        public void Start(AudioClip clip, bool locked, Vector3 pos)
+        public void Start(AudioClip clip, bool locked, Vector3 pos, bool loop = false)
         {
             this.locked = locked;
             transform.localPosition = pos;
             GetComponent<AudioSource>().clip = clip;
+            GetComponent<AudioSource>().loop = loop;
             GetComponent<AudioSource>().Play();
             name = clip.name;
         }

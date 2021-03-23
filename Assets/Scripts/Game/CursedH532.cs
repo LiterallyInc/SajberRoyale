@@ -48,7 +48,7 @@ namespace SajberRoyale.Map
 
         [Header("Resources")]
         public AudioClip a_giggle;
-
+        public AudioClip a_deadloop;
         public AudioClip a_theme;
         public AudioClip a_canyouhearme;
         public AudioClip a_glitch;
@@ -116,6 +116,12 @@ namespace SajberRoyale.Map
             H532AudioComponent ac = instance.GetComponent<H532AudioComponent>();
             ac.Start(clip, false, Vector3.zero);
         }
+        private void Play(AudioClip clip, bool loop)
+        {
+            GameObject instance = Instantiate(Resources.Load("Prefabs/H532AudioNode", typeof(GameObject)), gameObject.transform) as GameObject;
+            H532AudioComponent ac = instance.GetComponent<H532AudioComponent>();
+            ac.Start(clip, false, Vector3.zero, loop);
+        }
 
         private void Play(AudioClip clip, Vector3 pos)
         {
@@ -159,7 +165,7 @@ namespace SajberRoyale.Map
             StartCoroutine(Queue(25.35f, () => Play(a_breathing, Whiteboard.transform.localPosition)));
             StartCoroutine(Queue(25.35f, () => DoorOverlay.enabled = true));
             StartCoroutine(Queue(33f, () => Tables.Play("TableFall")));
-
+            StartCoroutine(Queue(40f, () => Play(a_deadloop, true)));
             yield return new WaitForSeconds(33);
 
             //go to school if dead

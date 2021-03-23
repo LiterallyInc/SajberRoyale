@@ -193,7 +193,7 @@ namespace SajberRoyale.Player
             Game.Game.Instance.canShoot = false;
             yield return new WaitForSeconds(time);
             Game.Game.Instance.canShoot = true;
-            if (QueuedShot != null)
+            if (QueuedShot != null && Input.GetMouseButton(0))
             {
                 UseWeapon(QueuedShot);
                 QueuedShot = null;

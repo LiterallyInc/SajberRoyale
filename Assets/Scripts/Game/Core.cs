@@ -84,14 +84,14 @@ namespace SajberRoyale.Game
         // Update is called once per frame
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.B) && !Game.Instance.IsActive)
-            {
-                if (PhotonNetwork.IsMasterClient) MStartGame();
-                else if (!PhotonNetwork.IsConnected)
-                {
-                    MStartGame();
-                }
-            }
+            //if (Input.GetKeyDown(KeyCode.B) && !Game.Instance.IsActive)
+            //{
+            //    if (PhotonNetwork.IsMasterClient) MStartGame();
+            //    else if (!PhotonNetwork.IsConnected)
+            //    {
+            //        MStartGame();
+            //    }
+            //}
 
             if (PlayerInput != null) if (!PlayerInput.MouseLookAcceleration) PlayerInput.MouseLookSensitivity = new Vector2(Helper.sens, Helper.sens);
 

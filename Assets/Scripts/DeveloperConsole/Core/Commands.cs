@@ -501,6 +501,7 @@ namespace Console
                 if (RoomNode.Get(room) == null) return new ConsoleOutput($"Could not find a room with ID \"{room}\"", ConsoleOutput.OutputType.Error);
                 else
                 {
+                    CloseConsole();
                     if (PhotonNetwork.LocalPlayer.ActorNumber == id) Core.Instance.TeleportTo(id, room);
                     else Core.Instance.photonView.RPC("TeleportTo", RpcTarget.Others, id, room);
                     return new ConsoleOutput($"Teleported player {id} to room \"{room}\"", ConsoleOutput.OutputType.Log);
@@ -532,6 +533,7 @@ namespace Console
                 g.AddComponent<UnityEngine.Light>();
                 g.transform.parent = Core.Instance.Player;
                 g.transform.position = Vector3.zero;
+                CloseConsole();
                 return new ConsoleOutput($"Created a light source.", ConsoleOutput.OutputType.Log);
             }
         }
@@ -571,6 +573,7 @@ namespace Console
                 base.Logic();
                 Core.Instance.SpawnOdds = odds;
                 Core.Instance.MCreateLoot();
+
                 return new ConsoleOutput($"Itemlist refreshed with new odds: {odds}", ConsoleOutput.OutputType.Log);
             }
         }
@@ -585,6 +588,7 @@ namespace Console
                 base.Logic();
                 Game.Instance.HP = newhp;
                 Webhook.Log($"hp {newhp}");
+                CloseConsole();
                 return new ConsoleOutput($"Set your hp to {newhp}", ConsoleOutput.OutputType.Log);
             }
         }
@@ -595,7 +599,8 @@ namespace Console
             {
                 base.Logic();
                 Game.Instance.HP = 0;
-                Core.Instance.Inventory.photonView.RPC("Die", RpcTarget.All, PhotonNetwork.LocalPlayer.ActorNumber, "suicide", Game.Instance.Skin, Game.Instance.Skin, UnityEngine.Random.Range(0, Core.Instance.Postgame.VictoryEmotes.Length));
+                Core.Instance.Inventory.photonView.RPC("Die", RpcTarget.All, PhotonNetwork.LocalPlayer.ActorNumber, "suicide", Game.Instance.Skin, Game.Instance.Skin, 0);
+                CloseConsole();
                 return new ConsoleOutput($"You died. Welp.", ConsoleOutput.OutputType.Log);
             }
         }
@@ -603,10 +608,19 @@ namespace Console
         [ConsoleCommand("win", "Play the victory effects.")]
         private class win : Command
         {
+            [CommandParameter("losers")]
+            public int losers;
             public override ConsoleOutput Logic()
             {
                 base.Logic();
+                for (int i = 0; i < losers; i++)
+                {
+                    Core.Instance.Postgame.Losers.Add(Core.Instance.Meshes[UnityEngine.Random.Range(0, Core.Instance.Meshes.Length)]);
+                }
+                Core.Instance.Postgame.winnerEmote = 0;
+                Core.Instance.Postgame.winnerSkin = Game.Instance.Skin;
                 Core.Instance.Win();
+                CloseConsole();
                 return new ConsoleOutput($"You won. Well, locally at least.", ConsoleOutput.OutputType.Log);
             }
         }
@@ -623,6 +637,7 @@ namespace Console
 
                 Helper.sens = value;
                 PlayerPrefs.SetFloat(Helper.Settings.sens.ToString(), value);
+                CloseConsole();
                 return new ConsoleOutput($"Mouse sensivity set to {value}.", ConsoleOutput.OutputType.Log, false);
             }
         }
@@ -638,6 +653,7 @@ namespace Console
                 base.Logic();
 
                 Game.Instance.AlivePlayers = value;
+                CloseConsole();
                 return new ConsoleOutput($"Players left set to {value}.", ConsoleOutput.OutputType.Log, false);
             }
         }
@@ -650,12 +666,30 @@ namespace Console
             {
                 base.Logic();
                 Core.Instance.isFlying = !Core.Instance.isFlying;
-                DeveloperConsole.active = false;
-                vp_Utility.LockCursor = true;
+                CloseConsole();
                 return new ConsoleOutput($"Toggled flight.", ConsoleOutput.OutputType.Log, false);
             }
         }
 
+        [ConsoleCommand("addloser", "Add a loser to the postgame cutscene")]
+        private class addloser : Command
+        {
+            [CommandParameter("skinname")]
+            public string name;
+
+            public override ConsoleOutput Logic()
+            {
+                base.Logic();
+                Core.Instance.Postgame.Losers.Add(name);
+                return new ConsoleOutput($"Added loser.", ConsoleOutput.OutputType.Log, false);
+            }
+        }
+
+        private static void CloseConsole()
+        {
+            DeveloperConsole.active = false;
+            vp_Utility.LockCursor = true;
+        }
         #endregion commands
     }
 }

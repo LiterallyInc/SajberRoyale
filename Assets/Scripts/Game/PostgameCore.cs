@@ -14,6 +14,7 @@ namespace SajberRoyale.Game
         public string winnerSkin;
         public int winnerEmote;
 
+        public List<string> Losers = new List<string>();
         public Emote[] VictoryEmotes;
         public Emote ThumbsDown;
         public Emote Salute;
@@ -61,11 +62,11 @@ namespace SajberRoyale.Game
                 LoserPositions[rnd] = LoserPositions[i];
                 LoserPositions[i] = temp;
             }
-            Core.Instance.PlayerSkins.Remove(winnerSkin);
-            for (int i = 0; i < Core.Instance.PlayerSkins.Count; i++)
+
+            for (int i = 0; i < Losers.Count; i++)
             {
                 //create loser
-                GameObject character = Instantiate(Resources.Load($"CharMeshes/{Core.Instance.PlayerSkins[i]}"), LoserPositions[i].position, LoserPositions[i].rotation) as GameObject;
+                GameObject character = Instantiate(Resources.Load($"CharMeshes/{Losers[i]}"), LoserPositions[i].position, LoserPositions[i].rotation) as GameObject;
                 Destroy(character.GetComponent<PhotonAnimatorView>());
                 Destroy(character.GetComponent<PhotonView>());
                 Destroy(character.GetComponent<vp_FPBodyAnimator>());

@@ -82,6 +82,7 @@ namespace SajberRoyale.Player
         [PunRPC]
         public void Die(int killer, string weaponID, string killerSkin, string killedSkin, int emoteIndex, PhotonMessageInfo info)
         {
+            Core.Instance.Postgame.Losers.Add(killedSkin);
             //turn off their flashlight
             photonView.RPC(nameof(PlayerManager.ToggleFlashlight), RpcTarget.Others, false);
             Core.Instance.AliveSkins.Remove(killedSkin);
@@ -157,7 +158,7 @@ namespace SajberRoyale.Player
 
         private void OnApplicationQuit()
         {
-            if (game.IsActive && game.IsAlive) Core.Instance.Inventory.photonView.RPC("Die", RpcTarget.All, PhotonNetwork.LocalPlayer.ActorNumber, "suicide", game.Skin, game.Skin);
+            if (game.IsActive && game.IsAlive) Core.Instance.Inventory.photonView.RPC("Die", RpcTarget.All, PhotonNetwork.LocalPlayer.ActorNumber, "suicide", game.Skin, game.Skin, 0);
         }
     }
 }

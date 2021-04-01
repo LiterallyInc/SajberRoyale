@@ -16,9 +16,8 @@ namespace SajberRoyale.Game
         public Text HPText;
         public Text StatusText;
         public Text Ammo;
-        public Image FillArea;
+        public Animator FillArea;
         public Text Tooltip;
-        public float FillPercentage;
 
         public Animator WinLogo;
         public Animator Crosshair;
@@ -43,8 +42,6 @@ namespace SajberRoyale.Game
             HPText.text = $"{(Game.Instance.HP >= 0 ? Game.Instance.HP : 0)}/{Game.Instance.MaxHP}";
             HPOverlay.transform.localScale = new Vector3(Game.Instance.HP >= 0 ? (float)Game.Instance.HP / Game.Instance.MaxHP : 0, 1, 1);
 
-            if (FillPercentage != -1) FillArea.fillAmount = FillPercentage;
-            else FillArea.fillAmount = 0;
         }
 
         private void UpdateStats()

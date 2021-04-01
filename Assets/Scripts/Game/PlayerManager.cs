@@ -6,6 +6,7 @@ using System;
 using System.Collections;
 using System.IO;
 using UnityEngine;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 namespace SajberRoyale.Player
@@ -18,6 +19,9 @@ namespace SajberRoyale.Player
         private Weapon QueuedShot;
         private bool isHealing = false;
         private bool isReloading = false;
+
+        //gets set when user starts eg. reloading, and matched when timer is up
+        private int itemHash = 0;
 
         public AudioClip flashlight;
         public AudioClip Health;
@@ -133,7 +137,14 @@ namespace SajberRoyale.Player
             if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.C))
             {
                 StopEmote();
-                if (!Input.GetKey(KeyCode.C) && isHealing) Core.Instance.UI.FillPercentage = -1;
+                if (!Input.GetKey(KeyCode.C) && isHealing)
+                {
+                    itemHash = Random.Range(0, 100000);
+                    isReloading = false;
+                    isHealing = false;
+                    Core.Instance.UI.FillArea.StopPlayback();
+                    Core.Instance.UI.FillArea.GetComponent<Image>().fillAmount = 0;
+                }
             }
         }
 
@@ -206,62 +217,45 @@ namespace SajberRoyale.Player
         {
             Item h = Core.Instance.Inventory.CurrentWeapon;
             isHealing = true;
-            Core.Instance.UI.FillPercentage = 0.01f;
+            itemHash = Random.Range(0, 100000);
+            int hash = itemHash;
             photonView.RPC(nameof(Heal), RpcTarget.Others, healing.ID, true);
             Core.Instance.DamageController.PlayAudioAtPlayer(PhotonNetwork.LocalPlayer.ActorNumber, 10, healing.useSfx, "heal");
-            int i = 1;
-            while (i < 100)
+            Core.Instance.UI.FillArea.speed = 1 / healing.useTime;
+            Core.Instance.UI.FillArea.Play("CrosshairFill", 0, 0);
+
+            yield return new WaitForSeconds(healing.useTime);
+            if(hash == itemHash && isHealing && Core.Instance.Inventory.CurrentWeapon == h)
             {
-                if (Core.Instance.UI.FillPercentage == -1 || Core.Instance.Inventory.CurrentWeapon != h)
-                {
-                    Core.Instance.UI.FillPercentage = -1;
-                    isHealing = false;
-                    Destroy(GameObject.Find($"Player{PhotonNetwork.LocalPlayer.ActorNumber}/heal"));
-                    yield break;
-                }
-                else
-                {
-                    Core.Instance.UI.FillPercentage = i * 0.01f;
-                }
-                yield return new WaitForSeconds(healing.useTime / 100);
-                i++;
+                Game.Game.Instance.HP += healing.health;
+                Game.Game.Instance.Stats.HPRegen += healing.health;
+                if (Game.Game.Instance.HP > Game.Game.Instance.MaxHP) Game.Game.Instance.HP = Game.Game.Instance.MaxHP;
+                isHealing = false;
+                Core.Instance.Inventory.RemoveItem();
+                Core.Instance.DamageController.PlayAudioAtPlayer(PhotonNetwork.LocalPlayer.ActorNumber, 10, Health);
+                photonView.RPC(nameof(Heal), RpcTarget.Others, healing.ID, false);
             }
-            Game.Game.Instance.HP += healing.health;
-            Game.Game.Instance.Stats.HPRegen += healing.health;
-            if (Game.Game.Instance.HP > Game.Game.Instance.MaxHP) Game.Game.Instance.HP = Game.Game.Instance.MaxHP;
-            isHealing = false;
-            Core.Instance.UI.FillPercentage = 0;
-            Core.Instance.Inventory.RemoveItem();
-            Core.Instance.DamageController.PlayAudioAtPlayer(PhotonNetwork.LocalPlayer.ActorNumber, 10, Health);
-            photonView.RPC(nameof(Heal), RpcTarget.Others, healing.ID, false);
         }
 
         private IEnumerator Reload(Weapon w)
         {
             AmmoHolder ammo = AmmoHolder.Get(w.ID);
+
             isReloading = true;
-            Core.Instance.UI.FillPercentage = 0.01f;
-            int i = 1;
-            while (i < 100)
+            itemHash = Random.Range(0, 100000);
+            int hash = itemHash;
+            Core.Instance.UI.FillArea.speed = 1 / w.reloadTime;
+            Core.Instance.UI.FillArea.Play("CrosshairFill", 0,0);
+
+            yield return new WaitForSeconds(w.reloadTime);
+            if (hash == itemHash && isReloading && Core.Instance.Inventory.CurrentWeapon == w)
             {
-                if (Core.Instance.UI.FillPercentage == -1 || Core.Instance.Inventory.CurrentWeapon.ID != w.ID)
-                {
-                    Core.Instance.UI.FillPercentage = -1;
-                    isReloading = false;
-                    yield break;
-                }
-                else
-                {
-                    Core.Instance.UI.FillPercentage = i * 0.01f;
-                }
-                yield return new WaitForSeconds(w.reloadTime / 100);
-                i++;
+                ammo.Reload();
+                isReloading = false;
+
+                Core.Instance.UI.Ammo.text = $"{ammo.Bullets}/{ammo.MaxBullets}";
+                Core.Instance.DamageController.PlayAudioAtPlayer(PhotonNetwork.LocalPlayer.ActorNumber, 10, ReloadSfx);
             }
-            ammo.Reload();
-            isReloading = false;
-            Core.Instance.UI.FillPercentage = 0;
-            Core.Instance.UI.Ammo.text = $"{ammo.Bullets}/{ammo.MaxBullets}";
-            Core.Instance.DamageController.PlayAudioAtPlayer(PhotonNetwork.LocalPlayer.ActorNumber, 10, ReloadSfx);
         }
 
         private IEnumerator Emote(int emoteIndex = -1)
@@ -300,9 +294,9 @@ namespace SajberRoyale.Player
         private void PlayEmote(int emoteIndex, bool playMusic, PhotonMessageInfo info)
         {
             Animator anim = Core.Instance.GetPlayer(info.Sender.ActorNumber).GetComponent<PlayerSync>().Player.GetComponent<Animator>();
-                anim.Play(Emotes[emoteIndex].id, 1, 0);
-                anim.Play(Emotes[emoteIndex].id, 2, 0);
-                if (playMusic) DMG.PlayAudioAtPlayer(info.Sender.ActorNumber, 7, Emotes[emoteIndex].audio, "emote", emoteIndex != 0);
+            anim.Play(Emotes[emoteIndex].id, 1, 0);
+            anim.Play(Emotes[emoteIndex].id, 2, 0);
+            if (playMusic) DMG.PlayAudioAtPlayer(info.Sender.ActorNumber, 7, Emotes[emoteIndex].audio, "emote", emoteIndex != 0);
         }
 
         [PunRPC]

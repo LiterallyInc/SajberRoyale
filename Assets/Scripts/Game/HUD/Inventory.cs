@@ -129,9 +129,13 @@ namespace SajberRoyale.Player
             currentSelected = slot;
             CurrentWeapon = items[slot];
             selectedOverlay.transform.localPosition = new Vector3(-48f + slot * 48, 0, 0);
+            Core.Instance.UI.FillArea.StopPlayback();
+            Core.Instance.UI.FillArea.GetComponent<Image>().fillAmount = 0;
 
             if (CurrentWeapon != prevSelected)
+            {
                 SummonItem();
+            }
 
             if (CurrentWeapon != null) //got item
             {

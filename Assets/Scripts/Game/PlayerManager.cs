@@ -105,7 +105,7 @@ namespace SajberRoyale.Player
             }
 
             //emote
-            if (!Core.Instance.Sync.isDancing && Game.Game.Instance.IsActive)
+            if (!Core.Instance.Sync.isDancing)
             {
                 if (Input.GetKeyDown(KeyCode.B)) StartCoroutine(Emote());
                 if (Input.GetKeyDown(KeyCode.Alpha0)) StartCoroutine(Emote(0));
@@ -262,7 +262,7 @@ namespace SajberRoyale.Player
         {
             if (emoteIndex == -1) emoteIndex = Random.Range(0, Emotes.Length);
             Game.Game.Instance.Stats.Emotes++;
-            if (Game.Game.Instance.IsAlive) photonView.RPC(nameof(PlayEmote), RpcTarget.All, emoteIndex, Game.Game.Instance.CurrentRoom.allowMusic);
+            if (Game.Game.Instance.IsAlive) photonView.RPC(nameof(PlayEmote), RpcTarget.All, emoteIndex, Game.Game.Instance.CurrentRoom.allowMusic || !Game.Game.Instance.IsActive);
             vp_LocalPlayer.GoThirdPerson();
             Core.Instance.Sync.isDancing = true;
             Core.Instance.Sync.LocalHolder.SetActive(false);

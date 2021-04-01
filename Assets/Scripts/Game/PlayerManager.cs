@@ -114,7 +114,7 @@ namespace SajberRoyale.Player
             }
 
             //reload
-            if (Input.GetKeyDown(KeyCode.R) && Core.Instance.Inventory.CurrentWeapon != null && !Core.Instance.Sync.isDancing && Game.Game.Instance.IsActive)
+            if (Input.GetKeyDown(KeyCode.R) && Core.Instance.Inventory.CurrentWeapon != null && !Core.Instance.Sync.isDancing && Game.Game.Instance.IsActive && !isReloading)
             {
                 Item item = Core.Instance.Inventory.CurrentWeapon;
                 if (item.GetType() == typeof(Weapon))

@@ -111,6 +111,9 @@ namespace SajberRoyale.Player
                 if (Input.GetKeyDown(KeyCode.Alpha0)) StartCoroutine(Emote(0));
                 if (Input.GetKeyDown(KeyCode.Alpha9)) StartCoroutine(Emote(1));
                 if (Input.GetKeyDown(KeyCode.Alpha8)) StartCoroutine(Emote(2));
+                if (Input.GetKeyDown(KeyCode.Alpha7)) StartCoroutine(Emote(3));
+                if (Input.GetKeyDown(KeyCode.Alpha6)) StartCoroutine(Emote(4));
+                if (Input.GetKeyDown(KeyCode.Alpha5)) StartCoroutine(Emote(5));
             }
 
             //reload

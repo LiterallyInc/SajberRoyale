@@ -22,5 +22,9 @@ namespace SajberRoyale.Items
         /// Freeze emote after x seconds. 0 for none
         /// </summary>
         public float freeze;
+        /// <summary>
+        /// Icon shown in emote wheel
+        /// </summary>
+        public Sprite Icon;
     }
 }

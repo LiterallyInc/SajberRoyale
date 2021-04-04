@@ -19,6 +19,8 @@ namespace SajberRoyale.Game
         public Animator FillArea;
         public Text Tooltip;
 
+        public GameObject EmoteWheel;
+
         public Animator WinLogo;
         public Animator Crosshair;
         public Animator Overlay;

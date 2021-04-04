@@ -19,6 +19,7 @@ namespace SajberRoyale.Player
         private Weapon QueuedShot;
         private bool isHealing = false;
         private bool isReloading = false;
+        private UI UI;
 
         //gets set when user starts eg. reloading, and matched when timer is up
         private int itemHash = 0;
@@ -36,6 +37,7 @@ namespace SajberRoyale.Player
         private void Start()
         {
             DMG = GetComponent<DamageController>();
+            UI = GetComponent<UI>();
             Physics.queriesHitTriggers = true;
         }
 
@@ -107,7 +109,7 @@ namespace SajberRoyale.Player
             //emote
             if (!Core.Instance.Sync.isDancing)
             {
-                if (Input.GetKeyDown(KeyCode.B)) StartCoroutine(Emote());
+                if (Input.GetKeyDown(KeyCode.B)) UI.EmoteWheel.SetActive(!UI.EmoteWheel.activeSelf);
                 if (Input.GetKeyDown(KeyCode.Alpha0)) StartCoroutine(Emote(0));
                 if (Input.GetKeyDown(KeyCode.Alpha9)) StartCoroutine(Emote(1));
                 if (Input.GetKeyDown(KeyCode.Alpha8)) StartCoroutine(Emote(2));
@@ -263,6 +265,7 @@ namespace SajberRoyale.Player
 
         private IEnumerator Emote(int emoteIndex = -1)
         {
+            UI.EmoteWheel.SetActive(false);
             if (emoteIndex == -1) emoteIndex = Random.Range(0, Emotes.Length);
             Game.Game.Instance.Stats.Emotes++;
             if (Game.Game.Instance.IsAlive) photonView.RPC(nameof(PlayEmote), RpcTarget.All, emoteIndex, Game.Game.Instance.CurrentRoom.allowMusic || !Game.Game.Instance.IsActive);

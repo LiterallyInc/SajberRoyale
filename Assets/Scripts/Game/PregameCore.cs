@@ -54,8 +54,7 @@ namespace SajberRoyale.Game
             //List is created in realtime instead of compile to contain realtime data
             string[] Tips =
                {
-                "Press B to emote in-game.",
-                "You can do specific dances with 8, 9 and 0.",
+                "Press B to open the emote wheel in-game.",
                 "Turning off your flashlight with F makes you harder to spot.",
                 "Nothing happened in H532. Everything you have heard is a lie.",
                 "Make sure to pick up some of cola if you need to heal up!",

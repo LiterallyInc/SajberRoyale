@@ -302,7 +302,7 @@ namespace SajberRoyale.Player
             Animator anim = Core.Instance.GetPlayer(info.Sender.ActorNumber).GetComponent<PlayerSync>().Player.GetComponent<Animator>();
             anim.Play(Emotes[emoteIndex].id, 1, 0);
             anim.Play(Emotes[emoteIndex].id, 2, 0);
-            if (playMusic) DMG.PlayAudioAtPlayer(info.Sender.ActorNumber, 7, Emotes[emoteIndex].audio, "emote", emoteIndex != 0);
+            if (playMusic) DMG.PlayAudioAtPlayer(info.Sender.ActorNumber, 7, Emotes[emoteIndex].audio, "emote", emoteIndex != 0, 0.5f);
         }
 
         [PunRPC]

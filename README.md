@@ -1,6 +1,6 @@
 # ![logo](https://i.imgur.com/IHg2qOa.png)
 
-###### *Battle royale game made for a school project. Unless you're going to CyberGymnasiet you should probably ignore this project. If you're going to CyberGymnasiet on the other hand and wanna help with something, [shoot us a message](mailto:fabian.lindgren@elev.cybergymnasiet.se?subject=SajberRoyale)!*
+###### *Battle royale game made for a school project. Unless you're going to CyberGymnasiet you should probably ignore this project. If you're going to CyberGymnasiet on the other hand you could always gather some friends and try it!* For contact: lindgrenfabian@gmail.com
 
 
 

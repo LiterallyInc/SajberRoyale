@@ -19,6 +19,7 @@ namespace SajberRoyale.Map
 
         [Header("Objects")]
         public GameObject DoorClosed;
+
         public GameObject DoorOpen;
         public AudioSource Ambient;
         public Renderer Whiteboard;
@@ -32,7 +33,6 @@ namespace SajberRoyale.Map
         public TextMesh Tombstone;
         public Animator Tables;
         public ParticleSystem Smoke;
-        
 
         [Header("Space Objects")]
         public Animator Credits;
@@ -48,6 +48,7 @@ namespace SajberRoyale.Map
 
         [Header("Resources")]
         public AudioClip a_giggle;
+
         public AudioClip a_deadloop;
         public AudioClip a_theme;
         public AudioClip a_canyouhearme;
@@ -80,16 +81,27 @@ namespace SajberRoyale.Map
             if (isSpace) RenderSettings.skybox.SetFloat("_Rotation", Time.time / 3);
             else RenderSettings.skybox.SetFloat("_Rotation", 0);
 
-            if(Core.Instance) if (Core.Instance.Sync) if(Core.Instance.Sync.PlayerCam.GetComponent<vp_FPCamera>()) Core.Instance.Sync.PlayerCam.GetComponent<vp_FPCamera>().ShakeSpeed = shakeSpeed;
+            if (Core.Instance) if (Core.Instance.Sync) if (Core.Instance.Sync.PlayerCam.GetComponent<vp_FPCamera>()) Core.Instance.Sync.PlayerCam.GetComponent<vp_FPCamera>().ShakeSpeed = shakeSpeed;
         }
 
         private void OnTriggerEnter(Collider c)
         {
-            if (!c.GetComponent<PhotonView>()) return;
+            if (!c.GetComponent<PhotonView>() && c.name != "HeadCollider") return;
             if (roomCursed) return;
-            isMe = c.GetComponent<PhotonView>().IsMine;
-            if (c.GetComponent<PlayerSync>().Player == null) return;
-            else StartCoroutine(Curse(c));
+
+            // start as multiplayer
+            if (c.GetComponent<PhotonView>())
+            {
+                isMe = c.GetComponent<PhotonView>().IsMine;
+                if (c.GetComponent<PlayerSync>().Player == null) return;
+                else StartCoroutine(Curse(c.transform));
+            }
+            // start as singleplayer VR
+            else
+            {
+                isMe = true;
+                StartCoroutine(Curse(GameObject.FindGameObjectWithTag("VRPlayer").transform, true));
+            }
         }
 
         private void OpenDoor(bool open)
@@ -116,6 +128,7 @@ namespace SajberRoyale.Map
             H532AudioComponent ac = instance.GetComponent<H532AudioComponent>();
             ac.Start(clip, false, Vector3.zero);
         }
+
         private void Play(AudioClip clip, bool loop)
         {
             GameObject instance = Instantiate(Resources.Load("Prefabs/H532AudioNode", typeof(GameObject)), gameObject.transform) as GameObject;
@@ -134,7 +147,7 @@ namespace SajberRoyale.Map
         /// Starts the H533 curse sequence
         /// </summary>
         /// <param name="isMe">Local variable whether you triggered it yourself or not</param>
-        private IEnumerator Curse(Collider c)
+        private IEnumerator Curse(Transform c, bool vrMode = false)
         {
             //instants
             DoorHitbox.enabled = true;
@@ -149,12 +162,12 @@ namespace SajberRoyale.Map
             StartCoroutine(Queue(1, () => Play(a_giggle)));
             StartCoroutine(Queue(2, () => OpenDoor(false)));
             StartCoroutine(Queue(2.5f, () => Smoke.Play()));
-            if (isMe) StartCoroutine(Queue(2, () => Core.Instance.Sync.LocalLight.color = new Color(1, 0.7688679f, 0.7753899f)));
+            if (isMe && !vrMode) StartCoroutine(Queue(2, () => Core.Instance.Sync.LocalLight.color = new Color(1, 0.7688679f, 0.7753899f)));
             if (isMe) StartCoroutine(Queue(2f, () => shakeSpeed = 1.5f));
             StartCoroutine(Queue(5, () => Play(a_spectrum)));
             StartCoroutine(Queue(5, () => RoofLamps.Play("Lights")));
             StartCoroutine(Queue(7, () => Play(a_canyouhearme)));
-            StartCoroutine(Queue(7, () => Tombstone.text = c.GetComponent<PhotonView>().Controller.NickName));
+            if (!vrMode) StartCoroutine(Queue(7, () => Tombstone.text = c.GetComponent<PhotonView>().Controller.NickName));
             StartCoroutine(Queue(7, () => Tombstone.transform.parent.gameObject.SetActive(true)));
             StartCoroutine(Queue(5, () => Clock.modifier = -1000));
             StartCoroutine(Queue(8f, () => Play(a_flippage)));
@@ -168,8 +181,8 @@ namespace SajberRoyale.Map
             StartCoroutine(Queue(40f, () => Play(a_deadloop, true)));
             yield return new WaitForSeconds(33);
 
-            //go to school if dead
-            if (isMe && !Game.Game.Instance.IsAlive)
+            //go to school if dead or in VR
+            if (vrMode || (isMe && !Game.Game.Instance.IsAlive))
             {
                 StartCoroutine(Queue(1.5f, () => Core.Instance.UI.Overlay.Play("ShowOverlay")));
                 StartCoroutine(Queue(1.5f, () => Core.Instance.Sync.PlayerCam.GetComponent<vp_FPCamera>().ShakeAmplitude = new Vector3(10, 10, 10)));
@@ -203,12 +216,12 @@ namespace SajberRoyale.Map
             if (isMe) StartCoroutine(Queue(47f, () => isCursed = false));
         }
 
-        private void GoToNode(Collider c)
+        private void GoToNode(Transform c)
         {
             GameObject[] SpawnNodes = GameObject.FindGameObjectsWithTag("PlayerSpawn");
             Vector3 SpawnPos = SpawnNodes[UnityEngine.Random.Range(0, SpawnNodes.Length - 1)].transform.position;
             SpawnPos.y++;
-            c.transform.position = SpawnPos;
+            c.position = SpawnPos;
         }
 
         private IEnumerator LerpAmbient(float v_start, float v_end, float duration)
@@ -229,7 +242,7 @@ namespace SajberRoyale.Map
             {
                 yield return new WaitForSeconds(0.5f);
                 Whiteboard.material.SetTexture("_MainTex", t);
-                if(isMe) Core.Instance.Inventory.photonView.RPC(nameof(DamageController.Hit), RpcTarget.All, PhotonNetwork.LocalPlayer.ActorNumber, Random.Range(6, 11), "h532", Game.Game.Instance.Skin);
+                if (isMe && Core.Instance) Core.Instance.Inventory.photonView.RPC(nameof(DamageController.Hit), RpcTarget.All, PhotonNetwork.LocalPlayer.ActorNumber, Random.Range(6, 11), "h532", Game.Game.Instance.Skin);
             }
         }
 

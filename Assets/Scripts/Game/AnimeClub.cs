@@ -1,6 +1,7 @@
+using SajberRoyale.Game;
 using System.Collections.Generic;
 using UnityEngine;
-using SajberRoyale.Game;
+using UnityEngine.SceneManagement;
 
 namespace SajberRoyale.Map
 {
@@ -17,8 +18,15 @@ namespace SajberRoyale.Map
 
         private void Update()
         {
-            if (Game.Game.Instance == null) return;
-            if (!Audio.isPlaying && Game.Game.Instance.IsActive) NextSong();
+            if (SceneManager.GetActiveScene().name != "vr")
+            {
+                if (Game.Game.Instance == null) return;
+                if (!Audio.isPlaying && Game.Game.Instance.IsActive) NextSong();
+            }
+            else
+            {
+                if (!Audio.isPlaying) NextSong();
+            }
         }
 
         private void NextSong()
